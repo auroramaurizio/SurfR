@@ -5,6 +5,7 @@
 #' @examples
 #' Sum5(6)
 #'
+#' @export
 Sum5 <- function(input_num) {
   a = input_num + 5
   return(a)
