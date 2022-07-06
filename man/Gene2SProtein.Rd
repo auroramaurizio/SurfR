@@ -12,12 +12,23 @@ Gene2SProtein(genes, output_tsv)
 \item{output_tsv}{output a tsv file with the results - boolean variable.}
 }
 \value{
-A dataframe of surface proteins filtered from the \code{genes} array.
+A dataframe with the surface proteins filtered from the \code{genes} array.
+        The dataframe can be also printed in .tsv format with the option output_tsv.
 }
 \description{
 Detect Surface Proteins from a list of genes
 }
+\section{Warning}{
+
+Use UniProt gene alias as input gene names
+}
+
 \examples{
 GeneNames = c("CIITA", "EPCAM", "DLK1", "CD24", "CDCP1", "LYVE1", "ABCD1", "VAMP1")
 SurfaceProteins_df = Gene2SProtein(GeneNames, output_tsv = FALSE)
 }
+\seealso{
+\code{\link{hello}} for DGE analysis,
+\url{https://wlab.ethz.ch/surfaceome} for info on Surfy
+}
+\concept{aggregate functions}
