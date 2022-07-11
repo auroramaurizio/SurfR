@@ -3,3 +3,6 @@
 .RData
 .Ruserdata
 surfaceProteins.csv
+surfaceProteins.tsv
+output/
+.log/
