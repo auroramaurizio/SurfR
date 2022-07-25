@@ -1,3 +1,8 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-surfaceProteins.csv
+input/
+output/
+.log/
+surfaceProteins.tsv
+environment.yml
+env-Surfaceome.yml

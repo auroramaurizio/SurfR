@@ -3,4 +3,3 @@
 export(Gene2SProtein)
 export(Sum5)
 export(hello)
-export(prova)
