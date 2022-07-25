@@ -8,6 +8,7 @@ Gene2SProtein(
   genes,
   input_type = "gene_name",
   output_tsv = FALSE,
+  output_filename = "surfaceProteins.tsv",
   Surfy_version = "log"
 )
 }
@@ -19,6 +20,8 @@ Gene2SProtein(
 By default: \code{gene_name}.}
 
 \item{output_tsv}{Logical. If \code{TRUE}, outputs a tsv file with the results. By default, FALSE.}
+
+\item{output_filename}{Name of the tsv output file. Default is surfaceProteins.tsv.}
 
 \item{Surfy_version}{The version of surfy dataframe you wish to use. Choose between \code{log} or \code{newest}.
 By default use the most recent \code{log} version.
@@ -35,7 +38,9 @@ proposed by Bernd Wollscheid group and available at \url{https://wlab.ethz.ch/su
 }
 \section{Warning}{
 
-By Default this function use the log version of surfy database, if it exist.
+The surfy database is interrogated using the gene identification type of your preference
+between \code{gene_name}, \code{ensembl}, \code{entrez} or \code{uniProt_name}. Note that
+you might loose some match due to difference gene version IDs.
 }
 
 \examples{
