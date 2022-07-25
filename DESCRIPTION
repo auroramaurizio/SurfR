@@ -15,4 +15,5 @@ Imports:
   import,
   psych,
   rio,
-  openxlsx
+  openxlsx,
+  stringr
