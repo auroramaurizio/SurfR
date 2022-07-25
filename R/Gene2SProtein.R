@@ -9,6 +9,7 @@
 #' \code{gene_name}, \code{ensembl}, \code{entrez} or \code{uniProt_name}.
 #' By default: \code{gene_name}.
 #' @param output_tsv Logical. If \code{TRUE}, outputs a tsv file with the results. By default, FALSE.
+#' @param output_filename Name of the tsv output file. Default is surfaceProteins.tsv.
 #' @param Surfy_version  The version of surfy dataframe you wish to use. Choose between \code{log} or \code{newest}.
 #' By default use the most recent \code{log} version.
 #' If a log dataframe does not exist the \code{newest} is downloaded from \url{https://wlab.ethz.ch/surfaceome}.
@@ -39,9 +40,16 @@
 Gene2SProtein <- function(genes,
                           input_type = "gene_name",
                           output_tsv = FALSE,
+                          output_filename = "surfaceProteins.tsv",
                           Surfy_version = "log") {
 
-  #now = Sys.time()
+
+  import::here(openxlsx, read.xlsx)
+  import::here(rio, import)
+  import::here(openxlsx, write.xlsx)
+
+
+
   now = Sys.Date()
   log = sort(list.files("log/", pattern = "*.xlsx"))
 
@@ -52,14 +60,13 @@ Gene2SProtein <- function(genes,
   }
 
   if (length(log)>0 & Surfy_version == "log") {
-    import::here(openxlsx, read.xlsx)
     ST = read.xlsx(xlsxFile = paste0(".log/", log[length(log)]),
                    startRow = 1)
   } else {
     dir.create(".log/", recursive = T, showWarnings = F)
     surfaceome_table_url='https://wlab.ethz.ch/surfaceome/table_S3_surfaceome.xlsx'
-    import::here(rio, import)
-    import::here(openxlsx, write.xlsx)
+
+
 
     ST = import(file = surfaceome_table_url,
                 which = 1,
@@ -114,9 +121,10 @@ Gene2SProtein <- function(genes,
 
   # -------- tsv --------
   if (output_tsv) {
-    dir.create("output", recursive = TRUE, showWarnings = FALSE)
-    write.table(surface.proteins, "output/surfaceProteins.tsv", quote = F, sep = "\t")
+    write.table(surface.proteins, output_filename, quote = F, sep = "\t")
   }
+
+  openxlsx <- read.xlsx <- write.xlsx <- write.table <- rio <- import <- NULL
   return(surface.proteins)
 }
 
