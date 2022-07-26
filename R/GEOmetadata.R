@@ -9,6 +9,7 @@
 #' @return A dataframe with all the available characteristics in GEO metadata \code{genes} array.
 #' @examples
 #' metadata_GSE123345 = GEOmetadata(GSE = "GSE123345")
+#' metadata_GSE123372_GPL17021 = GEOmetadata(GSE = "GSE123372", GPL = c("GPL17021"))
 #' @section Warning:
 #' If the GEO accession series has more than 1 sequencing platforms you need to
 #' specify the GPL series numbers.

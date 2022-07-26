@@ -27,6 +27,7 @@ specify the GPL series numbers.
 
 \examples{
 metadata_GSE123345 = GEOmetadata(GSE = "GSE123345")
+metadata_GSE123372_GPL17021 = GEOmetadata(GSE = "GSE123372", GPL = c("GPL17021"))
 }
 \seealso{
 \url{https://www.ncbi.nlm.nih.gov/geo} for info on GEO repository
