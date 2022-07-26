@@ -2,22 +2,63 @@
 % Please edit documentation in R/Gene2SProtein.R
 \name{Gene2SProtein}
 \alias{Gene2SProtein}
-\title{Detect Surface Proteins from a list of genes}
+\title{Gene2SProtein function}
 \usage{
-Gene2SProtein(genes, output_tsv)
+Gene2SProtein(
+  genes,
+  input_type = "gene_name",
+  output_tsv = FALSE,
+  output_filename = "surfaceProteins.tsv",
+  Surfy_version = "log"
+)
 }
 \arguments{
-\item{genes}{array of gene names.}
+\item{genes}{A vector of genes.}
 
-\item{output_tsv}{output a tsv file with the results - boolean variable.}
+\item{input_type}{The gene identification type:
+\code{gene_name}, \code{ensembl}, \code{entrez} or \code{uniProt_name}.
+By default: \code{gene_name}.}
+
+\item{output_tsv}{Logical. If \code{TRUE}, outputs a tsv file with the results. By default, FALSE.}
+
+\item{output_filename}{Name of the tsv output file. Default is surfaceProteins.tsv.}
+
+\item{Surfy_version}{The version of surfy dataframe you wish to use. Choose between \code{log} or \code{newest}.
+By default use the most recent \code{log} version.
+If a log dataframe does not exist the \code{newest} is downloaded from \url{https://wlab.ethz.ch/surfaceome}.}
 }
 \value{
-A dataframe of surface proteins filtered from the \code{genes} array.
+A data frame with filtered surface proteins from the \code{genes} array.
+The dataframe contains also addition information obtained from surfy.
 }
 \description{
-Detect Surface Proteins from a list of genes
+Detect Surface Proteins from a vector of genes.
+The surface proteins are identified according to the in silico human surfaceome database,
+proposed by Bernd Wollscheid group and available at \url{https://wlab.ethz.ch/surfaceome}
 }
+\section{Warning}{
+
+The surfy database is interrogated using the gene identification type of your preference
+between \code{gene_name}, \code{ensembl}, \code{entrez} or \code{uniProt_name}. Note that
+you might loose some match due to difference gene version IDs.
+}
+
 \examples{
-GeneNames = c("CIITA", "EPCAM", "DLK1", "CD24", "CDCP1", "LYVE1", "ABCD1", "VAMP1")
-SurfaceProteins_df = Gene2SProtein(GeneNames, output_tsv = FALSE)
+ # from gene name IDs to Surface proteins
+ GeneNames = c("CIITA", "EPCAM", "DLK1", "CD24", "CDCP1", "LYVE1", "ABCD1", "VAMP1")
+ SurfaceProteins_df = Gene2SProtein(GeneNames, input_type = "gene_name")
+
+ # from ensembl IDs to Surface proteins
+ Ensembl = c("ENSG00000178343", "ENSG00000176895", "ENSG00000162419", "ENSG00000170776",
+             "ENSG00000092529", "ENSG00000135926", "ENSG00000152595", "ENSG00000121577",
+             "ENSG00000186094", "ENSG00000126773", "ENSG00000198918", "ENSG00000167378",
+             "ENSG00000095574", "ENSG00000140678", "ENSG00000262484", "ENSG00000133739",
+             "ENSG00000172469", "ENSG00000112992", "ENSG00000148343", "ENSG00000138593")
+ SurfaceProteins_df = Gene2SProtein(Ensembl, input_type = "ensembl",
+                                   output_tsv = TRUE, Surfy_version = "new")
 }
+\seealso{
+\code{\link{hello}} for DGE analysis,
+\url{https://wlab.ethz.ch/surfaceome} for info on Surfy
+}
+\concept{aggregate functions}
