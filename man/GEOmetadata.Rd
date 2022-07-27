@@ -9,8 +9,8 @@ GEOmetadata(GSE, GPL = "")
 \arguments{
 \item{GSE}{The GSE series ID.}
 
-\item{GPL}{The GPL series number.
-Required only if the chosen GSE series ID include data from multiple sequencing platform}
+\item{GPL}{The GPL series numbers.
+Required only if the chosen GSE series ID include data from multiple sequencing platform.}
 }
 \value{
 A dataframe with all the available characteristics in GEO metadata \code{genes} array.
@@ -23,11 +23,14 @@ given an input GEO accession series.
 
 If the GEO accession series has more than 1 sequencing platforms you need to
 specify the GPL series numbers.
+Add disclaim on GEO data curation!
 }
 
 \examples{
-metadata_GSE123345 = GEOmetadata(GSE = "GSE123345")
-metadata_GSE123372_GPL17021 = GEOmetadata(GSE = "GSE123372", GPL = c("GPL17021"))
+# only one sequencing platform
+mGSE133671 = GEOmetadata(GSE = "GSE133671")
+# multiple sequencing platforms
+mGSE59483 = GEOmetadata("GSE59483", GPL = c("GPL11154", "GPL15520"))
 }
 \seealso{
 \url{https://www.ncbi.nlm.nih.gov/geo} for info on GEO repository
