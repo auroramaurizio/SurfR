@@ -28,21 +28,34 @@ Meta <- function(ind_deg,
   
   common_genes = row.names(Reduce(intersect, ind_deg ))
   
+  histp  <- list()
   rawpval <- list()
   nrep <-c()
   for (i in 1:length(ind_deg)){
     ind_deg[[i]] <- ind_deg [[i]][common_genes,]
     rawpval[[i]] <- ind_deg[[i]][["pvalue"]]
     nrep[i] <- length(ind_deg[[i]])
+    pdf(file = paste(names(ind_deg[i]),"_raw_pval_hist.pdf",sep ="", collapse = NULL))
+    hist(rawpval[[i]], breaks=100, col="grey", main= names(ind_deg[i]), xlab="Raw p-values")
+    dev.off()
   }
+  
+  ggplot2::ggsave(filename = "raw_pval.pdf",
+                  plot = gridExtra::marrangeGrob(histp, nrow = 1, ncol = 1), 
+                  device = "pdf")
   
   if (test_statistic == "fishercomb") {
   fish_comb <- fishercomb(rawpval, BHth = BHth)
+  pdf(file = paste("fishercomb_pval_hist.pdf",sep ="", collapse = NULL))
+  hist(fish_comb$rawpval, breaks=100, col="grey", main= names(ind_deg), xlab="Raw p-values")
+  dev.off()
   return(fish_comb)
   } else if (test_statistic == "invnorm"){
   # nrep = Vector of numbers of replicates used in each study to calculate the previous one-sided p-values.
   inv_norm <- invnorm(rawpval, nrep = nrep, BHth = BHth) 
-  return(inv_norm)} }
-  
+  pdf(file = paste("invnorm_pval_hist.pdf",sep ="", collapse = NULL))
+  hist(fish_comb$rawpval, breaks=100, col="grey", main= names(ind_deg), xlab="Raw p-values")
+  dev.off()
+  return(inv_norm)}} 
 
 
