@@ -16,4 +16,6 @@ Imports:
   psych,
   rio,
   openxlsx,
-  stringr
+  stringr,
+  rhdf5,
+  ggplot2
