@@ -12,7 +12,7 @@
 #' \code{TestStatistic}, \code{rawpval}, \code{adjpval} vector for differential expression in the meta-analysis.
 #' @examples
 #' ind_deg = list(DEG1_df, DEG2_df, DEG3_df)
-#' comb_pval_df = Meta(ind_deg, test_statistic = "invnorm", BHth = 0.05)
+#' comb_pval_df = metaRNAseq(ind_deg, test_statistic = "invnorm", BHth = 0.05)
 #' @section Warning:
 #' Bla bla bla
 #' @family aggregate functions
