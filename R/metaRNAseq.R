@@ -18,9 +18,7 @@
 #' @family aggregate functions
 #' @seealso \code{\link{hello}} for DGE analysis, and \code{\link{hello}} for metaRNASeq package info
 #' @export
-
-
-Meta <- function(ind_deg,
+metaRNAseq <- function(ind_deg,
                  test_statistic = "fishercomb",
                  BHth = 0.05) {
   

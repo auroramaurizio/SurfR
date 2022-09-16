@@ -14,15 +14,13 @@
 #' @param output_filename Name of the tsv output file. Default is DEGs.tsv.
 #' @return A dataframe with \code{DEGs}  
 #' @examples
-#' DEG1_df = DEG(expression, metadata, TEST = "T", CTRL = "N", Nreplica = 45, alpha = 0.05, output_tsv = T, output_filename = "DEG1.tsv")
+#' DEG1_df = DGE(expression, metadata, TEST = "T", CTRL = "N", Nreplica = 45, alpha = 0.05, output_tsv = T, output_filename = "DEG1.tsv")
 #' @section Warning:
 #' Bla bla bla
 #' @family aggregate functions
 #' @seealso \code{\link{hello}} for counts data and metadata download, and \code{\link{hello}} for Gene2SProtein analysis
 #' @export
-
-
-DEG <- function(expression,
+DGE <- function(expression,
                 metadata,
                 Nreplica,
                 TEST,
