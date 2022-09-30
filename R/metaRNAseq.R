@@ -7,10 +7,11 @@
 #' \code{fishercomb}, \code{invnorm}.
 #' By default: \code{fishercomb}.
 #' @param BHth Benjamini Hochberg threshold.
-#' @param nrep Vector of numbers of replicates used in each study to calculate the previous one-sided p-values. 
+#' @param nrep Vector of numbers of replicates used in each study to calculate the previous one-sided p-values.
+#' @param adjpval.t threshold to represent as binary the Meta-Analysis output adjpval. 
 #' By default, the False Discovery Rate is controlled at 5%.
 #' @return A list with \code{DEindices} of DEG at the chosen Benjamini Hochberg threshold, and 
-#' \code{TestStatistic}, \code{rawpval}, \code{adjpval} vector for differential expression in the meta-analysis.
+#' \code{TestStatistic}, \code{rawpval}, \code{adjpval}, \{binaryadjpval} vectors for differential expression in the meta-analysis.
 #' @examples
 #' ind_deg = list(DEG1_df, DEG2_df, DEG3_df)
 #' comb_pval_df = Meta(ind_deg, test_statistic = "invnorm", BHth = 0.05, nrep = c(2,2,2))
@@ -22,6 +23,7 @@
 metaRNAseq <- function(ind_deg,
                  test_statistic = "fishercomb",
                  BHth = 0.05,
+                 adjpval.t = 0.05,
                  nrep = NULL) {
   
   import::here(metaRNASeq)
@@ -45,7 +47,7 @@ metaRNAseq <- function(ind_deg,
   if (test_statistic == "fishercomb") {
   fish_comb <- fishercomb(rawpval, BHth = BHth)
   fish_comb$DEname = common_genes
-  fish_comb$DE.fishercomb=ifelse(fish_comb$adjpval<=0.05,1,0)
+  fish_comb$binaryadjpval=ifelse(fish_comb$adjpval<=adjpval.t,1,0)
   pdf(file = paste("fishercomb_pval_hist.pdf",sep ="", collapse = NULL))
   hist(fish_comb$rawpval, breaks=100, col="grey", main= names(ind_deg), xlab="Raw p-values")
   dev.off()
@@ -53,7 +55,7 @@ metaRNAseq <- function(ind_deg,
   } else if (test_statistic == "invnorm"){
   inv_norm <- invnorm(rawpval, nrep = nrep, BHth = BHth)
   inv_norm$DEname = common_genes
-  inv_norm$DE.inv_norm=ifelse(inv_norm$adjpval<=0.05,1,0) 
+  inv_norm$binaryadjpval=ifelse(inv_norm$adjpval<=adjpval.t,1,0) 
   pdf(file = paste("invnorm_pval_hist.pdf",sep ="", collapse = NULL))
   hist(inv_norm$rawpval, breaks=100, col="grey", main= names(ind_deg), xlab="Raw p-values")
   dev.off()
