@@ -24,7 +24,7 @@ metaRNAseq <- function(ind_deg,
   
   import::here(metaRNASeq)
   
-  common_genes = row.names(Reduce(intersect, ind_deg ))
+  common_genes = Reduce(intersect, lapply(ind_deg, rownames))
   
   histp  <- list()
   rawpval <- list()
