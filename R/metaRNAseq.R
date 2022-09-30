@@ -2,7 +2,7 @@
 #'
 #' Perform Meta-Analysis of RNA-Seq Data
 #'
-#' @param ind_deg List of indipendent DEG dataframes with p-values to be combined.
+#' @param ind_deg List of indipendent named DEG dataframes with p-values to be combined.
 #' @param test_statistic p-value combination technique (inverse normal or Fisher):
 #' \code{fishercomb}, \code{invnorm}.
 #' By default: \code{fishercomb}.
@@ -14,6 +14,7 @@
 #' \code{TestStatistic}, \code{rawpval}, \code{adjpval}, \{binaryadjpval} vectors for differential expression in the meta-analysis.
 #' @examples
 #' ind_deg = list(DEG1_df, DEG2_df, DEG3_df)
+#' names(ind_deg) = c("DEG1_df", "DEG2_df", "DEG3_df")
 #' comb_pval_df = Meta(ind_deg, test_statistic = "invnorm", BHth = 0.05, nrep = c(2,2,2))
 #' @section Warning:
 #' Bla bla bla
