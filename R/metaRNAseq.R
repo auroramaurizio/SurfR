@@ -44,12 +44,16 @@ metaRNAseq <- function(ind_deg,
   
   if (test_statistic == "fishercomb") {
   fish_comb <- fishercomb(rawpval, BHth = BHth)
+  fish_comb$DEname = common_genes
+  fish_comb$DE.fishercomb=ifelse(fish_comb$adjpval<=0.05,1,0)
   pdf(file = paste("fishercomb_pval_hist.pdf",sep ="", collapse = NULL))
   hist(fish_comb$rawpval, breaks=100, col="grey", main= names(ind_deg), xlab="Raw p-values")
   dev.off()
   return(fish_comb)
   } else if (test_statistic == "invnorm"){
-  inv_norm <- invnorm(rawpval, nrep = nrep, BHth = BHth) 
+  inv_norm <- invnorm(rawpval, nrep = nrep, BHth = BHth)
+  inv_norm$DEname = common_genes
+  inv_norm$DE.inv_norm=ifelse(inv_norm$adjpval<=0.05,1,0) 
   pdf(file = paste("invnorm_pval_hist.pdf",sep ="", collapse = NULL))
   hist(inv_norm$rawpval, breaks=100, col="grey", main= names(ind_deg), xlab="Raw p-values")
   dev.off()
