@@ -49,7 +49,6 @@ metaRNAseq <- function(ind_deg,
   dev.off()
   return(fish_comb)
   } else if (test_statistic == "invnorm"){
-  # nrep = Vector of numbers of replicates used in each study to calculate the previous one-sided p-values.
   inv_norm <- invnorm(rawpval, nrep = nrep, BHth = BHth) 
   pdf(file = paste("invnorm_pval_hist.pdf",sep ="", collapse = NULL))
   hist(inv_norm$rawpval, breaks=100, col="grey", main= names(ind_deg), xlab="Raw p-values")
