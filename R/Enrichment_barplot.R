@@ -24,7 +24,7 @@ Enrichment_barplot <- function(dfList, enrich.databases  = c("GO_Biological_Proc
   
      import::here(stringr)
      import::here(openxlsx)
-  
+     import::here(ggplot2)  
   
      enrichR.table = data.frame()
 
