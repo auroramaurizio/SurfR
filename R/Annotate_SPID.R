@@ -24,7 +24,7 @@ Annotate_SPID <- function(DGE, enrich.database  = "WikiPathway_2021_Human", outp
   import::here(MASS)
   import::here(tidyr)
   import::here(dplyr)
-
+  import::here(magrittr,"%>%")
  
   annoname = enrich.database
   annotation_table = hypeR::enrichr_download(enrich.database)
@@ -37,10 +37,11 @@ Annotate_SPID <- function(DGE, enrich.database  = "WikiPathway_2021_Human", outp
   colnames(annotation_table_sub)  
   exploded = unique(tidyr::separate_rows(annotation_table_sub, GeneID, sep = " ", convert = FALSE))
   #group by gene.. that is: one gene x row with associated all the descriptions (space separated)
-  grouped  <- exploded %>%
-    group_by(GeneID) %>%
-    summarise(temp = toString(term)) %>%
-    ungroup()
+  grouped  <- 
+    exploded %>%
+    dplyr::group_by(GeneID) %>%
+    dplyr::summarise(temp = toString(term)) %>%
+    dplyr::ungroup()
   
   nrow(grouped)
   colnames(grouped)=c("GeneID",annoname)
@@ -53,6 +54,4 @@ Annotate_SPID <- function(DGE, enrich.database  = "WikiPathway_2021_Human", outp
   return(merged)
 }
 
-merged = Annotate_SPID(DGE, "OMIM_Disease")
-head(merged)
 
