@@ -23,6 +23,7 @@ Annotate_SPID <- function(DGE, enrich.database  = "WikiPathway_2021_Human", outp
   import::here(assertr)
   import::here(MASS)
   import::here(tidyr)
+  import::here(dplyr)
 
  
   annoname = enrich.database
