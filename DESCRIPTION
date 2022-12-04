@@ -16,4 +16,10 @@ Imports:
   psych,
   rio,
   openxlsx,
-  stringr
+  stringr,
+  magrittr,
+  assertr,
+  tidyr,
+  dplyr,
+  hypeR
+
