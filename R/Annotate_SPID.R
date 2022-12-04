@@ -19,6 +19,8 @@ options(warn=-1)
 
 Annotate_SPID <- function(DGE, enrich.database  = "WikiPathway_2021_Human", output_tsv = F) {
   
+  import::here(hypeR)
+ 
   annoname = enrich.database
   annotation_table = enrichr_download(enrich.database)
   annotation_table = as.data.frame(do.call(rbind, annotation_table)) #here gives a worning ignore it
