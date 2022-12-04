@@ -22,6 +22,8 @@ Annotate_SPID <- function(DGE, enrich.database  = "WikiPathway_2021_Human", outp
   import::here(hypeR)
   import::here(assertr)
   import::here(MASS)
+  import::here(tidyr)
+
  
   annoname = enrich.database
   annotation_table = hypeR::enrichr_download(enrich.database)
@@ -32,7 +34,7 @@ Annotate_SPID <- function(DGE, enrich.database  = "WikiPathway_2021_Human", outp
   annotation_table$term = row.names(annotation_table)
   annotation_table_sub=annotation_table[,c("term","GeneID")]
   colnames(annotation_table_sub)  
-  exploded = unique(separate_rows(annotation_table_sub, GeneID, sep = " ", convert = FALSE))
+  exploded = unique(tidyr::separate_rows(annotation_table_sub, GeneID, sep = " ", convert = FALSE))
   #group by gene.. that is: one gene x row with associated all the descriptions (space separated)
   grouped  <- exploded %>%
     group_by(GeneID) %>%
