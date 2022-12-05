@@ -9,39 +9,49 @@ plotPCA(
   metadata,
   nTOP = 500,
   dims = c(1, 2),
+  centering = TRUE,
+  scaling = TRUE,
   color.by = NULL,
-  pt.shape = NULL,
+  shape.by = NULL,
+  pt.size = 6,
   cols.use = NULL,
+  shape.use = NULL,
+  main = "PCA",
   label = FALSE,
-  new.label = NULL,
-  label.size = 5
+  new.label = NULL
 )
 }
 \arguments{
-\item{matrix}{Count matrix with gene on the row and sample ID on the column.}
+\item{matrix}{Filtered count matrix in CPM or RPKM with gene on the row and sample ID on the column.}
 
-\item{metadata}{Sample metadata}
+\item{metadata}{Sample metadata, row.names must be samples names.}
 
 \item{nTOP}{number of top genes to use for principal components,
 selected by highest row variance}
 
 \item{dims}{Dimensions to plot, must be a two-length numeric vector specifying x- and y-dimensions}
 
-\item{color.by}{Name of one or more metadata columns to color cells by.}
+\item{centering}{Logical. If \code{TRUE} center PCs}
 
-\item{pt.shape}{If NULL, all points are circles \(default\).
-You can specify any metadata attribute allowing for both different colors
-and different shapes on cells.}
+\item{scaling}{Logical. If \code{TRUE} scales PCs}
+
+\item{color.by}{Name of one or more metadata columns to color point by.}
+
+\item{shape.by}{Name of one or more metadata columns to shape point by. If NULL, all points are circles \(default\).}
+
+\item{pt.size}{Size of the points in the plot.}
 
 \item{cols.use}{Vector of colors, each color corresponds to an identity class.
 By default, ggplot assigns colors.}
 
+\item{shape.use}{Vector of shape, each shape corresponds to an identity class.}
+
+\item{main}{Plot title. Default = PCA.}
+
 \item{label}{Logical. If \code{TRUE} adds samples label. Default = FALSE.}
 
-\item{new.label}{If NULL, use the sample names as in metadata.
+\item{new.label}{If NULL, use the sample names as in metadata row.names.
 Otherwise you can specify new labels.}
-
-\item{label.size}{Sets size of labels}
 }
 \value{
 PCA plot objec created by ggplot2,
@@ -52,8 +62,4 @@ Plot PCA highlighting one or two data features
 }
 \examples{
 
-plotPCA(matrix = count_GSE133671,
-        metadata = meta_GSE133671,
-        color = "GSE",
-        shape = "condition")
 }
