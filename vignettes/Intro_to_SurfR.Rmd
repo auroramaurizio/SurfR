@@ -1,0 +1,20 @@
+---
+title: "Introduction to SurfR"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to SurfR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+Aurora Maurizio and Anna Sofia Tascini
+Center for Omics Sciences at the IRCCS Ospedale San Raffaele (COSR) 
+```{r setup}
+library(SurfR)
+```
