@@ -1,8 +1,5 @@
 ---
-title: "SurfR: identify Surface Protein coding genes in RNAseq data"
-author: "Aurora Maurizio (maurizio.aurora@hsr.it), Anna Sofia Tascini (tascini.annasofia@unisr.it), Marco Morelli (morelli.marco@hsr.it)"
-date: "`r doc_date()`"
-package: "`r pkg_ver('SurfR')`"
+title: "Introduction to SurfR"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction to SurfR}
@@ -16,19 +13,25 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
+## Authors
+
+Aurora Maurizio (maurizio.aurora@hsr.it), Anna Sofia Tascini (tascini.annasofia@unisr.it), Marco Morelli (morelli.marco@hsr.it)
+
+
+
 # Introduction
 
-Proteins at the cell surface connect intracellular and extracellular signaling networks and largely determine a cell’s capacity to communicate and interact with its environment. Since transcriptomic differences between healthy-tissue cells and diseased cells might translate into different cell-surface proteins repertoire, the investigation of the cell surfaceome could provide new possibilities for diagnosis, prognosis, treatment development and response evaluation. Indeed, cell surface proteins i) may act as biomarkers for the early detection of diseased cells in tissues or body fluids and ii) are the most prevalent target of human drugs, as proved by the fact that 66% of approved human drugs listed in the DrugBank database target a cell-surface protein. 
+Proteins at the cell surface connect intracellular and extracellular signaling networks and largely determine a cell’s capacity to communicate and interact with its environment. Since transcriptomic differences between healthy-tissue cells and diseased cells might translate into different cell-surface proteins repertoire, the investigation of the cell surfaceome could provide new possibilities for diagnosis, prognosis, treatment development, and therapy response evaluation. Indeed, cell surface proteins i) may act as biomarkers for the early detection of diseased cells in tissues or body fluids and ii) are the most prevalent target of human drugs, as proved by the fact that 66% of approved human drugs listed in the DrugBank database target a cell-surface protein. 
 
 When the goal of a study is to find new biomarkers, the small number of samples and false positive rates are predominant factors limiting the ability to obtain reliable results. However, as costs continue to decrease, it is likely that multiple follow-up experiments will be conducted to re-address some biological questions, suggesting a future need for methods able to jointly analyze data from multiple studies. 
 
-`r BiocStyle::Biocpkg("SurfR")` allows to overcome this issues, generating a list of ranked differentially expressed genes starting from the count matrix of your own RNAseq experiment, or from transcriptomic data automatically retrieved from public databases (e.g. GEO, TCGA).
+**Surfr**` allows to overcome this issues, generating a list of ranked differentially expressed genes starting from the count matrix of your own RNAseq experiment, or from transcriptomic data automatically retrieved from public databases (e.g. GEO, TCGA).
 
-GEO queries are based on ArchS4 pipeline and data are download in H5 format1. TCGA repository is interrogated through `r BiocStyle::Biocpkg("TCGAbiolinks")`. Data retrieved from multiple studies can then be combined through
+GEO queries are based on ArchS4 pipeline and data are download in H5 format1. TCGA repository is interrogated through **TCGAbiolinks**. Data retrieved from multiple studies can then be combined through
 
-It also allows to increase the available sample size by integrating related datasets, subsequently increasing the power to detect differential expression. Meta analyisis can therefore be performed through `r BiocStyle::Biocpkg("metaRNASeq"))`taking into account inter-study variability that may arise due to technical differences among studies (e.g., sample preparation, library protocols, batch effects) as well as additional biological variability. 
+It also allows to increase the available sample size by integrating related datasets, subsequently increasing the power to detect differential expression. Meta analyisis can therefore be performed through **metaRNASeq** taking into account inter-study variability that may arise due to technical differences among studies (e.g., sample preparation, library protocols, batch effects) as well as additional biological variability. 
 
-The protein classification is based on a recently developed surfaceome predictor, called SURFY, based on machine learning3. 
+The protein classification is based on a recently developed surfaceome predictor, called **SURFY**, based on machine learning3. 
 
 Gene ontology (GO) enrichment analysis, and pathway annotation can also be performed to gain further insights about surface protein candidates of interest.
 
@@ -36,14 +39,9 @@ The package also allows to visualize DEG and enrichment results to help users ac
 
 # Quick Start
 
-The basic idea behind `r BiocStyle::Biocpkg("SurfR")` has been to create a complete framework to detect
+The basic idea behind **SurfR** has been to create a complete framework to detect
 surface protein coding genes in your data, or public datasets obtained from multiple studies that can be analyzed and compared in a single run, easily revealing functional consensus and differences among distinct conditions.
-
-
-# Dowload from GEO
-
-`r BiocStyle::Biocpkg("SurfR")` implements several visualization methods to help interpreting enrichment results obtained through EnrichR (Kuleshov et al. 2013) using ggplot2 including dotplots.
-
+To begin, we load the necessary packages and simulation parameters:
 
 ```{r setup}
 library(SurfR)
@@ -51,96 +49,140 @@ library(SurfR)
 
 
 
-# Dowload from TCGA
 
-`r BiocStyle::Biocpkg("SurfR")` implements several visualization methods to help interpreting enrichment results obtained through EnrichR (Kuleshov et al. 2013) using ggplot2 including dotplots.
+## Dowload from GEO (Gene Expression Omnibus)
+
+GEO is a public functional genomics data repository containg high throughput gene expression data and hybridization arrays. We provide a handy interface to download experiments and curated gene expression profiles.
 
 
-```{r setup}
+```
 library(SurfR)
 ```
 
 
-# Start from your own data
 
-`r BiocStyle::Biocpkg("SurfR")` implements several visualization methods to help interpreting enrichment results obtained through EnrichR (Kuleshov et al. 2013) using ggplot2 including dotplots.
+## Dowload from TCGA
+The Cancer Genome Atlas (TCGA, https://tcga-data.nci.nih.gov/tcga/) contains data for thousands of tumor samples across more than 20 types of cancer.
+Navigating through all of the files manually is impossible. Therefore we provide a function based on TCGAbiolinks that automates and streamlines the retrieva of public TCGA transcriptomicsdata.
 
 
-```{r setup}
+
+```
 library(SurfR)
 ```
 
 
-# DEG
+## Start from your own data
 
-`r BiocStyle::Biocpkg("SurfR")` implements several visualization methods to help interpreting enrichment results obtained through EnrichR (Kuleshov et al. 2013) using ggplot2 including dotplots.
+Although **SurfR** provides many functions to retrieve public data you can always start from your own dataset.
+You can than decide to stick to it or combine it with other datasets (public or private).
 
 
-```{r setup}
+
+```
 library(SurfR)
 ```
 
 
-# Identify surface proteins
+## DEG
 
-`r BiocStyle::Biocpkg("SurfR")` implements several visualization methods to help interpreting enrichment results
+An fundamental task in the analysis of count data from RNA-seq is the detection of differentially expressed genes. For this task we rely on the package DESeq2, starting from counts data.
+The count data are presented as a table which reports, for each sample, the number of sequence fragments that have been assigned to each gene.  
 
 
-```{r setup}
+### Example with counts data retrieved from GEO
+
+```
+library(SurfR)
+```
+
+### Example with counts data retrieved from TCGA
+```
+library(SurfR)
+```
+
+## Identify surface proteins
+
+Once DEGS have been detected we may want to isolate Surface protein coding genes.
+The protein classification is based on a recently developed surfaceome predictor, called **SURFY**, based on machine learning. 
+
+```
 library(SurfR)
 ```
 
 
-# Perform Meta-analisys
+## Perform Meta-analisys
 
-`r BiocStyle::Biocpkg("SurfR")` implements several visualization methods to help interpreting enrichment results obtained through EnrichR (Kuleshov et al. 2013) using ggplot2 including dotplots.
+Analyzing data arising from several experiments studying the same question is a way to obtain more robust results, increasing the detection power of differentially expressed genes. 
+
+### Venn diagram
+
+A DEGs analysis can result in many upregulated genes and it may be difficult to choose the best surface marker candidatates. If you analyzed several datasets we always suggest to start taking a look at the DEGs in common beetween different sources with a simple, yet effective representation strategy such as the venn diagram.
+
+```
+library(SurfR)
+```
+
+### pvalue combination
+
+Here we provide a function based on **metaRNASeq** bioconductor package to implement two p-value combination techniques (inverse normal and Fisher methods).
 
 
+### inverse normal
 
-```{r setup}
+```
+library(SurfR)
+```
+
+### Fisher
+
+
+```
 library(SurfR)
 ```
 
 
-# Functional Enrichment
+## Functional Enrichment
 Once we determined the subset of genes enriched in our condition of interest, we have multiple analysis to perform to go beyond a simple list of genes. 
 
 We can perform a general enrichment analysis to gain further insights about upregulated or downregulated DEGs.
 
-```{r setup}
+```
 library(SurfR)
 ```
 We can annotate our list of genes with cross-databases identifiers and descriptions (Entrezid, Uniprot, KEGG, etc.) taking advantage of one the 35 gene-set libraries present in the Enrichr database.
 
-```{r setup}
+```
 library(SurfR)
 ```
 
 
-# Visualization of functional enrichment result
-`r BiocStyle::Biocpkg("SurfR")` implements several visualization methods to help interpreting enrichment results obtained through EnrichR (Kuleshov et al. 2013) using ggplot2.
+## Visualization of functional enrichment result
+**SurfR** implements several visualization methods to help interpreting enrichment results obtained through EnrichR (Kuleshov et al. 2013) using ggplot2.
 
 
-```{r setup}
+```
 library(SurfR)
 ```
 
 
-## Bar plot 
+### Bar plot 
 
-It depicts and gene count ratio and enrichment scores (- Log10 adjusted p values) as bar height and color (Figure 15.1A). Users can specify the number of terms (most significant) to display.
+It depicts and gene count ratio and enrichment scores (- Log10 adjusted p values) as bar height and color. Users can specify the number of terms (most significant) to display.
 
 
-```{r setup}
+```
 library(SurfR)
 ```
 
-## Dot plot 
+### Dot plot 
 
 Dot plot is similar to bar plot with the capability to encode another score as dot size.
 
 
-```{r setup}
+```
 library(SurfR)
 ```
+
+
 
