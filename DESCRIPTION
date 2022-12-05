@@ -19,3 +19,9 @@ Imports:
   stringr,
   rhdf5,
   ggplot2
+  magrittr,
+  assertr,
+  tidyr,
+  dplyr,
+  hypeR
+
