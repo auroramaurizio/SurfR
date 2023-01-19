@@ -20,9 +20,12 @@
 #' @family aggregate functions
 #' @seealso \code{\link{hello}} for counts data and metadata download, and \code{\link{hello}} for Gene2SProtein analysis
 #' @export
+
 DGE <- function(expression,
                 metadata,
                 Nreplica,
+                design,
+                condition,
                 TEST,
                 CTRL,
                 alpha = 0.1, 
@@ -34,10 +37,10 @@ DGE <- function(expression,
   import::here(DESeq2)
   import::here(edgeR)
   
-  fCountsData <- expression[,match(metadata_ArchS4$samples, colnames(expression))] 
+  #fCountsData <- expression[,match(metadata$samples, colnames(expression))] 
   # perform DGE
-  design.formula = as.formula("~condition+series")
-  dds <- DESeqDataSetFromMatrix(countData = fCountsData,
+  design.formula = as.formula(design)
+  dds <- DESeqDataSetFromMatrix(countData = expression,
                                 colData = metadata,
                                 design = design.formula)
   
@@ -53,7 +56,7 @@ DGE <- function(expression,
   
   
   dgeResults <- results(dga, 
-                      contrast = c("condition","T","N"), 
+                      contrast = c(condition,TEST,CTRL), 
                       cooksCutoff          = Inf,
                       independentFiltering = TRUE,
                       alpha                = alpha,
@@ -82,5 +85,4 @@ DGE <- function(expression,
   return(dgeResults) }
   
   
-
 
