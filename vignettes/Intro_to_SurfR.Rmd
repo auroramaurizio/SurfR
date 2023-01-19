@@ -47,6 +47,89 @@ To begin, we load the necessary packages and simulation parameters:
 library(SurfR)
 ```
 
+# Quick Start
+
+The basic idea behind **SurfR** has been to create a complete framework to detect
+surface protein coding genes in your data, or public datasets obtained from multiple studies that can be analyzed and compared in a single run, easily revealing functional consensus and differences among distinct conditions.
+To begin, let's ask SurfR which to detect surface protein coding genes among a vector of input genes. Gene names can be provided as \code{gene_name}, \code{ensembl}, \code{entrez} or \code{uniProt_name}.
+The protein classification is based on a recently developed surfaceome predictor, called [**SURFY**](http://wlab.ethz.ch/surfaceome/), based on machine learning .
+
+
+```{r setup}
+library(SurfR)
+GeneNames = c("CIITA", "EPCAM", "DLK1", "CD24", "CDCP1", "LYVE1", "ABCD1", "VAMP1")
+SurfaceProteins_df = Gene2SProtein(GeneNames, input_type = "gene_name")
+#The output dataframe contains several information retrieved from Surfy.
+colnames(SurfaceProteins_df)
+#These are the 5 surface protein coding genes detected by SurfR.
+SurfaceProteins_df$UniProt.gene
+```
+
+
+
+# Tutorial 
+
+## Start from your own data
+
+Although **SurfR** provides many functions to retrieve public data you can always start from your own dataset.
+Here we are going to make an example with the Differentiation of Human Embryonic Stem Cells under Hypoxia gene
+expression dataset by Prado-Lopez et al. (2010). 
+For simplicity we are going to use only a subset of it focusing on 2 sample processing time points (0 and 15) and 
+and only one level of oxygen available in the conditioned medium (21).
+You can than decide to stick to it or combine it with other datasets (public or private).
+
+```
+library(SurfR)
+
+BiocManager::install("tweeDEseqCountData")
+library(tweeDEseqCountData)
+data(pickrell1)
+data(montgomery)
+montgomery.eset$
+devtools::install_github("zhangyuqing/sva-devel")
+
+library(sva)
+#count_matrix <- matrix(rnbinom(400, size=10, prob=0.1), nrow=50, ncol=8)
+#batch <- c(rep(1, 4), rep(2, 4))
+#adjusted <- ComBat_seq(count_matrix, batch=batch, group=NULL)
+
+
+head(count_matrix)
+
+head(pickrell1.eset$featureData$fvarMetadata)
+Counts <- exprs(pickrell1.eset)
+if (!require("BiocManager", quietly = TRUE))
+  install.packages("BiocManager")
+  
+
+BiocManager::install("stemHypoxia")
+library(stemHypoxia)
+data(stemHypoxia)
+## Exploring the expression matrix M
+dim(M) #40736 features x 28 sample + ID + Symbol
+head(M) #Just to see some intensity values
+colnames(M)
+ head(design)
+SurfaceProteins_df = Gene2SProtein(M$GeneName, input_type = "gene_name")
+
+# ------- input data -------------
+# remove duplicated entry from GeneName column
+M <- M[!duplicated(M$GeneName), ]
+
+# filter for chosen timepoint and oxygen
+designf = design[design$time %in% c(0.0, 15.0) & design$oxygen == 21,]
+designf$time <- as.factor(designf$time)
+Mf = M[, designf$samplename]
+row.names(Mf) <- M$GeneName
+
+row.names(designf) = designf$samplename
+
+# ------- Differential Gene Expression -------------
+
+EG1_df = DGE(Mf, designf, design = "~time", TEST = "0.0", CTRL = "15.0", Nreplica = 2, alpha = 0.05, output_tsv = F)
+
+```
+## Explore public datasets
 
 
 
