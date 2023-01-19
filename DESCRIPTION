@@ -17,6 +17,8 @@ Imports:
   rio,
   openxlsx,
   stringr,
+  rhdf5,
+  ggplot2
   magrittr,
   assertr,
   tidyr,
