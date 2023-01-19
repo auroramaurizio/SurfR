@@ -43,7 +43,7 @@ The basic idea behind **SurfR** has been to create a complete framework to detec
 surface protein coding genes in your data, or public datasets obtained from multiple studies that can be analyzed and compared in a single run, easily revealing functional consensus and differences among distinct conditions.
 To begin, we load the necessary packages and simulation parameters:
 
-```{r setup}
+```{r }
 library(SurfR)
 ```
 
@@ -72,63 +72,73 @@ SurfaceProteins_df$UniProt.gene
 ## Start from your own data
 
 Although **SurfR** provides many functions to retrieve public data you can always start from your own dataset.
-Here we are going to make an example with the Differentiation of Human Embryonic Stem Cells under Hypoxia gene
-expression dataset by Prado-Lopez et al. (2010). 
-For simplicity we are going to use only a subset of it focusing on 2 sample processing time points (0 and 15) and 
-and only one level of oxygen available in the conditioned medium (21).
+
+Here we are going to simulate a small bulkRNA dataset with the R package SPsimSeq [REF] 
+starting from a subset of Zhang RNA-seq data (Zhang et al. 2015), adding 20% of 
+Differentially Expressed genes (`pDE = 0.2`).
+
 You can than decide to stick to it or combine it with other datasets (public or private).
 
+```{r simulate zhang}
+library(SPsimSeq)
+
+data("zhang.data.sub")
+zhang.counts <- zhang.data.sub$counts
+MYCN.status  <- zhang.data.sub$MYCN.status
+# Simulation of bulk RNA data with
+sim.data.bulk <- SPsimSeq(n.sim = 1, s.data = zhang.counts,
+                          group = MYCN.status, n.genes = 1000, batch.config = 1,
+                          group.config = c(0.5, 0.5), tot.samples = ncol(zhang.counts),
+                          pDE = 0.2, lfc.thrld = 0.5, result.format = "list", return.details = TRUE)
+
+sim.data.bulk1 <- sim.data.bulk$sim.data.list[[1]]
+
+countMatrix = sim.data.bulk1$counts; row.names(countMatrix) <- row.names(zhang.counts)
+metadata = sim.data.bulk1$colData; metadata$Group = as.factor(metadata$Group)
 ```
+
+Now we use the built-in SurfR DGE function, which wrap-up Deseq2 workflow,
+to perform a Differential Expression Analysis of the simulated dataset.
+
+Good Differential Expressed surface protein are the ones which are strongly 
+expressed in one condition and almost not expressed in the other. To help detecting those 
+candidates, the output data.frame of the DGE function contains information 
+on the average expression in the two group (see Mean_CPM_T and Mean_CPM_C columns).
+
+```{r DGE zhang}
 library(SurfR)
 
-BiocManager::install("tweeDEseqCountData")
-library(tweeDEseqCountData)
-data(pickrell1)
-data(montgomery)
-montgomery.eset$
-devtools::install_github("zhangyuqing/sva-devel")
+df <- DGE(expression = countMatrix,
+          metadata = metadata,
+          Nreplica = 50,
+          design = "~Group",
+          condition = "Group",
+          alpha = 0.05,
+          TEST = "1", CTRL =  "0")
 
-library(sva)
-#count_matrix <- matrix(rnbinom(400, size=10, prob=0.1), nrow=50, ncol=8)
-#batch <- c(rep(1, 4), rep(2, 4))
-#adjusted <- ComBat_seq(count_matrix, batch=batch, group=NULL)
-
-
-head(count_matrix)
-
-head(pickrell1.eset$featureData$fvarMetadata)
-Counts <- exprs(pickrell1.eset)
-if (!require("BiocManager", quietly = TRUE))
-  install.packages("BiocManager")
-  
-
-BiocManager::install("stemHypoxia")
-library(stemHypoxia)
-data(stemHypoxia)
-## Exploring the expression matrix M
-dim(M) #40736 features x 28 sample + ID + Symbol
-head(M) #Just to see some intensity values
-colnames(M)
- head(design)
-SurfaceProteins_df = Gene2SProtein(M$GeneName, input_type = "gene_name")
-
-# ------- input data -------------
-# remove duplicated entry from GeneName column
-M <- M[!duplicated(M$GeneName), ]
-
-# filter for chosen timepoint and oxygen
-designf = design[design$time %in% c(0.0, 15.0) & design$oxygen == 21,]
-designf$time <- as.factor(designf$time)
-Mf = M[, designf$samplename]
-row.names(Mf) <- M$GeneName
-
-row.names(designf) = designf$samplename
-
-# ------- Differential Gene Expression -------------
-
-EG1_df = DGE(Mf, designf, design = "~time", TEST = "0.0", CTRL = "15.0", Nreplica = 2, alpha = 0.05, output_tsv = F)
-
+head(df)
 ```
+
+
+Finally you can use the built-in SurfR Gene2SProtein function to identify
+Surface protein coding genes. 
+
+```{r G2P zhang}
+# all fdr
+fdr_GeneID = df[df$padj < 0.05,"GeneID"]
+SP = Gene2SProtein(genes = fdr_GeneID, input_type ="gene_name")
+
+# upregulated fdr
+fdrUP_GeneID = df[df$padj < 0.05 & df$log2FoldChange > 0,"GeneID"]
+SPup = Gene2SProtein(genes = fdrUP_GeneID, input_type ="gene_name")
+
+# dowregulated fdr
+fdrDW_GeneID = df[df$padj < 0.05 & df$log2FoldChange < 0,"GeneID"]
+SPdw = Gene2SProtein(genes = fdrDW_GeneID, input_type ="gene_name")
+```
+
+
+
 ## Explore public datasets
 
 
@@ -154,17 +164,6 @@ Navigating through all of the files manually is impossible. Therefore we provide
 library(SurfR)
 ```
 
-
-## Start from your own data
-
-Although **SurfR** provides many functions to retrieve public data you can always start from your own dataset.
-You can than decide to stick to it or combine it with other datasets (public or private).
-
-
-
-```
-library(SurfR)
-```
 
 
 ## DEG

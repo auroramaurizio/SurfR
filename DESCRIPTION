@@ -13,12 +13,14 @@ LazyData: true
 RoxygenNote: 7.1.2
 Imports:
   import,
-  psych,
+  DESeq2,
   rio,
   openxlsx,
   stringr,
   rhdf5,
-  ggplot2
+  ggplot2,
+  ggrepel,
+  stats,
   magrittr,
   assertr,
   tidyr,

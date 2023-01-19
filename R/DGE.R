@@ -2,17 +2,19 @@
 #'
 #' Perform Differential Gene Expression Analysis of RNA-Seq Data
 #'
-#' @param expression Dataframe with counts 
+#' @param expression Dataframe with counts
 #' @param metadata Dataframe with sample metadata
-#' @param TEST Character. sample name in metadata
-#' @param CTRL Character. sample name in metadata  
-#' @param FC_filt Dataframe with counts 
 #' @param Nreplica  Double. Minimum number of replicates in each group
-#' @param alpha Double. the significance cutoff used for optimizing the independent filtering (by default 0.1). 
+#' @param design Design formula for DGE
+#' @param condition Column of the metadata ti use for DGE results
+#' @param TEST Character. sample name in metadata
+#' @param CTRL Character. sample name in metadata
+#' @param FC_filt Dataframe with counts
+#' @param alpha Double. the significance cutoff used for optimizing the independent filtering (by default 0.1).
 #' If the adjusted p-value cutoff (FDR) will be a value other than 0.1, alpha should be set to that value.
 #' @param output_tsv Logical. If \code{TRUE}, outputs a tsv file with the results. By default, FALSE.
 #' @param output_filename Name of the tsv output file. Default is DEGs.tsv.
-#' @return A dataframe with \code{DEGs}  
+#' @return A dataframe with \code{DEGs}
 #' @examples
 #' DEG1_df = DGE(expression, metadata, TEST = "T", CTRL = "N", Nreplica = 45, alpha = 0.05, output_tsv = T, output_filename = "DEG1.tsv")
 #' @section Warning:
@@ -24,65 +26,68 @@
 DGE <- function(expression,
                 metadata,
                 Nreplica,
-                design,
-                condition,
+                design = "~condition",
+                condition = "condition",
                 TEST,
                 CTRL,
-                alpha = 0.1, 
+                alpha = 0.05,
                 exp_filt_ctrl = 0,
                 FC_filt = 0,
                 output_tsv = T,
                 output_filename = "DEGs.tsv") {
-  
-  import::here(DESeq2)
+
+  import::here(DESeq2, DESeqDataSetFromMatrix)
+  import::here(DESeq2, DESeq)
+  import::here(DESeq2, counts)
+  import::here(DESeq2, results)
+
   import::here(edgeR)
-  
-  #fCountsData <- expression[,match(metadata$samples, colnames(expression))] 
+
   # perform DGE
   design.formula = as.formula(design)
   dds <- DESeqDataSetFromMatrix(countData = expression,
                                 colData = metadata,
                                 design = design.formula)
-  
+
   min.samples = Nreplica
   keep <- rowSums(edgeR::cpm(counts(dds)) >= 1) >= min.samples
   dds <- dds[keep,]
   cpm = edgeR::cpm(counts(dds), log = F)
-  dga <- DESeq(object = dds, 
-               test = "Wald", 
-               fitType = "parametric", 
+  dga <- DESeq(object = dds,
+               test = "Wald",
+               fitType = "parametric",
                betaPrior = FALSE,
                minReplicatesForReplace = Inf)
-  
-  
-  dgeResults <- results(dga, 
-                      contrast = c(condition,TEST,CTRL), 
+
+
+  dgeResults <- results(dga,
+                      contrast = c(condition,TEST,CTRL),
                       cooksCutoff          = Inf,
                       independentFiltering = TRUE,
                       alpha                = alpha,
                       pAdjustMethod        = "BH")
-  
-  dgeResults = dgeResults[order(dgeResults$pvalue, decreasing = F),]
-  
-  
-  dgeResults$Mean_CPM_C = rowMeans(cpm[row.names(dgeResults), 
-                                       row.names(metadata[metadata$condition==CTRL,])])
-  dgeResults$Mean_CPM_T = rowMeans(cpm[row.names(dgeResults), 
-                                       row.names(metadata[metadata$condition==TEST,])])
-  
 
-  
+  dgeResults = dgeResults[order(dgeResults$pvalue, decreasing = F),]
+
+
+  dgeResults$Mean_CPM_C = rowMeans(cpm[row.names(dgeResults),
+                                       row.names(metadata[metadata[,condition] ==CTRL,])])
+  dgeResults$Mean_CPM_T = rowMeans(cpm[row.names(dgeResults),
+                                       row.names(metadata[metadata[,condition] ==TEST,])])
+
+
+
   dgeResults$GeneID = row.names(dgeResults)
   dgeResults = dgeResults[order(dgeResults$log2FoldChange, decreasing = T),
                           c('GeneID', 'Mean_CPM_T','Mean_CPM_C',
                             'log2FoldChange','lfcSE','stat','pvalue','padj')]
-  
+
   # -------- tsv --------
   if (output_tsv) {
     write.table(dgeResults, output_filename, quote = F, sep = "\t")
   }
-  
+
   return(dgeResults) }
-  
-  
+
+
 
