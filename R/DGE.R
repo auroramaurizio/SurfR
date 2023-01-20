@@ -33,7 +33,7 @@ DGE <- function(expression,
                 alpha = 0.05,
                 exp_filt_ctrl = 0,
                 FC_filt = 0,
-                output_tsv = T,
+                output_tsv = FALSE,
                 output_filename = "DEGs.tsv") {
 
   import::here(DESeq2, DESeqDataSetFromMatrix)
