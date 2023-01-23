@@ -28,5 +28,6 @@ Imports:
   hypeR,
   TCGAbiolinks,
   data.table,
-  biomaRt
+  biomaRt,
+  metaRNASeq
 
