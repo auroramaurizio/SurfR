@@ -1,6 +1,8 @@
 GDCdata/
 TCGA/
 MANIFEST.txt
+*.pdf
+*.tsv
 .Rproj.user
 .Rhistory
 .RData

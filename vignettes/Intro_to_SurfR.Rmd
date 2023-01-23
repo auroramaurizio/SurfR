@@ -241,7 +241,7 @@ SPdw = Gene2SProtein(genes = fdrDW_GeneID, input_type ="gene_name")
 ```
 
 
-## Dowload from TCGA
+## Download from TCGA
 
 The Cancer Genome Atlas (TCGA, https://tcga-data.nci.nih.gov/tcga/) contains data 
 for thousands of tumor samples across more than 20 types of cancer.
@@ -267,10 +267,18 @@ function **TCGA_download**. The shortLetterCode column of the metadata allow us
 to distinguish Primary Solid Tumor (TP) and normal (NT) samples.
 
 
-```{r TCGA input}
+```
 library(SurfR)
 # Download TCGA data
 TCGA.THYM = TCGA_download(project = "TCGA-THYM")
+```
+
+```{r echo=FALSE, warning=FALSE, include=FALSE, message = FALSE}
+# Download TCGA data
+TCGA.THYM = TCGA_download(project = "TCGA-THYM")
+```
+
+```{r TCGA input}
 cTCGA.THYM <- TCGA.THYM[[1]]
 mTCGA.THYM <- TCGA.THYM[[2]]
 table(mTCGA.THYM$shortLetterCode)
@@ -330,33 +338,150 @@ SPdw = Gene2SProtein(genes = fdrDW_GeneID, input_type ="gene_name")
 
 # Perform Meta-analisys
 
-Analyzing data arising from several experiments studying the same question is a way to obtain more robust results, increasing the detection power of differentially expressed genes. 
+Analyzing data arising from several experiments studying the same question is 
+a way to obtain more robust results, increasing the detection power of 
+differentially expressed genes. 
 
-## Venn diagram
+Therefore we provide a set of functions based on [MetaRNASeq package](https://cran.r-project.org/web/packages/metaRNASeq/vignettes/metaRNASeq.pdf) 
+by [Marot et al., 2020](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-15-91) 
+to combine data from multiple RNAseq experiments.
 
-A DEGs analysis can result in many upregulated genes and it may be difficult to choose the best surface marker candidatates. If you analyzed several datasets we always suggest to start taking a look at the DEGs in common beetween different sources with a simple, yet effective representation strategy such as the venn diagram.
+Let's suppose we want to integrate data on Breast cancer from GEO and TCGA.
+Breast Cancer data are downloaded from TCGA with the SurfR built-in 
+function **TCGA_download**.
 
-```
+```{r meta TCGA_input}
 library(SurfR)
+
+TCGA.BRCA = TCGA_download(project = "TCGA-BRCA")
+cTCGA.BRCA <- TCGA.BRCA[[1]]
+mTCGA.BRCA <- TCGA.BRCA[[2]]
+table(mTCGA.BRCA$shortLetterCode)
 ```
 
-## pvalue combination
+In GEO we want to analyze data from [Varley et al., 2014](https://doi.org/10.1007/s10549-014-3019-2) 
+which includes samples of ER+ breast cancer, Triple Negative Breast cancer, adjacent tissues and normal 
+breast. These datasets can be retrieved from the GEO series [GSE58135](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE58135), 
+using the SurfR built-in functions **GEOmetadata** and **DownloadArchS4**.
 
-Here we provide a function based on **metaRNASeq** bioconductor package to implement two p-value combination techniques (inverse normal and Fisher methods).
+```{r meta GEO_input}
+
+mGSE58135 = GEOmetadata("GSE58135")
+mGSE58135 = mGSE58135[mGSE58135$tissue != "Breast Cancer Cell Line",]
+mGSE58135$condition = "NT"
+mGSE58135$condition[mGSE58135$tissue %in% c("ER+ Breast Cancer Primary Tumor", 
+                                            "Triple Negative Breast Cancer Primary Tumor")] <- "TP"
+cGSE58135 <- DownloadArchS4(mGSE58135$GSM, species = "human")
+cGSE58135 = cGSE58135[,row.names(mGSE58135)]
+
+table(mGSE58135$condition)
+```
+
+The first step in the analysis is to detect differentially expressed genes for each count data, separately. 
+For this task we rely on the package DESeq2, 
+starting from counts data. The count data are presented as a table which reports, 
+for each sample, the number of sequence fragments that have been assigned to each gene.  
+
+We use the built-in SurfR **DGE** function,to perform the differential expression 
+analysis of the TCGA-BRCA dataset and GSE58135.
+
+Good Differential Expressed surface protein are the ones which are strongly 
+expressed in one condition and almost not expressed in the other. To help detecting those 
+candidates, the output data.frame of the DGE function contains information 
+on the average expression in the two group (see Mean_CPM_T and Mean_CPM_C columns).
 
 
-## inverse normal
+```{r meta DGE}
+
+# TCGA DGE
+df.TCGA <- DGE(expression = cTCGA.BRCA,
+           metadata = mTCGA.BRCA,
+           Nreplica = 2,
+           design = "~shortLetterCode",
+           condition = "shortLetterCode",
+           alpha = 0.05,
+           TEST = "TP", CTRL =  "NT",
+           output_tsv = F)
+head(df.TCGA)
+
+# GSE58135 DGE
+df.GSE58135 <- DGE(expression = cGSE58135,
+                   metadata = mGSE58135,
+                   Nreplica = 14,
+                   design = "~condition",
+                   condition = "condition",
+                   alpha = 0.05,
+                   TEST = "TP", CTRL =  "NT",
+                   output_tsv = F)
+head(df.GSE58135)
+
 
 ```
-library(SurfR)
+
+Here we provide a function based on **metaRNASeq** bioconductor package 
+to implement two p-value combination techniques (inverse normal and Fisher methods).
+
+The meta analysis is performed with the SurfR built in function **metaRNAseq**, 
+which requires as input: 
+
+* a list of data.frame with the DGE results of the 
+chosen databases to combine (`ind_deg`); 
+* the statistic test to use to combine p.value which can be the Fisher method (`fishercomb`)
+or the inverse normal combination technique (`invnorm`);
+* the Benjamini Hochberg threshold (`BHth`);
+* if using inverse normal combination technique, a vector of the numbers of replicates used in each study to calculate the previous one-sided p-values (`nrep`).
+
+The function automatically produces and save as .pdf histograms of raw p-values 
+or each of the individual differential analyses performed using the independent 
+filtering from DESeq2 package. You can also examine the p-value distribution after
+p.value combination.  
+
+
+```{r}
+
+L_fishercomb = metaRNAseq(ind_deg = list(TCGA.BRCA =  df.TCGA, GEO.GSE58135 = df.GSE58135),
+                          test_statistic = "fishercomb",
+                          BHth = 0.05,
+                          adjpval.t = 0.05)
+
+
+L_invnorm = metaRNAseq(ind_deg = list(TCGA.BRCA =  df.TCGA, GEO.GSE58135 = df.GSE58135),
+                       test_statistic = "invnorm",
+                       BHth = 0.05,
+                       adjpval.t = 0.05,
+                       nrep = c(102, 56))
+
 ```
 
-## Fisher
+Finally, we can summarize the results of the meta-analysis in a data.frame highlighting the 
+statistical information for the common genes to all methods using the built-in
+SurfR function **combine_fisher_invnorm** and use the built-in SurfR **Gene2SProtein** function to identify
+Surface protein coding genes (SP) among those.
+
+Genes displaying contradictory differential expression in separate studies can be 
+identified in the column `signFC`= 0 and
+should be removed from the list of genes identified as differentially expressed 
+via meta-analysis.
+
+```{r}
+metacomb <- combine_fisher_invnorm(ind_deg = list(TCGA.BRCA =  df.TCGA, 
+                                                  GEO.GSE58135 = df.GSE58135),
+                                   invnorm = L_invnorm,
+                                   fishercomb = L_fishercomb,
+                                   adjpval = 0.05)
 
 
+metacomb_GeneID = metacomb[metacomb$signFC != 0, "GeneID"]
+SP = Gene2SProtein(genes = metacomb_GeneID, input_type ="gene_name")
+
+metacombUP_GeneID = metacomb[metacomb$signFC == 1, "GeneID"]
+SPup = Gene2SProtein(genes = metacombUP_GeneID, input_type ="gene_name")
+
+metacombDW_GeneID = metacomb[metacomb$signFC == -1, "GeneID"]
+SPdw = Gene2SProtein(genes = metacombDW_GeneID, input_type ="gene_name")
+
 ```
-library(SurfR)
-```
+
 
 
 # Functional Enrichment
@@ -400,6 +525,14 @@ Dot plot is similar to bar plot with the capability to encode another score as d
 ```
 library(SurfR)
 ```
+
+## Venn diagram
+
+A DEGs analysis can result in many upregulated genes and it may be difficult 
+to choose the best surface marker candidatates. 
+If you analyzed several datasets we always suggest to start taking a look at 
+the DEGs in common beetween different sources with a simple, 
+yet effective representation strategy such as the venn diagram.
 
 
 
