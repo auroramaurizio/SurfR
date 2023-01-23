@@ -8,9 +8,9 @@
 #' By default: \code{fishercomb}.
 #' @param BHth Benjamini Hochberg threshold.
 #' @param nrep Vector of numbers of replicates used in each study to calculate the previous one-sided p-values.
-#' @param adjpval.t threshold to represent as binary the Meta-Analysis output adjpval. 
+#' @param adjpval.t threshold to represent as binary the Meta-Analysis output adjpval.
 #' By default, the False Discovery Rate is controlled at 5%.
-#' @return A list with \code{DEindices} of DEG at the chosen Benjamini Hochberg threshold, and 
+#' @return A list with \code{DEindices} of DEG at the chosen Benjamini Hochberg threshold, and
 #' \code{TestStatistic}, \code{rawpval}, \code{adjpval}, \{binaryadjpval} vectors for differential expression in the meta-analysis.
 #' @examples
 #' ind_deg = list(DEG1_df, DEG2_df, DEG3_df)
@@ -26,11 +26,11 @@ metaRNAseq <- function(ind_deg,
                  BHth = 0.05,
                  adjpval.t = 0.05,
                  nrep = NULL) {
-  
+
   import::here(metaRNASeq)
-  
+
   common_genes = Reduce(intersect, lapply(ind_deg, rownames))
-  
+
   histp  <- list()
   rawpval <- list()
   for (i in 1:length(ind_deg)){
@@ -40,13 +40,13 @@ metaRNAseq <- function(ind_deg,
     hist(rawpval[[i]], breaks=100, col="grey", main= names(ind_deg[i]), xlab="Raw p-values")
     dev.off()
   }
-  
+
   ggplot2::ggsave(filename = "raw_pval.pdf",
-                  plot = gridExtra::marrangeGrob(histp, nrow = 1, ncol = 1), 
+                  plot = gridExtra::marrangeGrob(histp, nrow = 1, ncol = 1),
                   device = "pdf")
-  
+
   if (test_statistic == "fishercomb") {
-  fish_comb <- fishercomb(rawpval, BHth = BHth)
+  fish_comb <- metaRNASeq::fishercomb(rawpval, BHth = BHth)
   fish_comb$DEname = common_genes
   fish_comb$binaryadjpval=ifelse(fish_comb$adjpval<=adjpval.t,1,0)
   pdf(file = paste("fishercomb_pval_hist.pdf",sep ="", collapse = NULL))
@@ -54,12 +54,12 @@ metaRNAseq <- function(ind_deg,
   dev.off()
   return(fish_comb)
   } else if (test_statistic == "invnorm"){
-  inv_norm <- invnorm(rawpval, nrep = nrep, BHth = BHth)
+  inv_norm <- metaRNASeq::invnorm(rawpval, nrep = nrep, BHth = BHth)
   inv_norm$DEname = common_genes
-  inv_norm$binaryadjpval=ifelse(inv_norm$adjpval<=adjpval.t,1,0) 
+  inv_norm$binaryadjpval=ifelse(inv_norm$adjpval<=adjpval.t,1,0)
   pdf(file = paste("invnorm_pval_hist.pdf",sep ="", collapse = NULL))
   hist(inv_norm$rawpval, breaks=100, col="grey", main= names(ind_deg), xlab="Raw p-values")
   dev.off()
-  return(inv_norm)}} 
+  return(inv_norm)}}
 
 
