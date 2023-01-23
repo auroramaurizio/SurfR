@@ -25,5 +25,8 @@ Imports:
   assertr,
   tidyr,
   dplyr,
-  hypeR
+  hypeR,
+  TCGAbiolinks,
+  data.table,
+  biomaRt
 
