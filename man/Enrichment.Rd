@@ -37,7 +37,7 @@ Bla bla bla
 \examples{
 df1 <- data.frame (Geneid  = c("Mest", "Cdk1", "Pclaf", "Birc5"),
                   baseMean = c("13490.22", "10490.21", "8888.33", "750.33"),
-                   log2FoldChange = c("5.78", "6.78", "7.78", "8.78"), 
+                   log2FoldChange = c("5.78", "6.78", "7.78", "8.78"),
                    padj = c("2.28-143", "2.18-115", "2.18-45", "0.006"))
  df2 <- data.frame (Geneid  = c("Mest", "Cdk1", "Pclaf", "Birc5"),
                    baseMean = c("13490.22", "10490.21", "8888.33", "750.33"),
@@ -51,6 +51,7 @@ test = Enrichment(dfList)
 \code{\link{hello}} for counts data and metadata download, and \code{\link{hello}} for Gene2SProtein analysis
 
 Other aggregate functions: 
+\code{\link{Annotate_SPID}()},
 \code{\link{DGE}()},
 \code{\link{Enrichment_barplot}()},
 \code{\link{Gene2SProtein}()},

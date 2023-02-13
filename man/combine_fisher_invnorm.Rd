@@ -43,6 +43,7 @@ comb_pval_df = combine_fisher_invnorm(ind_deg, invnorm, fishercomb, adjpval = 0.
 \code{\link{hello}} for DGE analysis, and \code{\link{hello}} for metaRNASeq package info
 
 Other aggregate functions: 
+\code{\link{Annotate_SPID}()},
 \code{\link{DGE}()},
 \code{\link{Enrichment_barplot}()},
 \code{\link{Enrichment}()},

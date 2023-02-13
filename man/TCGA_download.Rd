@@ -32,12 +32,13 @@ Bla bla bla
 }
 
 \examples{
-TCGA_download(project="TCGA-UVM", whichcounts = "unstranded", save.matrix = F, save.metadata = T) 
+TCGA_download(project="TCGA-UVM", whichcounts = "unstranded", save.matrix = F, save.metadata = T)
 }
 \seealso{
 \code{\link{hello}} for \code{\link{hello}} for DGE analysis.
 
 Other aggregate functions: 
+\code{\link{Annotate_SPID}()},
 \code{\link{DGE}()},
 \code{\link{Enrichment_barplot}()},
 \code{\link{Enrichment}()},

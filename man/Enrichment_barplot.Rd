@@ -5,7 +5,7 @@
 \title{Enrichment_barplot}
 \usage{
 Enrichment_barplot(
-  dfList,
+  Enrich,
   enrich.databases = c("GO_Biological_Process_2021", "GO_Cellular_Component_2021",
     "GO_Molecular_Function_2021"),
   p_adj = 0.05,
@@ -14,9 +14,10 @@ Enrichment_barplot(
 )
 }
 \arguments{
-\item{dfList}{A list of enrichment tables for up and down-regulated genes in the different enrichrdatabases. Output of Enrichment.R function.}
+\item{Enrich}{A list of enrichment tables for up and down-regulated genes in the different enrichR databases.
+Output of Enrichment.R function for one DGE experiment.}
 
-\item{enrich.databases}{Vector of EnrichR databases to consider}
+\item{enrich.databases}{Vector of EnrichR databases to consider. These databases must be present in the Enrich list.}
 
 \item{p_adj}{Double. Minimum Adjusted pvalue threshold for the enrichment}
 
@@ -39,6 +40,7 @@ Enrichment_barplot(dfList, enrich.databases = c("GO_Biological_Process_2018","GO
 \code{\link{hello}} for counts data and metadata download, and \code{\link{hello}} for Gene2SProtein analysis
 
 Other aggregate functions: 
+\code{\link{Annotate_SPID}()},
 \code{\link{DGE}()},
 \code{\link{Enrichment}()},
 \code{\link{Gene2SProtein}()},

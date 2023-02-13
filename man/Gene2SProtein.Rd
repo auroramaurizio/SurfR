@@ -62,6 +62,7 @@ you might loose some match due to difference gene version IDs.
 \url{https://wlab.ethz.ch/surfaceome} for info on Surfy
 
 Other aggregate functions: 
+\code{\link{Annotate_SPID}()},
 \code{\link{DGE}()},
 \code{\link{Enrichment_barplot}()},
 \code{\link{Enrichment}()},
