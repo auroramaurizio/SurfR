@@ -113,16 +113,16 @@ on the average expression in the two group (see Mean_CPM_T and Mean_CPM_C column
 ```{r DGE zhang}
 library(SurfR)
 
-df <- DGE(expression = countMatrix,
-          metadata = metadata,
-          Nreplica = 50,
-          design = "~Group",
-          condition = "Group",
-          alpha = 0.05,
-          TEST = "1", CTRL =  "0", 
-          output_tsv = FALSE)
+df_zhang <- DGE(expression = countMatrix,
+                metadata = metadata,
+                Nreplica = 50,
+                design = "~Group",
+                condition = "Group",
+                alpha = 0.05,
+                TEST = "1", CTRL =  "0", 
+                output_tsv = FALSE)
 
-head(df)
+head(df_zhang)
 ```
 
 Once DEGS have been detected we may want to isolate Surface protein coding genes.
@@ -135,15 +135,15 @@ Surface protein coding genes (SP).
 
 ```{r G2P zhang}
 # all fdr
-fdr_GeneID = df[df$padj < 0.05,"GeneID"]
+fdr_GeneID = df_zhang[df_zhang$padj < 0.05,"GeneID"]
 SP = Gene2SProtein(genes = fdr_GeneID, input_type ="gene_name")
 
 # upregulated fdr
-fdrUP_GeneID = df[df$padj < 0.05 & df$log2FoldChange > 0,"GeneID"]
+fdrUP_GeneID = df_zhang[df_zhang$padj < 0.05 & df_zhang$log2FoldChange > 0,"GeneID"]
 SPup = Gene2SProtein(genes = fdrUP_GeneID, input_type ="gene_name")
 
 # dowregulated fdr
-fdrDW_GeneID = df[df$padj < 0.05 & df$log2FoldChange < 0,"GeneID"]
+fdrDW_GeneID = df_zhang[df_zhang$padj < 0.05 & df_zhang$log2FoldChange < 0,"GeneID"]
 SPdw = Gene2SProtein(genes = fdrDW_GeneID, input_type ="gene_name")
 ```
 
@@ -188,6 +188,7 @@ head(mGSE121810)
 
 # Download count matrix from ArchS4
 cGSE121810 = DownloadArchS4(mGSE121810$GSM, species = "human", print_tsv = FALSE, filename = NULL)
+
 # Preview count matrix
 head(cGSE121810[,1:5])
 ```
@@ -207,16 +208,16 @@ on the average expression in the two group (see Mean_CPM_T and Mean_CPM_C column
 
 ```{r GEO dge}
 # Perform DGE
-df <- DGE(expression = cGSE121810,
-          metadata = mGSE121810,
-          Nreplica = 14,
-          design = "~condition",
-          condition = "condition",
-          alpha = 0.05,
-          TEST = "neoadjuvant", CTRL =  "adjuvant",
-          output_tsv = F)
+df_GEO <- DGE(expression = cGSE121810,
+              metadata = mGSE121810,
+              Nreplica = 14,
+              design = "~condition",
+              condition = "condition",
+              alpha = 0.05,
+              TEST = "neoadjuvant", CTRL =  "adjuvant",
+              output_tsv = F)
 
-head(df)
+head(df_GEO)
 ```
 
 Once DEGS have been detected we may want to isolate Surface protein coding genes.
@@ -229,13 +230,13 @@ Surface protein coding genes (SP).
 
 ```{r GEO SP}
 # Detect SP amoung differentially expressed genes
-fdr_GeneID = df[df$padj < 0.05,"GeneID"]
+fdr_GeneID = df_GEO[df_GEO$padj < 0.05,"GeneID"]
 SP = Gene2SProtein(genes = fdr_GeneID, input_type ="gene_name")
 
-fdrUP_GeneID = df[df$padj < 0.05 & df$log2FoldChange > 0,"GeneID"]
+fdrUP_GeneID = df_GEO[df_GEO$padj < 0.05 & df_GEO$log2FoldChange > 0,"GeneID"]
 SPup = Gene2SProtein(genes = fdrUP_GeneID, input_type ="gene_name")
 
-fdrDW_GeneID = df[df$padj < 0.05 & df$log2FoldChange < 0,"GeneID"]
+fdrDW_GeneID = df_GEO[df_GEO$padj < 0.05 & df_GEO$log2FoldChange < 0,"GeneID"]
 SPdw = Gene2SProtein(genes = fdrDW_GeneID, input_type ="gene_name")
 
 ```
@@ -302,16 +303,16 @@ on the average expression in the two group (see Mean_CPM_T and Mean_CPM_C column
 
 ```{r TCGA DGE}
 
-df <- DGE(expression = cTCGA.THYM,
-          metadata = mTCGA.THYM,
-          Nreplica = 2,
-          design = "~shortLetterCode",
-          condition = "shortLetterCode",
-          alpha = 0.05,
-          TEST = "TP", CTRL =  "NT",
-          output_tsv = F)
+df_TCGA <- DGE(expression = cTCGA.THYM,
+               metadata = mTCGA.THYM,
+               Nreplica = 2,
+               design = "~shortLetterCode",
+               condition = "shortLetterCode",
+               alpha = 0.05,
+               TEST = "TP", CTRL =  "NT",
+               output_tsv = F)
 
-head(df)
+head(df_TCGA)
 ```
 
 
@@ -324,13 +325,13 @@ We use the built-in SurfR **Gene2SProtein** function to identify
 Surface protein coding genes (SP).
 
 ```{r TCGA SP}
-fdr_GeneID = df[df$padj < 0.05,"GeneID"]
+fdr_GeneID = df_TCGA[df_TCGA$padj < 0.05,"GeneID"]
 SP = Gene2SProtein(genes = fdr_GeneID, input_type ="gene_name")
 
-fdrUP_GeneID = df[df$padj < 0.05 & df$log2FoldChange > 0,"GeneID"]
+fdrUP_GeneID = df_TCGA[df_TCGA$padj < 0.05 & df_TCGA$log2FoldChange > 0,"GeneID"]
 SPup = Gene2SProtein(genes = fdrUP_GeneID, input_type ="gene_name")
 
-fdrDW_GeneID = df[df$padj < 0.05 & df$log2FoldChange < 0,"GeneID"]
+fdrDW_GeneID = df_TCGA[df_TCGA$padj < 0.05 & df_TCGA$log2FoldChange < 0,"GeneID"]
 SPdw = Gene2SProtein(genes = fdrDW_GeneID, input_type ="gene_name")
 ```
 
@@ -350,10 +351,18 @@ Let's suppose we want to integrate data on Breast cancer from GEO and TCGA.
 Breast Cancer data are downloaded from TCGA with the SurfR built-in 
 function **TCGA_download**.
 
-```{r meta TCGA_input}
+```
 library(SurfR)
-
+# Download TCGA data
 TCGA.BRCA = TCGA_download(project = "TCGA-BRCA")
+```
+
+```{r echo=FALSE, warning=FALSE, include=FALSE, message = FALSE}
+# Download TCGA data
+TCGA.BRCA = TCGA_download(project = "TCGA-BRCA")
+```
+
+```{r meta TCGA_input}
 cTCGA.BRCA <- TCGA.BRCA[[1]]
 mTCGA.BRCA <- TCGA.BRCA[[2]]
 table(mTCGA.BRCA$shortLetterCode)
@@ -484,55 +493,105 @@ SPdw = Gene2SProtein(genes = metacombDW_GeneID, input_type ="gene_name")
 
 
 
-# Functional Enrichment
-Once we determined the subset of genes enriched in our condition of interest, we have multiple analysis to perform to go beyond a simple list of genes. 
-
-We can perform a general enrichment analysis to gain further insights about upregulated or downregulated DEGs.
-
-```
-library(SurfR)
-```
-We can annotate our list of genes with cross-databases identifiers and descriptions (Entrezid, Uniprot, KEGG, etc.) taking advantage of one the 35 gene-set libraries present in the Enrichr database.
-
-```
-library(SurfR)
-```
-
 
 # Visualization of functional enrichment result
-**SurfR** implements several visualization methods to help interpreting enrichment results obtained through EnrichR (Kuleshov et al. 2013) using ggplot2.
 
+## Functional Enrichment
+Once we determined the subset of genes enriched in our condition of interest, we have multiple analysis to perform to go beyond a simple list of genes. 
+
+We can perform a general enrichment analysis to gain further insights about upregulated or downregulated DEGs. To do so we use the SurfR built in function **Enrichment**,  based on **enrichR** cran package (Kuleshov et al. 2013). 
+You can specify which database you want to use among the available in enrichR, which you can explore with
+enrichR function `listEnrichrDbs()`. 
+
+
+
+```{r}
+library(enrichR)
+
+# list with DGE output
+dfList = list(zhang = df_zhang, 
+              GEO = df_GEO, 
+              TCGA = df_TCGA)
+
+# Enrichment analysis
+Enrich = SurfR::Enrichment(dfList,
+                         databases = c("GO_Biological_Process_2021", 
+                                       "KEGG_2021_Human",
+                                       "MSigDB_Hallmark_2020"),
+                         p_adj = 0.05, logFC = 1)
+head(Enrich$zhang$fdr_up$GO_Biological_Process_2021)
 
 ```
-library(SurfR)
+
+**SurfR** implements several visualization methods to help interpreting enrichment results 
+obtained through EnrichR (Kuleshov et al. 2013) using ggplot2, with the built-in function 
+**Enrichment_barplot**.
+
+It depicts gene count ratio and enrichment scores (- Log10 adjusted p values) as bar height and color. Users can specify the number of terms (most significant) to display.
+
+```{r}
+# barplot of the top 5 upregulated pathways
+Enrichment_barplot(dfList$GEO, 
+                   enrich.databases = c("GO_Biological_Process_2021","KEGG_2021_Human"), 
+                   p_adj = 0.05, 
+                   num_term = 5, 
+                   cond = "UP")
+
+# barplot of the top 5 downregulated pathways
+Enrichment_barplot(dfList$GEO, 
+                   enrich.databases = c("GO_Biological_Process_2021","KEGG_2021_Human"), 
+                   p_adj = 0.05, 
+                   num_term = 5, 
+                   cond = "DOWN")
+
 ```
 
 
-### Bar plot 
+Moreover, we can annotate our list of genes with cross-databases identifiers and descriptions (Entrezid, Uniprot, KEGG, etc.) 
+taking advantage of one the 35 gene-set libraries present in the Enrichr database, 
+using the SurfR built-in function **Annotate_SPID**. 
 
-It depicts and gene count ratio and enrichment scores (- Log10 adjusted p values) as bar height and color. Users can specify the number of terms (most significant) to display.
-
-
-```
-library(SurfR)
-```
-
-### Dot plot 
-
-Dot plot is similar to bar plot with the capability to encode another score as dot size.
-
-
-```
-library(SurfR)
+```{r}
+annotated = Annotate_SPID(df_GEO, "WikiPathway_2021_Human") 
+head(annotated, 10)
 ```
 
-## Venn diagram
 
-A DEGs analysis can result in many upregulated genes and it may be difficult 
-to choose the best surface marker candidatates. 
-If you analyzed several datasets we always suggest to start taking a look at 
-the DEGs in common beetween different sources with a simple, 
-yet effective representation strategy such as the venn diagram.
+
+## Bar plot 
+
+With the SurfR function **Splot** you can visualize a barplot of one of the 
+features contained in the annotated dataframe generated by the **Gene2SProtein** function.
+The default grouping is the [Membranome Almen classification](https://doi.org/10.1186/1741-7007-7-50). 
+
+```{r}
+# upregulated genes in GEO dataset
+fdrUP_GeneID = df_GEO[df_GEO$padj < 0.05 & df_GEO$log2FoldChange > 0,"GeneID"]
+# corresponding Surface Proteins
+SPup = Gene2SProtein(genes = fdrUP_GeneID, input_type ="gene_name")
+# Barplot of Almen classification 
+Splot(SPup,
+      group.by = "Membranome.Almen.main-class",
+      main = "Almen main class of Upregulated Surface Protein")
+```
+
+
+## PCAplot
+
+Principal Components Analysis (PCA) is a very useful diagnostic feature that
+allows to gain insights about your dataset.
+
+You can perform PCA and visualize the result with a custumizable plot 
+with the built-in SurfR function **plotPCA**.
+
+
+```{r}
+library(edgeR)
+SurfR::plotPCA(matrix = cpm(cGSE121810), metadata = mGSE121810, 
+               dims = c(1,2),
+               color.by = "condition", shape.by = "therapy", 
+               label = F, main = "PCA GSE121810")
+```
 
 
 
