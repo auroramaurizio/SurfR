@@ -2,15 +2,14 @@
 % Please edit documentation in R/Annotate_SPID.R
 \name{Annotate_SPID}
 \alias{Annotate_SPID}
-\title{Annotate_SPID function}
+\title{Annotate_SPID}
 \usage{
 Annotate_SPID(DGE, enrich.database = "WikiPathway_2021_Human", output_tsv = F)
 }
 \arguments{
 \item{DGE}{Dataframe containing SP annotated DEG list}
 
-\item{enrich.database}{String containg the EnrichR database you would like to consult. Default WikiPathway_2021_Human.
-Required only if the chosen GSE series ID include data from multiple sequencing platform}
+\item{enrich.database}{String containg the EnrichR database you would like to consult. Default WikiPathway_2021_Human.}
 
 \item{output_tsv}{Logical. If \code{TRUE}, outputs a tsv file with the results. By default, FALSE.}
 }
@@ -22,13 +21,22 @@ Annotate Surface Protein Coding genes according to EnrichR Libraries
 }
 \section{Warning}{
 
-bla bla
+Bla bla bla
 }
 
 \examples{
 annotated = Annotate_SPID(DGE, "OMIM_Disease")
-
 }
 \seealso{
 \code{\link{hello}} for DGE, and \code{\link{hello}} for Gene2SProtein analysis
+
+Other aggregate functions: 
+\code{\link{DGE}()},
+\code{\link{Enrichment_barplot}()},
+\code{\link{Enrichment}()},
+\code{\link{Gene2SProtein}()},
+\code{\link{TCGA_download}()},
+\code{\link{combine_fisher_invnorm}()},
+\code{\link{metaRNAseq}()}
 }
+\concept{aggregate functions}

@@ -21,7 +21,7 @@ By default: \code{fishercomb}.}
 
 \item{BHth}{Benjamini Hochberg threshold.}
 
-\item{adjpval.t}{threshold to represent as binary the Meta-Analysis output adjpval. 
+\item{adjpval.t}{threshold to represent as binary the Meta-Analysis output adjpval.
 By default, the False Discovery Rate is controlled at 5%.}
 
 \item{nrep}{Vector of numbers of replicates used in each study to calculate the previous one-sided p-values.}
@@ -46,6 +46,7 @@ comb_pval_df = Meta(ind_deg, test_statistic = "invnorm", BHth = 0.05, nrep = c(2
 \code{\link{hello}} for DGE analysis, and \code{\link{hello}} for metaRNASeq package info
 
 Other aggregate functions: 
+\code{\link{Annotate_SPID}()},
 \code{\link{DGE}()},
 \code{\link{Enrichment_barplot}()},
 \code{\link{Enrichment}()},

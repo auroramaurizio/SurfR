@@ -8,12 +8,14 @@ DGE(
   expression,
   metadata,
   Nreplica,
+  design = "~condition",
+  condition = "condition",
   TEST,
   CTRL,
-  alpha = 0.1,
+  alpha = 0.05,
   exp_filt_ctrl = 0,
   FC_filt = 0,
-  output_tsv = T,
+  output_tsv = FALSE,
   output_filename = "DEGs.tsv"
 )
 }
@@ -24,11 +26,15 @@ DGE(
 
 \item{Nreplica}{Double. Minimum number of replicates in each group}
 
+\item{design}{Design formula for DGE}
+
+\item{condition}{Column of the metadata ti use for DGE results}
+
 \item{TEST}{Character. sample name in metadata}
 
 \item{CTRL}{Character. sample name in metadata}
 
-\item{alpha}{Double. the significance cutoff used for optimizing the independent filtering (by default 0.1). 
+\item{alpha}{Double. the significance cutoff used for optimizing the independent filtering (by default 0.1).
 If the adjusted p-value cutoff (FDR) will be a value other than 0.1, alpha should be set to that value.}
 
 \item{FC_filt}{Dataframe with counts}
@@ -55,6 +61,7 @@ DEG1_df = DGE(expression, metadata, TEST = "T", CTRL = "N", Nreplica = 45, alpha
 \code{\link{hello}} for counts data and metadata download, and \code{\link{hello}} for Gene2SProtein analysis
 
 Other aggregate functions: 
+\code{\link{Annotate_SPID}()},
 \code{\link{Enrichment_barplot}()},
 \code{\link{Enrichment}()},
 \code{\link{Gene2SProtein}()},

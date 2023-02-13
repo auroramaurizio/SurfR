@@ -60,6 +60,3 @@ which can be assigned and further customized.
 \description{
 Plot PCA highlighting one or two data features
 }
-\examples{
-
-}

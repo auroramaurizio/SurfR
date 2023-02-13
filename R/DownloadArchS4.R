@@ -42,5 +42,5 @@ DownloadArchS4 <- function(GSM, species, print_tsv = FALSE, filename = NULL) {
     write.table(expression, file=filename, sep="\t", quote=FALSE)
   }
 
-  return(expression)
+  return(as.data.frame(expression))
 }
