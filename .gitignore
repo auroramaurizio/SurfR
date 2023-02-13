@@ -1,5 +1,6 @@
 GDCdata/
 TCGA/
+enrichR/
 MANIFEST.txt
 *.pdf
 *.tsv
