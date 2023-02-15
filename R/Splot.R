@@ -38,12 +38,12 @@ Splot <- function(SurfaceProteins_df,
 
   plot <- ggplot2::ggplot(SurfaceProteins_df, ggplot2::aes(x=v2plot)) +
     ggplot2::geom_bar(color = 'black', fill = cols.use )+
-    ggplot2::theme(plot.title = ggplot2::element_text(color="black", size=26, face="bold.italic"),
-                   axis.text.x = ggplot2::element_text(angle = 45, face = "bold", color = "black", size=22, vjust = 1, hjust =1),
-                   axis.title.x = ggplot2::element_text(face = "bold", color = "black", size = 24),
-                   axis.text.y = ggplot2::element_text(angle = 0, face = "bold", color = "black", size=22),
-                   axis.title.y = ggplot2::element_text(face = "bold", color = "black", size = 24),
-                   legend.text = ggplot2::element_text(face = "bold", color = "black", size = 12),
+    ggplot2::theme(plot.title = ggplot2::element_text(color="black", size=18, face="bold.italic"),
+                   axis.text.x = ggplot2::element_text(angle = 45, face = "bold", color = "black", size=12, vjust = 1, hjust =1),
+                   axis.title.x = ggplot2::element_text(face = "bold", color = "black", size = 14),
+                   axis.text.y = ggplot2::element_text(angle = 0, face = "bold", color = "black", size=12),
+                   axis.title.y = ggplot2::element_text(face = "bold", color = "black", size = 14),
+                   legend.text = ggplot2::element_text(face = "bold", color = "black", size = 10),
                    legend.position="top",
                    panel.background = ggplot2::element_rect(fill = "white",colour = "black", size = 1, linetype = "solid")) +
     ggplot2::labs(x = group.by, y = "N", title = main)
