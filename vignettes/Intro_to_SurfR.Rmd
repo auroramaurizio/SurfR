@@ -21,19 +21,19 @@ Aurora Maurizio (maurizio.aurora@hsr.it), Anna Sofia Tascini (tascini.annasofia@
 
 # Introduction
 
-Proteins at the cell surface connect intracellular and extracellular signaling networks and largely determine a cell’s capacity to communicate and interact with its environment. Since transcriptomic differences between healthy-tissue cells and diseased cells might translate into different cell-surface proteins repertoire, the investigation of the cell surfaceome could provide new possibilities for diagnosis, prognosis, treatment development, and therapy response evaluation. Indeed, cell surface proteins i) may act as biomarkers for the early detection of diseased cells in tissues or body fluids and ii) are the most prevalent target of human drugs, as proved by the fact that 66% of approved human drugs listed in the DrugBank database target a cell-surface protein. 
+Proteins at the cell surface connect intracellular and extracellular signaling networks and largely determine a cell’s capacity to communicate and interact with its environment. Since transcriptomic differences between healthy-tissue and diseased cells might translate into different cell-surface protein repertoires, the investigation of the cell surfaceome could provide new possibilities for diagnosis, prognosis, treatment development, and therapy response evaluation. Indeed, cell surface proteins i) may act as biomarkers for the early detection of diseased cells in tissues or body fluids and ii) are the most prevalent target of human drugs, as proved by the fact that 66% of approved human drugs listed in the DrugBank database target a cell-surface protein. 
 
-When the goal of a study is to find new biomarkers, the small number of samples and false positive rates are predominant factors limiting the ability to obtain reliable results. However, as costs continue to decrease, it is likely that multiple follow-up experiments will be conducted to re-address some biological questions, suggesting a future need for methods able to jointly analyze data from multiple studies. 
+When a study aims to find new biomarkers, the small number of samples and false positive rates are predominant factors limiting the ability to obtain reliable results. However, as costs continue to decrease, multiple follow-up experiments will likely be conducted to re-address some biological questions, suggesting a future need for methods able to analyze data from multiple studies jointly. 
 
-**Surfr**` allows to overcome this issues, generating a list of ranked differentially expressed genes starting from the count matrix of your own RNAseq experiment, or from transcriptomic data automatically retrieved from public databases (e.g. GEO, TCGA).
+**Surfr**` allows users to overcome these issues, generating a list of ranked differentially expressed genes starting from the count matrix of your own RNAseq experiment or from transcriptomic data automatically retrieved from public databases (e.g. GEO, TCGA).
 
-GEO queries are based on ArchS4 pipeline and data are download in H5 format1. TCGA repository is interrogated through **TCGAbiolinks**. Data retrieved from multiple studies can then be combined through
+GEO queries are based on the ArchS4 pipeline, and data are downloaded in H5 format. TCGA repository is interrogated through **TCGAbiolinks**. Data retrieved from multiple studies can then be combined through
 
-It also allows to increase the available sample size by integrating related datasets, subsequently increasing the power to detect differential expression. Meta analyisis can therefore be performed through **metaRNASeq** taking into account inter-study variability that may arise due to technical differences among studies (e.g., sample preparation, library protocols, batch effects) as well as additional biological variability. 
+It also offers the opportunity to increase the available sample size by integrating related datasets, subsequently increasing the power to detect differential expression. Meta-analysis can therefore be performed through **metaRNASeq**, taking into account inter-study variability that may arise due to technical differences among studies (e.g., sample preparation, library protocols, batch effects) as well as additional biological variability. 
 
 The protein classification is based on a recently developed surfaceome predictor, called **SURFY**, based on machine learning3. 
 
-Gene ontology (GO) enrichment analysis, and pathway annotation can also be performed to gain further insights about surface protein candidates of interest.
+Gene ontology (GO) enrichment analysis and pathway annotation can also be performed to gain further insights about surface protein candidates of interest.
 
 The package also allows to visualize DEG and enrichment results to help users achieve efficient data interpretation. 
 
@@ -48,8 +48,8 @@ devtools::install_github("addname/SurfR")
 # Quick Start
 
 The basic idea behind **SurfR** has been to create a complete framework to detect
-surface protein coding genes in your data, or public datasets obtained from multiple studies that can be analyzed and compared in a single run, easily revealing functional consensus and differences among distinct conditions.
-To begin, let's ask SurfR which to detect surface protein coding genes among a vector of input genes. 
+surface protein-coding genes in your data or public datasets obtained from multiple studies that can be analyzed and compared in a single run, easily revealing functional consensus and differences among distinct conditions.
+First, let's ask SurfR which to detect surface protein-coding genes among a vector of input genes. 
 Gene ID can be provided as `gene_name`, `ensembl`, `entrez` or `uniProt_name`.
 
 The protein classification is based on a recently developed surfaceome predictor, called [**SURFY**](http://wlab.ethz.ch/surfaceome/), based on machine learning.
@@ -71,13 +71,13 @@ SurfaceProteins_df$UniProt.gene
 
 ## Start from your own data
 
-Although **SurfR** provides many functions to retrieve public data you can always start from your own dataset.
+Although **SurfR** provides many functions to retrieve public data, you can always start from your own dataset.
 
-Here we are going to simulate a small bulkRNA dataset with the R package SPsimSeq [REF] 
+Here we are going to simulate a small bulk RNA dataset with the R package SPsimSeq [REF] 
 starting from a subset of Zhang RNA-seq data (Zhang et al. 2015), adding 20% of 
 Differentially Expressed genes (`pDE = 0.2`).
 
-You can than decide to stick to it or combine it with other datasets (public or private).
+You can then decide to stick to it or combine it with other datasets (public or private).
 
 ```{r simulate zhang}
 library(SPsimSeq)
@@ -98,17 +98,17 @@ metadata = sim.data.bulk1$colData; metadata$Group = as.factor(metadata$Group)
 ```
 
 A fundamental task in the analysis of count data from RNA-seq is the detection 
-of differentially expressed genes. For this task we rely on the package DESeq2, 
+of differentially expressed genes. For this task, we rely on the package DESeq2, 
 starting from counts data. The count data are presented as a table which reports, 
-for each sample, the number of sequence fragments that have been assigned to each gene.  
+for each sample, the number of sequence fragments assigned to each gene.  
 
-We use the built-in SurfR **DGE** function,to perform the differential expression 
+We use the built-in SurfR **DGE** function to perform the differential expression 
 analysis of the simulated dataset.
 
-Good Differential Expressed surface protein are the ones which are strongly 
-expressed in one condition and almost not expressed in the other. To help detecting those 
-candidates, the output data.frame of the DGE function contains information 
-on the average expression in the two group (see Mean_CPM_T and Mean_CPM_C columns).
+Good Differential Expressed surface proteins are the ones which are strongly 
+expressed in one condition and almost not expressed in the other. To help detect those 
+candidates, the output dataframe of the DGE function contains information 
+on the average expression in the two groups (see Mean_CPM_T and Mean_CPM_C columns).
 
 ```{r DGE zhang}
 library(SurfR)
@@ -125,13 +125,13 @@ df_zhang <- DGE(expression = countMatrix,
 head(df_zhang)
 ```
 
-Once DEGS have been detected we may want to isolate Surface protein coding genes.
+Once DEGS have been detected, we may want to isolate Surface protein-coding genes.
 
 The protein classification is based on a recently developed surfaceome predictor, 
 called **SURFY**, based on machine learning. 
 
 We use the built-in SurfR **Gene2SProtein** function to identify
-Surface protein coding genes (SP). 
+Surface protein-coding genes (SP). 
 
 ```{r G2P zhang}
 # all fdr
@@ -157,7 +157,7 @@ SPdw = Gene2SProtein(genes = fdrDW_GeneID, input_type ="gene_name")
 containing high throughput gene expression data and hybridization arrays. 
 We provide a handy interface to download experiments and curated gene expression profiles.
 
-Here we are going to reanalyze the [Cloughesy et al](https://doi.org/10.1038/s41591-018-0337-7) 
+Here we reanalyze the [Cloughesy et al.](https://doi.org/10.1038/s41591-018-0337-7) 
 public dataset of recurrent glioblastoma patients undergoing two different treatments: 
 neoadjuvant pembrolizumab or adjuvant pembrolizumab. 
 
@@ -165,12 +165,12 @@ This study is available under the GEO accession series [GSE121810](https://www.n
 
 The metadata is downloaded with SurfR built-in function **GEOmetadata**.
 Note that this study has been sequenced with only one sequencing platform.
-If this is not the case, you have to download separately all the 
-metadata specifying the GPL series numbers, and then merge them.
+If this is not the case, you have to download all the 
+metadata specifying the GPL series numbers separately and then merge them.
 
-The counts matrix is downloaded from [ArchS4](https://maayanlab.cloud/archs4/)
+The count matrix is downloaded from [ArchS4](https://maayanlab.cloud/archs4/)
 with the SurfR built-in function **DownloadArchS4**,
-to ensure handling not normalize data.
+to ensure the handling of not normalized data.
 
 ```{r GEO input}
 library(SurfR)
@@ -194,17 +194,17 @@ head(cGSE121810[,1:5])
 ```
 
 A fundamental task in the analysis of count data from RNA-seq is the detection 
-of differentially expressed genes. For this task we rely on the package DESeq2, 
-starting from counts data. The count data are presented as a table which reports, 
-for each sample, the number of sequence fragments that have been assigned to each gene.  
+of differentially expressed genes. For this task, we rely on the package DESeq2, 
+starting from count data. The count data are presented as a table which reports, 
+for each sample, the number of sequence fragments assigned to each gene.  
 
-We use the built-in SurfR **DGE** function,to perform the differential expression 
+We use the built-in SurfR **DGE** function to perform the differential expression 
 analysis of the GSE121810 dataset.
 
-Good Differential Expressed surface protein are the ones which are strongly 
-expressed in one condition and almost not expressed in the other. To help detecting those 
-candidates, the output data.frame of the DGE function contains information 
-on the average expression in the two group (see Mean_CPM_T and Mean_CPM_C columns).
+Good Differential Expressed surface proteins are the ones which are strongly 
+expressed in one condition and almost not expressed in the other. 
+To help detect those candidates, the output dataframe of the DGE function contains information 
+on the average expression in the two groups (see Mean_CPM_T and Mean_CPM_C columns).
 
 ```{r GEO dge}
 # Perform DGE
@@ -220,13 +220,13 @@ df_GEO <- DGE(expression = cGSE121810,
 head(df_GEO)
 ```
 
-Once DEGS have been detected we may want to isolate Surface protein coding genes.
+Once DEGS have been detected, we may want to isolate Surface protein-coding genes.
 
 The protein classification is based on a recently developed surfaceome predictor, 
 called **SURFY**, based on machine learning. 
 
 We use the built-in SurfR **Gene2SProtein** function to identify
-Surface protein coding genes (SP). 
+Surface protein-coding genes (SP). 
 
 ```{r GEO SP}
 # Detect SP amoung differentially expressed genes
@@ -246,10 +246,10 @@ SPdw = Gene2SProtein(genes = fdrDW_GeneID, input_type ="gene_name")
 
 The Cancer Genome Atlas (TCGA, https://tcga-data.nci.nih.gov/tcga/) contains data 
 for thousands of tumor samples across more than 20 types of cancer.
-Navigating through all of the files manually is impossible. 
+Manually navigating through all of the files is impossible.
 Therefore we provide a function based on TCGAbiolinks that automates and 
 streamlines the retrieval of public TCGA transcriptomics data.
-Note that to use this function you need to install the developmental version of
+Note that to use this function, you need to install the developmental version of
 [TCGAbiolink](https://github.com/BioinformaticsFMRP/TCGAbiolinks).
 
 ```
@@ -260,11 +260,11 @@ BiocManager::install("BioinformaticsFMRP/TCGAbiolinksGUI.data")
 BiocManager::install("BioinformaticsFMRP/TCGAbiolinks")
 ```
 
-Here we are going to reanalyze the *TCGA-THYM* dataset, since is one of the smallest 
-TCGA datasets which also includes two normal samples. 
+Here we reanalyze the *TCGA-THYM* dataset, since it is one of the smallest 
+TCGA datasets, including normal samples. 
 
 The TCGA count matrix and the metadata are downloaded with SurfR built-in 
-function **TCGA_download**. The shortLetterCode column of the metadata allow us 
+function **TCGA_download**. The shortLetterCode column of the metadata allows us 
 to distinguish Primary Solid Tumor (TP) and normal (NT) samples.
 
 
@@ -289,17 +289,17 @@ mTCGA.THYM$shortLetterCode = as.factor(mTCGA.THYM$shortLetterCode)
 
 
 A fundamental task in the analysis of count data from RNA-seq is the detection 
-of differentially expressed genes. For this task we rely on the package DESeq2, 
+of differentially expressed genes. For this task, we rely on the package DESeq2, 
 starting from counts data. The count data are presented as a table which reports, 
-for each sample, the number of sequence fragments that have been assigned to each gene.  
+for each sample, the number of sequence fragments assigned to each gene.  
 
-We use the built-in SurfR **DGE** function,to perform the differential expression 
+We use the built-in SurfR **DGE** function to perform the differential expression 
 analysis of the TCGA-THYM dataset.
 
-Good Differential Expressed surface protein are the ones which are strongly 
-expressed in one condition and almost not expressed in the other. To help detecting those 
-candidates, the output data.frame of the DGE function contains information 
-on the average expression in the two group (see Mean_CPM_T and Mean_CPM_C columns).
+Good Differential Expressed surface proteins are the ones which are strongly 
+expressed in one condition and almost not expressed in the other. To help detect those 
+candidates, the output dataframe of the DGE function contains information 
+on the average expression in the two groups (see Mean_CPM_T and Mean_CPM_C columns).
 
 ```{r TCGA DGE}
 
@@ -316,13 +316,13 @@ head(df_TCGA)
 ```
 
 
-Once DEGS have been detected we may want to isolate Surface protein coding genes.
+Once DEGS have been detected, we may want to isolate Surface protein-coding genes.
 
 The protein classification is based on a recently developed surfaceome predictor, 
 called **SURFY**, based on machine learning. 
 
 We use the built-in SurfR **Gene2SProtein** function to identify
-Surface protein coding genes (SP).
+Surface protein-coding genes (SP).
 
 ```{r TCGA SP}
 fdr_GeneID = df_TCGA[df_TCGA$padj < 0.05,"GeneID"]
@@ -337,9 +337,9 @@ SPdw = Gene2SProtein(genes = fdrDW_GeneID, input_type ="gene_name")
 
 
 
-# Perform Meta-analisys
+# Perform Meta-analysis
 
-Analyzing data arising from several experiments studying the same question is 
+Analyzing data from several experiments studying the same question is 
 a way to obtain more robust results, increasing the detection power of 
 differentially expressed genes. 
 
@@ -368,7 +368,7 @@ mTCGA.BRCA <- TCGA.BRCA[[2]]
 table(mTCGA.BRCA$shortLetterCode)
 ```
 
-In GEO we want to analyze data from [Varley et al., 2014](https://doi.org/10.1007/s10549-014-3019-2) 
+In GEO, we want to analyze data from [Varley et al., 2014](https://doi.org/10.1007/s10549-014-3019-2) 
 which includes samples of ER+ breast cancer, Triple Negative Breast cancer, adjacent tissues and normal 
 breast. These datasets can be retrieved from the GEO series [GSE58135](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE58135), 
 using the SurfR built-in functions **GEOmetadata** and **DownloadArchS4**.
@@ -386,18 +386,18 @@ cGSE58135 = cGSE58135[,row.names(mGSE58135)]
 table(mGSE58135$condition)
 ```
 
-The first step in the analysis is to detect differentially expressed genes for each count data, separately. 
-For this task we rely on the package DESeq2, 
+The first step in the analysis is to detect differentially expressed genes for each count data separately. 
+For this task, we rely on the package DESeq2, 
 starting from counts data. The count data are presented as a table which reports, 
 for each sample, the number of sequence fragments that have been assigned to each gene.  
 
-We use the built-in SurfR **DGE** function,to perform the differential expression 
+We use the built-in SurfR **DGE** function to perform the differential expression 
 analysis of the TCGA-BRCA dataset and GSE58135.
 
-Good Differential Expressed surface protein are the ones which are strongly 
-expressed in one condition and almost not expressed in the other. To help detecting those 
-candidates, the output data.frame of the DGE function contains information 
-on the average expression in the two group (see Mean_CPM_T and Mean_CPM_C columns).
+Good Differential Expressed surface proteins are the ones which are strongly 
+expressed in one condition and almost not expressed in the other. To help detect those 
+candidates, the output dataframe of the DGE function contains information 
+on the average expression in the two groups (see Mean_CPM_T and Mean_CPM_C columns).
 
 
 ```{r meta DGE}
@@ -427,23 +427,22 @@ head(df.GSE58135)
 
 ```
 
-Here we provide a function based on **metaRNASeq** bioconductor package 
+Here we provide a function based on the **metaRNASeq** Bioconductor package 
 to implement two p-value combination techniques (inverse normal and Fisher methods).
 
-The meta analysis is performed with the SurfR built in function **metaRNAseq**, 
+The meta-analysis is performed with the SurfR built-in function **metaRNAseq**, 
 which requires as input: 
 
-* a list of data.frame with the DGE results of the 
-chosen databases to combine (`ind_deg`); 
+* a list of dataframes with the DGE results of the chosen databases to combine (`ind_deg`); 
 * the statistic test to use to combine p.value which can be the Fisher method (`fishercomb`)
 or the inverse normal combination technique (`invnorm`);
 * the Benjamini Hochberg threshold (`BHth`);
-* if using inverse normal combination technique, a vector of the numbers of replicates used in each study to calculate the previous one-sided p-values (`nrep`).
+* if using the inverse normal combination technique, a vector of the numbers of replicates used in each study to calculate the previous one-sided p-values (`nrep`).
 
-The function automatically produces and save as .pdf histograms of raw p-values 
+The function automatically produces and saves as .pdf histograms of raw p-values 
 or each of the individual differential analyses performed using the independent 
-filtering from DESeq2 package. You can also examine the p-value distribution after
-p.value combination.  
+filtering from the DESeq2 package. You can also examine the p-value distribution after
+the p.value combination.  
 
 
 ```{r}
@@ -462,10 +461,10 @@ L_invnorm = metaRNAseq(ind_deg = list(TCGA.BRCA =  df.TCGA, GEO.GSE58135 = df.GS
 
 ```
 
-Finally, we can summarize the results of the meta-analysis in a data.frame highlighting the 
+Finally, we can summarize the results of the meta-analysis in a dataframe highlighting the 
 statistical information for the common genes to all methods using the built-in
 SurfR function **combine_fisher_invnorm** and use the built-in SurfR **Gene2SProtein** function to identify
-Surface protein coding genes (SP) among those.
+Surface protein-coding genes (SP) among those.
 
 Genes displaying contradictory differential expression in separate studies can be 
 identified in the column `signFC`= 0 and
@@ -497,11 +496,13 @@ SPdw = Gene2SProtein(genes = metacombDW_GeneID, input_type ="gene_name")
 # Visualization of functional enrichment result
 
 ## Functional Enrichment
-Once we determined the subset of genes enriched in our condition of interest, we have multiple analysis to perform to go beyond a simple list of genes. 
+Once we determined the subset of genes enriched in our condition of interest, 
+we have multiple analyses to perform to go beyond a simple list of genes. 
 
-We can perform a general enrichment analysis to gain further insights about upregulated or downregulated DEGs. To do so we use the SurfR built in function **Enrichment**,  based on **enrichR** cran package (Kuleshov et al. 2013). 
+We can perform a general enrichment analysis to gain further insights about upregulated or downregulated DEGs. 
+To do so, we use the SurfR built-in function **Enrichment**,  based on the **enrichR** cran package (Kuleshov et al. 2013). 
 You can specify which database you want to use among the available in enrichR, which you can explore with
-enrichR function `listEnrichrDbs()`. 
+the enrichR function `listEnrichrDbs()`. 
 
 
 
@@ -514,31 +515,32 @@ dfList = list(zhang = df_zhang,
               TCGA = df_TCGA)
 
 # Enrichment analysis
-Enrich = SurfR::Enrichment(dfList,
-                         databases = c("GO_Biological_Process_2021", 
-                                       "KEGG_2021_Human",
-                                       "MSigDB_Hallmark_2020"),
-                         p_adj = 0.05, logFC = 1)
-head(Enrich$zhang$fdr_up$GO_Biological_Process_2021)
+Enrich = Enrichment(dfList, 
+                    enrich.databases = c("GO_Biological_Process_2021", 
+                                         "KEGG_2021_Human",
+                                          "MSigDB_Hallmark_2020"),
+                    p_adj = 0.05, logFC = 1)
+
+head(Enrich$GEO$fdr_up$GO_Biological_Process_2021)
 
 ```
 
-**SurfR** implements several visualization methods to help interpreting enrichment results 
+**SurfR** implements several visualization methods to help interpret enrichment results 
 obtained through EnrichR (Kuleshov et al. 2013) using ggplot2, with the built-in function 
 **Enrichment_barplot**.
 
 It depicts gene count ratio and enrichment scores (- Log10 adjusted p values) as bar height and color. Users can specify the number of terms (most significant) to display.
 
-```{r}
+```{r, fig.width=7, fig.height=2.5}
 # barplot of the top 5 upregulated pathways
-Enrichment_barplot(dfList$GEO, 
+Enrichment_barplot(Enrich$GEO, 
                    enrich.databases = c("GO_Biological_Process_2021","KEGG_2021_Human"), 
                    p_adj = 0.05, 
                    num_term = 5, 
                    cond = "UP")
 
 # barplot of the top 5 downregulated pathways
-Enrichment_barplot(dfList$GEO, 
+Enrichment_barplot(Enrich$GEO, 
                    enrich.databases = c("GO_Biological_Process_2021","KEGG_2021_Human"), 
                    p_adj = 0.05, 
                    num_term = 5, 
@@ -547,8 +549,8 @@ Enrichment_barplot(dfList$GEO,
 ```
 
 
-Moreover, we can annotate our list of genes with cross-databases identifiers and descriptions (Entrezid, Uniprot, KEGG, etc.) 
-taking advantage of one the 35 gene-set libraries present in the Enrichr database, 
+Moreover, we can annotate our list of genes with cross-database identifiers and descriptions (Entrezid, Uniprot, KEGG, etc.),
+taking advantage of one of the 35 gene-set libraries present in the Enrichr database, 
 using the SurfR built-in function **Annotate_SPID**. 
 
 ```{r}
@@ -561,10 +563,10 @@ head(annotated, 10)
 ## Bar plot 
 
 With the SurfR function **Splot** you can visualize a barplot of one of the 
-features contained in the annotated dataframe generated by the **Gene2SProtein** function.
+features in the annotated dataframe generated by the **Gene2SProtein** function.
 The default grouping is the [Membranome Almen classification](https://doi.org/10.1186/1741-7007-7-50). 
 
-```{r}
+```{r, fig.height= 4.5, fig.width=7}
 # upregulated genes in GEO dataset
 fdrUP_GeneID = df_GEO[df_GEO$padj < 0.05 & df_GEO$log2FoldChange > 0,"GeneID"]
 # corresponding Surface Proteins
@@ -572,20 +574,20 @@ SPup = Gene2SProtein(genes = fdrUP_GeneID, input_type ="gene_name")
 # Barplot of Almen classification 
 Splot(SPup,
       group.by = "Membranome.Almen.main-class",
-      main = "Almen main class of Upregulated Surface Protein")
+      main = "Almen class")
 ```
 
 
 ## PCAplot
 
 Principal Components Analysis (PCA) is a very useful diagnostic feature that
-allows to gain insights about your dataset.
+allows you to gain insights about your datasets.
 
-You can perform PCA and visualize the result with a custumizable plot 
+You can perform PCA and visualize the result with a customizable plot 
 with the built-in SurfR function **plotPCA**.
 
 
-```{r}
+```{r, fig.height= 6, fig.width=7}
 library(edgeR)
 SurfR::plotPCA(matrix = cpm(cGSE121810), metadata = mGSE121810, 
                dims = c(1,2),
