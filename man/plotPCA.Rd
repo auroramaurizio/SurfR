@@ -60,3 +60,10 @@ which can be assigned and further customized.
 \description{
 Plot PCA highlighting one or two data features
 }
+\examples{
+plotPCA(matrix = cpm(cGSE121810),
+        metadata = mGSE121810,
+        dims = c(1,2),
+        color.by = "condition", shape.by = "therapy",
+        label = F, main = "PCA GSE121810")
+}

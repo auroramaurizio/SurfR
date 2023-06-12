@@ -7,14 +7,14 @@
 Annotate_SPID(DGE, enrich.database = "WikiPathway_2021_Human", output_tsv = F)
 }
 \arguments{
-\item{DGE}{Dataframe containing SP annotated DEG list}
+\item{DGE}{Data.frame containing annotated DEG list, as the output of DGE function.}
 
-\item{enrich.database}{String containg the EnrichR database you would like to consult. Default WikiPathway_2021_Human.}
+\item{enrich.database}{String containing the EnrichR databases you would like to consult. Default: WikiPathway_2021_Human.}
 
 \item{output_tsv}{Logical. If \code{TRUE}, outputs a tsv file with the results. By default, FALSE.}
 }
 \value{
-A dataframe with surface protein coding \code{DEGs} annotation
+A dataframe with surface protein coding \code{DEGs} annotation.
 }
 \description{
 Annotate Surface Protein Coding genes according to EnrichR Libraries
@@ -28,13 +28,14 @@ Bla bla bla
 annotated = Annotate_SPID(DGE, "OMIM_Disease")
 }
 \seealso{
-\code{\link{hello}} for DGE, and \code{\link{hello}} for Gene2SProtein analysis
+\code{\link{DGE}} for DGE, and \code{\link{hello}} for Gene2SProtein analysis
 
 Other aggregate functions: 
 \code{\link{DGE}()},
 \code{\link{Enrichment_barplot}()},
 \code{\link{Enrichment}()},
 \code{\link{Gene2SProtein}()},
+\code{\link{SVenn}()},
 \code{\link{TCGA_download}()},
 \code{\link{combine_fisher_invnorm}()},
 \code{\link{metaRNAseq}()}
