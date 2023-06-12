@@ -22,7 +22,11 @@
 #' @return PCA plot objec created by ggplot2,
 #' which can be assigned and further customized.
 #' @examples
-#'
+#' plotPCA(matrix = cpm(cGSE121810),
+#'         metadata = mGSE121810,
+#'         dims = c(1,2),
+#'         color.by = "condition", shape.by = "therapy",
+#'         label = F, main = "PCA GSE121810")
 #' @export
 plotPCA <- function(matrix,
                     metadata,

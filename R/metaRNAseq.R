@@ -9,9 +9,9 @@
 #' @param BHth Benjamini Hochberg threshold.
 #' @param nrep Vector of numbers of replicates used in each study to calculate the previous one-sided p-values.
 #' @param adjpval.t threshold to represent as binary the Meta-Analysis output adjpval.
-#' By default, the False Discovery Rate is controlled at 5%.
+#' By default, the False Discovery Rate is controlled at 0.05.
 #' @return A list with \code{DEindices} of DEG at the chosen Benjamini Hochberg threshold, and
-#' \code{TestStatistic}, \code{rawpval}, \code{adjpval}, \{binaryadjpval} vectors for differential expression in the meta-analysis.
+#' \code{TestStatistic}, \code{rawpval}, \code{adjpval}, \code{binaryadjpval} vectors for differential expression in the meta-analysis.
 #' @examples
 #' ind_deg = list(DEG1_df, DEG2_df, DEG3_df)
 #' names(ind_deg) = c("DEG1_df", "DEG2_df", "DEG3_df")
