@@ -22,12 +22,13 @@ By default: \code{fishercomb}.}
 \item{BHth}{Benjamini Hochberg threshold.}
 
 \item{adjpval.t}{threshold to represent as binary the Meta-Analysis output adjpval.
-By default, the False Discovery Rate is controlled at 5%.}
+By default, the False Discovery Rate is controlled at 0.05.}
 
 \item{nrep}{Vector of numbers of replicates used in each study to calculate the previous one-sided p-values.}
 }
 \value{
-
+A list with \code{DEindices} of DEG at the chosen Benjamini Hochberg threshold, and
+\code{TestStatistic}, \code{rawpval}, \code{adjpval}, \code{binaryadjpval} vectors for differential expression in the meta-analysis.
 }
 \description{
 Perform Meta-Analysis of RNA-Seq Data
@@ -51,6 +52,7 @@ Other aggregate functions:
 \code{\link{Enrichment_barplot}()},
 \code{\link{Enrichment}()},
 \code{\link{Gene2SProtein}()},
+\code{\link{SVenn}()},
 \code{\link{TCGA_download}()},
 \code{\link{combine_fisher_invnorm}()}
 }

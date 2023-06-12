@@ -2,19 +2,21 @@
 #'
 #' Annotate Surface Protein Coding genes according to EnrichR Libraries
 #'
-#' @param DGE Dataframe containing SP annotated DEG list
-#' @param enrich.database String containg the EnrichR database you would like to consult. Default WikiPathway_2021_Human.
+#' @param DGE Data.frame containing annotated DEG list, as the output of DGE or Gene2SProtein functions.
+#' @param enrich.database String containing the EnrichR databases you would like to consult. Default: WikiPathway_2021_Human.
 #' @param output_tsv Logical. If \code{TRUE}, outputs a tsv file with the results. By default, FALSE.
-#' @return A dataframe with surface protein coding \code{DEGs} annotation
+#' @return A dataframe with surface protein coding \code{DEGs} annotation.
 #' @examples
 #' annotated = Annotate_SPID(DGE, "OMIM_Disease")
 #' @section Warning:
 #' Bla bla bla
 #' @family aggregate functions
-#' @seealso \code{\link{hello}} for DGE, and \code{\link{hello}} for Gene2SProtein analysis
+#' @seealso \code{\link{DGE}} for DGE, and \code{\link{Gene2SProtein}} for Gene2SProtein analysis
 #' @export
 
-Annotate_SPID <- function(DGE, enrich.database  = "WikiPathway_2021_Human", output_tsv = F) {
+Annotate_SPID <- function(DGE,
+                          enrich.database  = "WikiPathway_2021_Human",
+                          output_tsv = F) {
   # options(warn=-1)
   import::here(hypeR)
   import::here(assertr)
@@ -23,9 +25,13 @@ Annotate_SPID <- function(DGE, enrich.database  = "WikiPathway_2021_Human", outp
   import::here(dplyr)
   import::here(magrittr,"%>%")
 
+  if (is.null(dim(DGE))) {
+    stop("DGE must be a data.frame")
+  }
+
   annoname = enrich.database
   annotation_table = hypeR::enrichr_download(enrich.database)
-  annotation_table = as.data.frame(do.call(rbind, annotation_table)) #here gives a worning ignore it
+  annotation_table = as.data.frame(do.call(rbind, annotation_table)) #here gives a warning ignore it
   colNames = colnames(annotation_table) # could be any number of column names here
   annotation_table['test']=assertr::col_concat(annotation_table, sep = " ")
   annotation_table['GeneID'] <- trimws(annotation_table$test, which = c("both")) #remove whitespaces

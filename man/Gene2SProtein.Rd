@@ -66,6 +66,7 @@ Other aggregate functions:
 \code{\link{DGE}()},
 \code{\link{Enrichment_barplot}()},
 \code{\link{Enrichment}()},
+\code{\link{SVenn}()},
 \code{\link{TCGA_download}()},
 \code{\link{combine_fisher_invnorm}()},
 \code{\link{metaRNAseq}()}
