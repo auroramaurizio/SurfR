@@ -5,7 +5,7 @@
 #'
 #' @param GSE The GSE series ID.
 #' @param GPL The GPL series numbers.
-#' Required only if the chosen GSE series ID include data from multiple sequencing platform.
+#' Required only if the chosen GSE series ID include data from multiple sequencing platforms.
 #' @return A dataframe with all the available characteristics in GEO metadata \code{genes} array.
 #' @examples
 #' # only one sequencing platform
@@ -18,12 +18,14 @@
 #' Add disclaim on GEO data curation!
 #' @seealso
 #' \url{https://www.ncbi.nlm.nih.gov/geo} for info on GEO repository
+#' @family public-data functions
 #' @export
 GEOmetadata <- function(GSE, GPL = "") {
   import::here(stringr, str_remove_all)
   import::here(stringr, str_sub)
   import::here(stringr, str_split)
   import::here(stringr, str_replace_all)
+
 
   metafromfile <- function(file) {
     metaHEAD = read.table(file, check.names = FALSE, sep = "\t", skipNul = TRUE, fill = TRUE)

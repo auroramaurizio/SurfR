@@ -28,25 +28,20 @@ Output of Enrichment.R function for one DGE experiment.}
 \description{
 Barplot representing the top up-regulated or down-regulated significant pathways
 }
-\section{Warning}{
-
-Bla bla bla
-}
-
 \examples{
-Enrichment_barplot(dfList, enrich.databases = c("GO_Biological_Process_2018","GO_Cellular_Component_2018"), p_adj = 0.01, num_term = 5, cond = "UP")
+Enrichment_barplot(dfList,
+                   enrich.databases = c("GO_Biological_Process_2018","GO_Cellular_Component_2018"),
+                   p_adj = 0.01, num_term = 5, cond = "UP")
 }
 \seealso{
-\code{\link{hello}} for counts data and metadata download, and \code{\link{hello}} for Gene2SProtein analysis
-
-Other aggregate functions: 
+Other functional-annotation functions: 
 \code{\link{Annotate_SPID}()},
-\code{\link{DGE}()},
-\code{\link{Enrichment}()},
-\code{\link{Gene2SProtein}()},
+\code{\link{Enrichment}()}
+
+Other plot functions: 
 \code{\link{SVenn}()},
-\code{\link{TCGA_download}()},
-\code{\link{combine_fisher_invnorm}()},
-\code{\link{metaRNAseq}()}
+\code{\link{Splot}()},
+\code{\link{plotPCA}()}
 }
-\concept{aggregate functions}
+\concept{functional-annotation functions}
+\concept{plot functions}

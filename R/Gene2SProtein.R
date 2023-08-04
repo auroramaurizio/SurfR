@@ -33,7 +33,6 @@
 #' between \code{gene_name}, \code{ensembl}, \code{entrez} or \code{uniProt_name}. Note that
 #' you might loose some match due to difference gene version IDs.
 #'
-#' @family aggregate functions
 #' @seealso \code{\link{hello}} for DGE analysis,
 #' \url{https://wlab.ethz.ch/surfaceome} for info on Surfy
 #' @export
@@ -102,22 +101,28 @@ Gene2SProtein <- function(genes,
     text = paste("The input genes",
                  "do not have any match",
                  "in the surfaceome database. \n ",
-                 "Check them! \n ",
-                 "It is likely a problem of gene alias or wrong input_type")
-    stop(text)
-  }
-
-  # -------- filter surface proteins and checks --------
-  surface.proteins = proteins[proteins$Surfaceome.Label=='surface',]
-
-  if (dim(surface.proteins)[1] == 0) {
-    text = paste("No surface proteins were found among your list of genes")
+                 "Check gene alias alias and input type!")
     warning(text)
-  } else {
-    text = paste(dim(surface.proteins)[1], "out of", length(genes), "genes",
-                 "have a matching surface protein")
-    message(text)
+    surface.proteins = data.frame(matrix(nrow = 0, ncol = length(colnames(ST))))
+    colnames(surface.proteins)  <- colnames(ST)
+    } else {
+      # -------- filter surface proteins and checks --------
+      surface.proteins = proteins[proteins$Surfaceome.Label=='surface',]
+
+      if (dim(surface.proteins)[1] == 0) {
+        text = paste("No surface proteins were found among your list of genes")
+        warning(text)
+      } else {
+        text = paste(dim(surface.proteins)[1], "out of", length(genes), "genes",
+                     "have a matching surface protein")
+        message(text)
+      }
+
   }
+
+  # rename columns for label consistency
+  surface.proteins$entrezID <- surface.proteins$GeneID
+  surface.proteins$GeneID <- surface.proteins$UniProt.gene
 
   # -------- tsv --------
   if (output_tsv) {

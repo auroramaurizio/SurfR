@@ -27,6 +27,7 @@
 #'         dims = c(1,2),
 #'         color.by = "condition", shape.by = "therapy",
 #'         label = F, main = "PCA GSE121810")
+#' @family plot functions
 #' @export
 plotPCA <- function(matrix,
                     metadata,

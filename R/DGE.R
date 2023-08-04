@@ -43,6 +43,15 @@ DGE <- function(expression,
 
   import::here(edgeR)
 
+  # check the match between TEST CTRL and metadata
+  if (length(c(CTRL, TEST) %in% metadata[,condition]) == 0) {
+    stop(paste0("In your metadata the column ",condition, "does not contain ",  CTRL, " and ", TEST,"."))
+  } else if (length(c(CTRL) %in% metadata[,condition]) == 0) {
+    stop(paste0("In your metadata the column ",condition, "does not contain ",  CTRL, "."))
+  } else if (length(c(TEST) %in% metadata[,condition]) == 0) {
+    stop(paste0("In your metadata the column ",condition, "does not contain ",  TEST,"."))
+  }
+
   # perform DGE
   design.formula = as.formula(design)
   dds <- DESeqDataSetFromMatrix(countData = expression,
@@ -68,6 +77,7 @@ DGE <- function(expression,
                       pAdjustMethod        = "BH")
 
   dgeResults = dgeResults[order(dgeResults$pvalue, decreasing = F),]
+
 
 
   dgeResults$Mean_CPM_C = rowMeans(cpm[row.names(dgeResults),

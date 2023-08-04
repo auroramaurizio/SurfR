@@ -13,6 +13,7 @@
 #'  GeneNames = c("CIITA", "EPCAM", "DLK1", "CD24", "CDCP1", "LYVE1", "ABCD1", "VAMP1")
 #'  SurfaceProteins_df = Gene2SProtein(GeneNames, input_type = "gene_name")
 #'  Splot(SurfaceProteins_df)
+#' @family plot functions
 #' @export
 Splot <- function(SurfaceProteins_df,
                   group.by = "Membranome.Almen.main-class",

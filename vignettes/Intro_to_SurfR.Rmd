@@ -480,9 +480,12 @@ the enrichR function `listEnrichrDbs()`.
 library(enrichR)
 
 # list with DGE output
-dfList = list(zhang = df_zhang, 
-              GEO = df_GEO, 
-              TCGA = df_TCGA)
+#dfList = list(zhang = df_zhang, 
+#              GEO = df_GEO, 
+#              TCGA = df_TCGA)
+
+dfList = list(GEO = df.GSE58135,
+              TCGA = df.TCGA)
 
 # Enrichment analysis
 Enrich = Enrichment(dfList, 
@@ -524,7 +527,8 @@ taking advantage of one of the 35 gene-set libraries present in the Enrichr data
 using the SurfR built-in function **Annotate_SPID**. 
 
 ```{r}
-annotated = Annotate_SPID(df_GEO, "WikiPathway_2021_Human") 
+#annotated = Annotate_SPID(df.GEO, "WikiPathway_2021_Human") 
+annotated = Annotate_SPID(df.GSE58135, "WikiPathway_2021_Human") 
 head(annotated, 10)
 ```
 

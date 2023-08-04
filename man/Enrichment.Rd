@@ -24,40 +24,31 @@ Enrichment(
 \item{avglogFC}{Double. Fold change threshold for the enrichment}
 }
 \value{
-A list of enrichment tables for un and downregulated genes in the different enrichrdatabases
+A list of enrichment tables for upregulated and downregulated genes
+in the different enrichr databases
 }
 \description{
 Perform enrichment Analysis of RNA-Seq Data
 }
-\section{Warning}{
-
-Bla bla bla
-}
-
 \examples{
-df1 <- data.frame (Geneid  = c("Mest", "Cdk1", "Pclaf", "Birc5"),
-                  baseMean = c("13490.22", "10490.21", "8888.33", "750.33"),
-                   log2FoldChange = c("5.78", "6.78", "7.78", "8.78"),
-                   padj = c("2.28-143", "2.18-115", "2.18-45", "0.006"))
- df2 <- data.frame (Geneid  = c("Mest", "Cdk1", "Pclaf", "Birc5"),
-                   baseMean = c("13490.22", "10490.21", "8888.33", "750.33"),
-                   log2FoldChange = c("5.78", "6.78", "7.78", "8.78"),
-                   padj = c("2.28-143", "2.18-115", "2.18-45", "0.006"))
-dfList = list(df1, df2)
-names(dfList)<-c("df1", "df2")
+df1 <- data.frame(GeneID  = c("MEST", "CDK1", "PCLAF", "BIRC5"),
+                  baseMean = c(13490.22, 10490.23, 8888.33, 750.33),
+                  log2FoldChange = c(5.78, 6.76, -7.78, -8.78),
+                  padj = c(2.28e-143, 2.18e-115, 2.18e-45, 0.006),
+                  row.names = c("MEST", "CDK1", "PCLAF", "BIRC5"))
+df2 <- data.frame(GeneID  = c("MEST", "CDK1", "PCLAF", "BIRC5"),
+                  baseMean = c(13490.22, 10490.23, 8888.33, 750.33),
+                  log2FoldChange = c(5.78, 6.76, -7.78, -8.78),
+                  padj = c(2.28e-143, 2.18e-115, 2.18e-45, 0.006),
+                  row.names = c("MEST", "CDK1", "PCLAF", "BIRC5"))
+dfList = list(df1 = df1, df2 = df2)
 test = Enrichment(dfList)
 }
 \seealso{
-\code{\link{hello}} for counts data and metadata download, and \code{\link{hello}} for Gene2SProtein analysis
+\code{\link{https://maayanlab.cloud/Enrichr/}} for additional information about enrichR.
 
-Other aggregate functions: 
+Other functional-annotation functions: 
 \code{\link{Annotate_SPID}()},
-\code{\link{DGE}()},
-\code{\link{Enrichment_barplot}()},
-\code{\link{Gene2SProtein}()},
-\code{\link{SVenn}()},
-\code{\link{TCGA_download}()},
-\code{\link{combine_fisher_invnorm}()},
-\code{\link{metaRNAseq}()}
+\code{\link{Enrichment_barplot}()}
 }
-\concept{aggregate functions}
+\concept{functional-annotation functions}

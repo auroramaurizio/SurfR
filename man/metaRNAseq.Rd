@@ -33,27 +33,37 @@ A list with \code{DEindices} of DEG at the chosen Benjamini Hochberg threshold, 
 \description{
 Perform Meta-Analysis of RNA-Seq Data
 }
-\section{Warning}{
-
-Bla bla bla
-}
-
 \examples{
-ind_deg = list(DEG1_df, DEG2_df, DEG3_df)
-names(ind_deg) = c("DEG1_df", "DEG2_df", "DEG3_df")
-comb_pval_df = Meta(ind_deg, test_statistic = "invnorm", BHth = 0.05, nrep = c(2,2,2))
+# Deseq2 output samples
+DGE1 = data.frame(GeneID = c("DLK1", "EPCAM"),
+                 Mean_CPM_T = c(5.92, 9.91),
+                 Mean_CPM_C = c(0.04, 0.03),
+                 log2FoldChange = c(10.22, 8.42),
+                 lfcSE = c(0.80, 0.48),
+                 stat = c(12.68, 17.69),
+                 pvalue = c(7.30135e-37, 4.37011e-70),
+                 padj = c(1.49936e-35, 1.12976e-67),
+                 row.names = c("DLK1", "EPCAM"))
+DGE2 = data.frame(GeneID = c("DLK1", "EPCAM"),
+                 Mean_CPM_T = c(3.92, 8.91),
+                 Mean_CPM_C = c(0.04, 0.03),
+                 log2FoldChange = c(7.22, 5.81),
+                 lfcSE = c(0.80, 0.48),
+                 stat = c(12.68, 17.69),
+                 pvalue = c(7.30135e-37, 4.37011e-70),
+                 padj = c(1.49936e-35, 1.12976e-67),
+                 row.names = c("DLK1", "EPCAM"))
+# input list
+ind_deg = list(DEG1_df = DGE1, DEG2_df = DGE2)
+perform meta-analysis
+comb_pval_df = metaRNAseq(ind_deg, test_statistic = "invnorm", BHth = 0.05, nrep = c(2,2))
 }
 \seealso{
-\code{\link{hello}} for DGE analysis, and \code{\link{hello}} for metaRNASeq package info
+\code{\link{DGE}} for DGE analysis,
+and \code{\link{https://cran.r-project.org/web/packages/metaRNASeq/vignettes/metaRNASeq.pdf}}
+for metaRNASeq package info
 
-Other aggregate functions: 
-\code{\link{Annotate_SPID}()},
-\code{\link{DGE}()},
-\code{\link{Enrichment_barplot}()},
-\code{\link{Enrichment}()},
-\code{\link{Gene2SProtein}()},
-\code{\link{SVenn}()},
-\code{\link{TCGA_download}()},
+Other meta-analysis functions: 
 \code{\link{combine_fisher_invnorm}()}
 }
-\concept{aggregate functions}
+\concept{meta-analysis functions}

@@ -26,25 +26,16 @@ A list containing the Matrix and the metadata.
 \description{
 Downloads count matrix data from TCGA_download
 }
-\section{Warning}{
-
-Bla bla bla
-}
-
 \examples{
-TCGA_download(project="TCGA-UVM", whichcounts = "unstranded", save.matrix = F, save.metadata = T)
+TCGA_download(project="TCGA-UVM",
+              whichcounts = "unstranded",
+              save.matrix = F, save.metadata = F)
 }
 \seealso{
 \code{\link{hello}} for \code{\link{hello}} for DGE analysis.
 
-Other aggregate functions: 
-\code{\link{Annotate_SPID}()},
-\code{\link{DGE}()},
-\code{\link{Enrichment_barplot}()},
-\code{\link{Enrichment}()},
-\code{\link{Gene2SProtein}()},
-\code{\link{SVenn}()},
-\code{\link{combine_fisher_invnorm}()},
-\code{\link{metaRNAseq}()}
+Other public-data functions: 
+\code{\link{DownloadArchS4}()},
+\code{\link{GEOmetadata}()}
 }
-\concept{aggregate functions}
+\concept{public-data functions}
