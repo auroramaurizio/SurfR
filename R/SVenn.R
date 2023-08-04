@@ -12,7 +12,7 @@
 #' @examples
 #' SVenn(S_list, main = "my Venn")
 #' @return a
-#' @family aggregate functions
+#' @family plot functions
 #' @seealso \code{\link{hello}} for counts data and metadata download, and \code{\link{hello}} for Gene2SProtein analysis
 #' @export
 #'

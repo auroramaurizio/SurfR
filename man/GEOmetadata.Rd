@@ -10,7 +10,7 @@ GEOmetadata(GSE, GPL = "")
 \item{GSE}{The GSE series ID.}
 
 \item{GPL}{The GPL series numbers.
-Required only if the chosen GSE series ID include data from multiple sequencing platform.}
+Required only if the chosen GSE series ID include data from multiple sequencing platforms.}
 }
 \value{
 A dataframe with all the available characteristics in GEO metadata \code{genes} array.
@@ -34,4 +34,9 @@ mGSE59483 = GEOmetadata("GSE59483", GPL = c("GPL11154", "GPL15520"))
 }
 \seealso{
 \url{https://www.ncbi.nlm.nih.gov/geo} for info on GEO repository
+
+Other public-data functions: 
+\code{\link{DownloadArchS4}()},
+\code{\link{TCGA_download}()}
 }
+\concept{public-data functions}

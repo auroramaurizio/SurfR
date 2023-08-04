@@ -7,7 +7,7 @@
 Annotate_SPID(DGE, enrich.database = "WikiPathway_2021_Human", output_tsv = F)
 }
 \arguments{
-\item{DGE}{Data.frame containing annotated DEG list, as the output of DGE function.}
+\item{DGE}{Data.frame containing annotated DEG list, as the output of DGE or Gene2SProtein function.}
 
 \item{enrich.database}{String containing the EnrichR databases you would like to consult. Default: WikiPathway_2021_Human.}
 
@@ -21,23 +21,32 @@ Annotate Surface Protein Coding genes according to EnrichR Libraries
 }
 \section{Warning}{
 
-Bla bla bla
+Be sure that enrich.database exist.
 }
 
 \examples{
-annotated = Annotate_SPID(DGE, "OMIM_Disease")
+# Deseq2 output sample
+DGE = data.frame(GeneID = c("DLK1", "TOP2A"),
+                 Mean_CPM_T = c(5.92, 9.91),
+                 Mean_CPM_C = c(0.04, 0.03),
+                 log2FoldChange = c(10.22, 8.42),
+                 lfcSE = c(0.80, 0.48),
+                 stat = c(12.68, 17.69),
+                 pvalue = c(7.30135e-37, 4.37011e-70),
+                 padj = c(1.49936e-35, 1.12976e-67))
+annotated_DGE = Annotate_SPID(DGE, "WikiPathway_2021_Human")
+
+# Output of Gene2SProtein function
+GeneNames = c("CIITA", "EPCAM", "DLK1", "CD24", "TOP2A")
+SurfaceProteins_df = Gene2SProtein(GeneNames, input_type = "gene_name")
+annotated_SP = Annotate_SPID(SurfaceProteins_df, "GO_Biological_Process_2021")
 }
 \seealso{
-\code{\link{DGE}} for DGE, and \code{\link{hello}} for Gene2SProtein analysis
+\code{\link{DGE}} function for DGE,
+and \code{\link{Gene2SProtein}} function for Gene2SProtein analysis
 
-Other aggregate functions: 
-\code{\link{DGE}()},
+Other functional-annotation functions: 
 \code{\link{Enrichment_barplot}()},
-\code{\link{Enrichment}()},
-\code{\link{Gene2SProtein}()},
-\code{\link{SVenn}()},
-\code{\link{TCGA_download}()},
-\code{\link{combine_fisher_invnorm}()},
-\code{\link{metaRNAseq}()}
+\code{\link{Enrichment}()}
 }
-\concept{aggregate functions}
+\concept{functional-annotation functions}

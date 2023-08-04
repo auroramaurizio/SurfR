@@ -13,10 +13,13 @@
 #' @seealso
 #' \url{https://www.ncbi.nlm.nih.gov/geo} for info on GSM.
 #' \url{https://maayanlab.cloud/archs4/} for info on ArchS4.
+#' @family public-data functions
 #' @export
+#'
 DownloadArchS4 <- function(GSM, species, print_tsv = FALSE, filename = NULL) {
   import::here(rhdf5, h5read)
   import::here(rhdf5, H5close)
+
 
   set.seed(42)
   options(timeout=600)
@@ -27,6 +30,9 @@ DownloadArchS4 <- function(GSM, species, print_tsv = FALSE, filename = NULL) {
   genes = h5read(matrixh5_url,  name = "meta/genes", s3 = TRUE)
 
 
+  if (length(samples %in% GSM) == 0) {
+    stop("The defined GSM ids do not have any match in ArchS4 database. \n We suggest to contact ArchS4 curator to add them.")
+  }
   sample_locations = which(samples %in% GSM)
 
   # extract gene expression from compressed data
@@ -37,7 +43,7 @@ DownloadArchS4 <- function(GSM, species, print_tsv = FALSE, filename = NULL) {
   rownames(expression) = genes
   colnames(expression) = samples[sample_locations]
 
-  # Print file
+  #-------- Print file --------
   if (print_tsv) {
     write.table(expression, file=filename, sep="\t", quote=FALSE)
   }

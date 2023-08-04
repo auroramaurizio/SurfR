@@ -33,3 +33,10 @@ Plot a barplot with features of Surface Protein
  SurfaceProteins_df = Gene2SProtein(GeneNames, input_type = "gene_name")
  Splot(SurfaceProteins_df)
 }
+\seealso{
+Other plot functions: 
+\code{\link{Enrichment_barplot}()},
+\code{\link{SVenn}()},
+\code{\link{plotPCA}()}
+}
+\concept{plot functions}

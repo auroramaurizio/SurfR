@@ -67,3 +67,10 @@ plotPCA(matrix = cpm(cGSE121810),
         color.by = "condition", shape.by = "therapy",
         label = F, main = "PCA GSE121810")
 }
+\seealso{
+Other plot functions: 
+\code{\link{Enrichment_barplot}()},
+\code{\link{SVenn}()},
+\code{\link{Splot}()}
+}
+\concept{plot functions}

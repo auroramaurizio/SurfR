@@ -30,4 +30,9 @@ Add disclaim on GEO data curation.
 \seealso{
 \url{https://www.ncbi.nlm.nih.gov/geo} for info on GSM.
 \url{https://maayanlab.cloud/archs4/} for info on ArchS4.
+
+Other public-data functions: 
+\code{\link{GEOmetadata}()},
+\code{\link{TCGA_download}()}
 }
+\concept{public-data functions}

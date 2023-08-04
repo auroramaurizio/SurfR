@@ -39,14 +39,9 @@ SVenn(S_list, main = "my Venn")
 \seealso{
 \code{\link{hello}} for counts data and metadata download, and \code{\link{hello}} for Gene2SProtein analysis
 
-Other aggregate functions: 
-\code{\link{Annotate_SPID}()},
-\code{\link{DGE}()},
+Other plot functions: 
 \code{\link{Enrichment_barplot}()},
-\code{\link{Enrichment}()},
-\code{\link{Gene2SProtein}()},
-\code{\link{TCGA_download}()},
-\code{\link{combine_fisher_invnorm}()},
-\code{\link{metaRNAseq}()}
+\code{\link{Splot}()},
+\code{\link{plotPCA}()}
 }
-\concept{aggregate functions}
+\concept{plot functions}

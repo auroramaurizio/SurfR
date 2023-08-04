@@ -60,15 +60,4 @@ you might loose some match due to difference gene version IDs.
 \seealso{
 \code{\link{hello}} for DGE analysis,
 \url{https://wlab.ethz.ch/surfaceome} for info on Surfy
-
-Other aggregate functions: 
-\code{\link{Annotate_SPID}()},
-\code{\link{DGE}()},
-\code{\link{Enrichment_barplot}()},
-\code{\link{Enrichment}()},
-\code{\link{SVenn}()},
-\code{\link{TCGA_download}()},
-\code{\link{combine_fisher_invnorm}()},
-\code{\link{metaRNAseq}()}
 }
-\concept{aggregate functions}

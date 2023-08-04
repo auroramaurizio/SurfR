@@ -59,15 +59,5 @@ DEG1_df = DGE(expression, metadata, TEST = "T", CTRL = "N", Nreplica = 45, alpha
 }
 \seealso{
 \code{\link{hello}} for counts data and metadata download, and \code{\link{hello}} for Gene2SProtein analysis
-
-Other aggregate functions: 
-\code{\link{Annotate_SPID}()},
-\code{\link{Enrichment_barplot}()},
-\code{\link{Enrichment}()},
-\code{\link{Gene2SProtein}()},
-\code{\link{SVenn}()},
-\code{\link{TCGA_download}()},
-\code{\link{combine_fisher_invnorm}()},
-\code{\link{metaRNAseq}()}
 }
 \concept{aggregate functions}

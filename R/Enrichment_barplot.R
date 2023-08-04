@@ -9,18 +9,20 @@
 #' @param num_term Double. Number of up-regulated and dw-regulated terms to represent
 #' @param cond String. Title of the plot.
 #' @examples
-#' Enrichment_barplot(dfList, enrich.databases = c("GO_Biological_Process_2018","GO_Cellular_Component_2018"), p_adj = 0.01, num_term = 5, cond = "UP")
-#' @section Warning:
-#' Bla bla bla
-#' @family aggregate functions
-#' @seealso \code{\link{hello}} for counts data and metadata download, and \code{\link{hello}} for Gene2SProtein analysis
+#' Enrichment_barplot(dfList,
+#'                    enrich.databases = c("GO_Biological_Process_2018","GO_Cellular_Component_2018"),
+#'                    p_adj = 0.01, num_term = 5, cond = "UP")
+#' @family functional-annotation functions
+#' @family plot functions
 #' @export
 #'
 
 
-Enrichment_barplot <- function(Enrich, enrich.databases  = c("GO_Biological_Process_2021",
+Enrichment_barplot <- function(Enrich,
+                               enrich.databases  = c("GO_Biological_Process_2021",
                                                      "GO_Cellular_Component_2021",
-                                                     "GO_Molecular_Function_2021"), p_adj = 0.05, num_term = 10, cond = "UP") {
+                                                     "GO_Molecular_Function_2021"),
+                               p_adj = 0.05, num_term = 10, cond = "UP") {
 
 
      import::here(stringr)
@@ -29,10 +31,24 @@ Enrichment_barplot <- function(Enrich, enrich.databases  = c("GO_Biological_Proc
 
      enrichR.table = data.frame()
 
+     # check if Enrich contains enrich.databases
+
+
      if (cond == "UP") {
        enrich_list = Enrich[["fdr_up"]]
+
      } else if (cond == "DOWN") {
        enrich_list = Enrich[["fdr_down"]]
+     }
+
+
+     if (length(setdiff(enrich.databases, names(enrich_list)))>0) {
+       warning(paste(setdiff(enrich.databases, names(enrich_list)), "not present in your Enrichment analysis."))
+       enrich.databases = intersect(enrich.databases, names(enrich_list))
+     }
+
+     if (length(enrich.databases) == 0) {
+       stop("Selected Enrich databases not present in your enrichment analysis.")
      }
 
      for (dat in enrich.databases) {

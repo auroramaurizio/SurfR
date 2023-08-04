@@ -3,10 +3,19 @@ Type: Package
 Title: Surface Protein Prediction and Identification
 Version: 0.1.0
 Author: Aurora Maurizio and Anna Sofia Tascini <maurizio.aurora@hsr.it> <tascini.annasofia@hsr.it>
+        person("Aurora", "Maurizio",
+                email = maurizio.aurora@hsr.it,
+                role = c("cre", "aut"),  
+                comment = c(ORCID = "0000-0002-7194-4637"))
+        person("Anna Sofia", "Tascini",
+                email = tascini.annasofia@hsr.it,
+                role = c("aut"),  
+                comment = c(ORCID = "0000-0001-5731-5490"))
 Maintainer: Aurora Maurizio and Anna Sofia Tascini <maurizio.aurora@hsr.it> <tascini.annasofia@hsr.it>
-Description: More about what it does (maybe more than one line).
-    Download public data or use your own data. Perform DGE.
-    Identify candidate proteins on the Cell Surface.
+Description: Identify Surface Protein coding genes from a list of candidates.
+             Systematically download data from GEO and TCGA or use your own data. 
+             Perform DGE on bulk RNAseq data. 
+             Perform Meta-analysis. Descriptive enrichment analysis and plots.
 License: GPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -32,5 +41,4 @@ Imports:
   metaRNASeq,
   enrichR,
   scales,
-  ggrepel,
   venn

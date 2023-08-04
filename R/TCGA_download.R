@@ -8,10 +8,10 @@
 #' @param save.metdata Logical. If \code{TRUE}, outputs a tsv file with the metadata. By default, FALSE.
 #' @return A list containing the Matrix and the metadata.
 #' @examples
-#' TCGA_download(project="TCGA-UVM", whichcounts = "unstranded", save.matrix = F, save.metadata = T)
-#' @section Warning:
-#' Bla bla bla
-#' @family aggregate functions
+#' TCGA_download(project="TCGA-UVM",
+#'               whichcounts = "unstranded",
+#'               save.matrix = F, save.metadata = F)
+#' @family public-data functions
 #' @seealso \code{\link{hello}} for \code{\link{hello}} for DGE analysis.
 #' @export
 TCGA_download <- function(project,
@@ -26,7 +26,7 @@ TCGA_download <- function(project,
 
 
        query <- TCGAbiolinks::GDCquery(project,
-                         data.category="Transcriptome Profiling",
+                         data.category= "Transcriptome Profiling",
                          data.type = "Gene Expression Quantification",
                          sample.type = c("Solid Tissue Normal","Primary Tumor"),
                          workflow.type="STAR - Counts")
