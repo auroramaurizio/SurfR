@@ -21,7 +21,7 @@ Enrichment(
 
 \item{p_adj}{Double. Adjusted pvalue threshold for the enrichment}
 
-\item{avglogFC}{Double. Fold change threshold for the enrichment}
+\item{logFC}{Double. Fold change threshold for the enrichment}
 }
 \value{
 A list of enrichment tables for upregulated and downregulated genes
@@ -45,7 +45,7 @@ dfList = list(df1 = df1, df2 = df2)
 test = Enrichment(dfList)
 }
 \seealso{
-\code{\link{https://maayanlab.cloud/Enrichr/}} for additional information about enrichR.
+\url{https://maayanlab.cloud/Enrichr/} for additional information about enrichR.
 
 Other functional-annotation functions: 
 \code{\link{Annotate_SPID}()},

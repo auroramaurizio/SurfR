@@ -14,7 +14,11 @@
 #'  SurfaceProteins_df = Gene2SProtein(GeneNames, input_type = "gene_name")
 #'  Splot(SurfaceProteins_df)
 #' @family plot functions
+#' @importFrom ggplot2 ggplot geom_bar aes theme element_text element_rect labs
+#' @importFrom scales hue_pal
 #' @export
+
+
 Splot <- function(SurfaceProteins_df,
                   group.by = "Membranome.Almen.main-class",
                   cols.use = NULL,

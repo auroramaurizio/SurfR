@@ -8,7 +8,8 @@ TCGA_download(
   project,
   whichcounts = "unstranded",
   save.matrix = F,
-  save.metadata = F
+  save.metadata = F,
+  barcodes = NULL
 )
 }
 \arguments{
@@ -18,7 +19,9 @@ TCGA_download(
 
 \item{save.matrix}{Logical. If \code{TRUE}, outputs a tsv file with the Matrix. By default, FALSE.}
 
-\item{save.metdata}{Logical. If \code{TRUE}, outputs a tsv file with the metadata. By default, FALSE.}
+\item{save.metadata}{Logical. If \code{TRUE}, outputs a tsv file with the metadata. By default, FALSE.}
+
+\item{barcodes}{Character. A vector with names of the barcodes you want to download. If NULL (default) it downloads all the available barcodes in the project.}
 }
 \value{
 A list containing the Matrix and the metadata.
@@ -27,13 +30,12 @@ A list containing the Matrix and the metadata.
 Downloads count matrix data from TCGA_download
 }
 \examples{
-TCGA_download(project="TCGA-UVM",
-              whichcounts = "unstranded",
-              save.matrix = F, save.metadata = F)
+GBM_list_s1 <- TCGA_download(project="TCGA-GBM",
+                             whichcounts = "unstranded",
+                             save.matrix = FALSE, save.metadata = FALSE,
+                             barcodes = c("TCGA-06-0878-01A-01R-1849-01"))
 }
 \seealso{
-\code{\link{hello}} for \code{\link{hello}} for DGE analysis.
-
 Other public-data functions: 
 \code{\link{DownloadArchS4}()},
 \code{\link{GEOmetadata}()}

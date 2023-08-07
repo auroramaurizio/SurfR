@@ -58,6 +58,6 @@ you might loose some match due to difference gene version IDs.
                                    output_tsv = TRUE, Surfy_version = "new")
 }
 \seealso{
-\code{\link{hello}} for DGE analysis,
+\code{\link{DGE}} for DGE analysis,
 \url{https://wlab.ethz.ch/surfaceome} for info on Surfy
 }

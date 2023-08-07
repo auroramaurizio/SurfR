@@ -55,12 +55,12 @@ DGE2 = data.frame(GeneID = c("DLK1", "EPCAM"),
                  row.names = c("DLK1", "EPCAM"))
 # input list
 ind_deg = list(DEG1_df = DGE1, DEG2_df = DGE2)
-perform meta-analysis
+# perform meta-analysis
 comb_pval_df = metaRNAseq(ind_deg, test_statistic = "invnorm", BHth = 0.05, nrep = c(2,2))
 }
 \seealso{
 \code{\link{DGE}} for DGE analysis,
-and \code{\link{https://cran.r-project.org/web/packages/metaRNASeq/vignettes/metaRNASeq.pdf}}
+and \url{https://cran.r-project.org/web/packages/metaRNASeq/vignettes/metaRNASeq.pdf}
 for metaRNASeq package info
 
 Other meta-analysis functions: 

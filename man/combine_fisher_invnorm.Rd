@@ -9,7 +9,7 @@ combine_fisher_invnorm(
   invnorm,
   fishercomb,
   adjpval = 0.05,
-  output_tsv = T,
+  output_tsv = TRUE,
   output_filename = "combine_fisher_invnorm.tsv"
 )
 }
@@ -21,6 +21,10 @@ combine_fisher_invnorm(
 \item{fishercomb}{Fisher p-value combination technique dataframe (output of metaRNAseq)}
 
 \item{adjpval}{threshold to represent as binary the Meta-Analysis output adjpval.}
+
+\item{output_tsv}{logical. If TRUE, it outputs table with results. Default: TRUE}
+
+\item{output_filename}{File name for the results file.}
 }
 \value{
 A dataframe with \code{DEindices} and \code{DEname} of DEG at the chosen Benjamini Hochberg threshold, and
@@ -59,11 +63,11 @@ fishercomb = metaRNAseq(ind_deg, test_statistic = "fishercomb", BHth = 0.05)
 comb_pval_df = combine_fisher_invnorm(ind_deg,
                                       invnorm, fishercomb,
                                       adjpval = 0.05,
-                                      output_tsv = F)
+                                      output_tsv = FALSE)
 }
 \seealso{
 \code{\link{DGE}} function for DGE analysis,
-and \code{\link{https://cran.r-project.org/web/packages/metaRNASeq/vignettes/metaRNASeq.pdf}}
+and \url{https://cran.r-project.org/web/packages/metaRNASeq/vignettes/metaRNASeq.pdf}
 for metaRNASeq package info
 
 Other meta-analysis functions: 

@@ -24,10 +24,16 @@ given a vector of input GEO Sample accessions numbers (GSM).
 }
 \section{Warning}{
 
-Add disclaim on GEO data curation.
+If the defined GSM ids do not have any match in ArchS4 database, we suggest to contact ArchS4 curator to add them.
 }
 
+\examples{
+GSM = c("GSM3447008", "GSM3447009")
+GEO_count_matrix = DownloadArchS4(GSM, species = "human",
+                                  print_tsv = FALSE, filename = NULL)
+}
 \seealso{
+\code{\link{GEOmetadata}} function for downloading GEO metadata.
 \url{https://www.ncbi.nlm.nih.gov/geo} for info on GSM.
 \url{https://maayanlab.cloud/archs4/} for info on ArchS4.
 

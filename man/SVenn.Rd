@@ -5,39 +5,35 @@
 \title{SVenn}
 \usage{
 SVenn(
-  S_List,
+  S_list,
   cols.use = NULL,
-  main = "Venn",
   opacity = 0.5,
-  output_intersection = FALSE,
+  output_intersectionFile = TRUE,
   filename = "intersection.xlsx"
 )
 }
 \arguments{
+\item{S_list}{A list of a maximum of 7 surface protein sets detected in different studies.}
+
 \item{cols.use}{Vector of colors, each color corresponds to a study.
 By default, ggplot assigns colors.}
 
-\item{main}{Plot title. Default = Venn.}
-
 \item{opacity}{Degree of opacity for the color(s) specified with cols.use (less opacity, more transparency).}
 
-\item{output_intersection}{logical. If TRUE write an output of protein in the intersections}
+\item{output_intersectionFile}{logical. If TRUE (default) write an xlsx output of protein in the intersections.}
 
-\item{filename}{Name of the output file with the intersections}
-
-\item{S_list}{A list of surface proteins detected in different studies.}
-}
-\value{
-a
+\item{filename}{Name of the output file with the intersections.}
 }
 \description{
-Venn diagram of common surface proteins overexpressed among different studies
+Venn diagram of common surface proteins overexpressed among up to 7 different studies
 }
 \examples{
-SVenn(S_list, main = "my Venn")
+S_list = list(SP1 = c("EPCAM", "CD24",  "DLK1",  "CDCP1", "LYVE1"),
+              SP2 = c("DLK1", "EPCAM", "EGFR", "UPK1A", "UPK2"))
+SP = SVenn(S_list, output_intersectionFile = TRUE)
 }
 \seealso{
-\code{\link{hello}} for counts data and metadata download, and \code{\link{hello}} for Gene2SProtein analysis
+\code{\link{Gene2SProtein}} for detection of Surface proteins from a list of genes.
 
 Other plot functions: 
 \code{\link{Enrichment_barplot}()},

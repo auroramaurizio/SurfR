@@ -19,10 +19,12 @@ Description: Identify Surface Protein coding genes from a list of candidates.
 License: GPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true
+VignetteBuilder: knitr
 RoxygenNote: 7.2.3
 Imports:
   import,
   DESeq2,
+  edgeR,
   rio,
   openxlsx,
   stringr,
@@ -41,4 +43,9 @@ Imports:
   metaRNASeq,
   enrichR,
   scales,
-  venn
+  venn,
+  gridExtra,
+  SummarizedExperiment,
+  knitr,
+  SPsimSeq,
+  qpdf

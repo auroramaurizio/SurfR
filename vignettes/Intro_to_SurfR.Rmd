@@ -183,11 +183,16 @@ mGSE121810$condition = as.factor(mGSE121810$condition)
 # Preview metadata
 head(mGSE121810)
 
+# only select 3 samples per condition to save time
+na_samples = c("GSM3447013","GSM3447018", "GSM3447019")
+a_samples = c("GSM3447023","GSM3447024", "GSM3447026")
+mGSE121810 = mGSE121810[c(na_samples, a_samples),]
+
 # Download count matrix from ArchS4
 cGSE121810 = DownloadArchS4(mGSE121810$GSM, species = "human", print_tsv = FALSE, filename = NULL)
 
 # Preview count matrix
-head(cGSE121810[,1:5])
+head(cGSE121810[,])
 ```
 
 A fundamental task in the analysis of count data from RNA-seq is the detection of differentially expressed genes. For this task we rely on the package DESeq2, starting from counts data. The count data are presented as a table which reports, for each sample, the number of sequence fragments that have been assigned to each gene.
@@ -200,7 +205,7 @@ Good Differential Expressed surface protein are the ones which are strongly expr
 # Perform DGE
 df_GEO <- DGE(expression = cGSE121810,
               metadata = mGSE121810,
-              Nreplica = 14,
+              Nreplica = 3,
               design = "~condition",
               condition = "condition",
               alpha = 0.05,
@@ -220,13 +225,13 @@ Surface protein-coding genes (SP).
 
 ```{r GEO SP}
 # Detect SP amoung differentially expressed genes
-fdr_GeneID = df_GEO[df_GEO$padj < 0.05,"GeneID"]
+fdr_GeneID = df_GEO[df_GEO$padj < 0.1,"GeneID"]
 SP = Gene2SProtein(genes = fdr_GeneID, input_type ="gene_name")
 
-fdrUP_GeneID = df_GEO[df_GEO$padj < 0.05 & df_GEO$log2FoldChange > 0,"GeneID"]
+fdrUP_GeneID = df_GEO[df_GEO$padj < 0.1 & df_GEO$log2FoldChange > 0,"GeneID"]
 SPup = Gene2SProtein(genes = fdrUP_GeneID, input_type ="gene_name")
 
-fdrDW_GeneID = df_GEO[df_GEO$padj < 0.05 & df_GEO$log2FoldChange < 0,"GeneID"]
+fdrDW_GeneID = df_GEO[df_GEO$padj < 0.1 & df_GEO$log2FoldChange < 0,"GeneID"]
 SPdw = Gene2SProtein(genes = fdrDW_GeneID, input_type ="gene_name")
 
 ```
@@ -247,7 +252,7 @@ BiocManager::install("BioinformaticsFMRP/TCGAbiolinks")
 ```
 
 Here we reanalyze the *TCGA-THYM* dataset, since it is one of the smallest 
-TCGA datasets, including normal samples. 
+TCGA datasets, including normal solid tissue samples. 
 
 The TCGA count matrix and the metadata are downloaded with SurfR built-in 
 function **TCGA_download**. The shortLetterCode column of the metadata allows us 
@@ -257,12 +262,22 @@ to distinguish Primary Solid Tumor (TP) and normal (NT) samples.
 ```
 library(SurfR)
 # Download TCGA data
-TCGA.THYM = TCGA_download(project = "TCGA-THYM")
+# To save time only download 3 Tumor samples and 3 normal samples.
+# If barcodes are not specified TCGA_download function will download all the 
+# available samples in the TCGA study
+barcodes2Download = c("TCGA-X7-A8D6-11A-22R-A42C-07", "TCGA-X7-A8D7-11A-11R-A42C-07",
+                      "TCGA-XM-A8RB-01A-11R-A42C-07", "TCGA-X7-A8M0-01A-11R-A42C-07")
+TCGA.THYM = TCGA_download(project = "TCGA-THYM", barcodes = barcodes2Download)
 ```
 
 ```{r echo=FALSE, warning=FALSE, include=FALSE, message = FALSE}
 # Download TCGA data
-TCGA.THYM = TCGA_download(project = "TCGA-THYM")
+# To save time only download 3 Tumor samples and 3 normal samples.
+# If barcodes are not specified TCGA_download function will download all the 
+# available samples in the TCGA study
+barcodes2Download = c("TCGA-X7-A8D6-11A-22R-A42C-07", "TCGA-X7-A8D7-11A-11R-A42C-07",
+                      "TCGA-XM-A8RB-01A-11R-A42C-07", "TCGA-X7-A8M0-01A-11R-A42C-07")
+TCGA.THYM = TCGA_download(project = "TCGA-THYM", barcodes = barcodes2Download)
 ```
 
 ```{r TCGA input}
@@ -282,7 +297,6 @@ analysis of the TCGA-THYM dataset.
 Good Differential Expressed surface protein are the ones which are strongly expressed in one condition and almost not expressed in the other. To help detecting those candidates, the output data.frame of the DGE function contains information on the average expression in the two group (see Mean_CPM_T and Mean_CPM_C columns).
 
 ```{r TCGA DGE}
-
 df_TCGA <- DGE(expression = cTCGA.THYM,
                metadata = mTCGA.THYM,
                Nreplica = 2,
@@ -334,12 +348,24 @@ Breast Cancer data are downloaded from TCGA with the SurfR built-in function  **
 ```
 library(SurfR)
 # Download TCGA data
-TCGA.BRCA = TCGA_download(project = "TCGA-BRCA")
+# To save time only download 3 Tumor samples and 3 normal samples.
+# If barcodes are not specified TCGA_download function will download all the 
+# available samples in the TCGA study
+barcodes2Download = c("TCGA-BH-A1FU-11A-23R-A14D-07", "TCGA-BH-A1FC-11A-32R-A13Q-07",
+                      "TCGA-BH-A0DO-11A-22R-A12D-07", "TCGA-B6-A0RH-01A-21R-A115-07",
+                      "TCGA-BH-A1FU-01A-11R-A14D-07", "TCGA-A1-A0SE-01A-11R-A084-07")
+TCGA.BRCA = TCGA_download(project = "TCGA-BRCA", barcodes = barcodes2Download)
 ```
 
 ```{r echo=FALSE, warning=FALSE, include=FALSE, message = FALSE}
 # Download TCGA data
-TCGA.BRCA = TCGA_download(project = "TCGA-BRCA")
+# To save time only download 3 Tumor samples and 3 normal samples.
+# If barcodes are not specified TCGA_download function will download all the 
+# available samples in the TCGA study
+barcodes2Download = c("TCGA-BH-A1FU-11A-23R-A14D-07", "TCGA-BH-A1FC-11A-32R-A13Q-07",
+                      "TCGA-BH-A0DO-11A-22R-A12D-07", "TCGA-B6-A0RH-01A-21R-A115-07",
+                      "TCGA-BH-A1FU-01A-11R-A14D-07", "TCGA-A1-A0SE-01A-11R-A084-07")
+TCGA.BRCA = TCGA_download(project = "TCGA-BRCA", barcodes = barcodes2Download)
 ```
 
 ```{r meta TCGA_input}
@@ -360,6 +386,12 @@ mGSE58135 = mGSE58135[mGSE58135$tissue != "Breast Cancer Cell Line",]
 mGSE58135$condition = "NT"
 mGSE58135$condition[mGSE58135$tissue %in% c("ER+ Breast Cancer Primary Tumor", 
                                             "Triple Negative Breast Cancer Primary Tumor")] <- "TP"
+
+# only select 3 samples per condition to save time
+TP_samples = c("GSM1401694","GSM1401717", "GSM1401729")
+NT_samples = c("GSM1401799","GSM1401813","GSM1401814")
+mGSE58135 = mGSE58135[c(TP_samples, NT_samples),]
+
 cGSE58135 <- DownloadArchS4(mGSE58135$GSM, species = "human")
 cGSE58135 = cGSE58135[,row.names(mGSE58135)]
 
@@ -383,7 +415,7 @@ on the average expression in the two groups (see Mean_CPM_T and Mean_CPM_C colum
 # TCGA DGE
 df.TCGA <- DGE(expression = cTCGA.BRCA,
            metadata = mTCGA.BRCA,
-           Nreplica = 2,
+           Nreplica = 3,
            design = "~shortLetterCode",
            condition = "shortLetterCode",
            alpha = 0.05,
@@ -394,7 +426,7 @@ head(df.TCGA)
 # GSE58135 DGE
 df.GSE58135 <- DGE(expression = cGSE58135,
                    metadata = mGSE58135,
-                   Nreplica = 14,
+                   Nreplica = 3,
                    design = "~condition",
                    condition = "condition",
                    alpha = 0.05,
@@ -549,6 +581,24 @@ SPup = Gene2SProtein(genes = fdrUP_GeneID, input_type ="gene_name")
 Splot(SPup,
       group.by = "Membranome.Almen.main-class",
       main = "Almen class")
+```
+
+## Venn Plot
+
+You can compare the list of resulting surface proteins from up to 7 different studies, 
+using a venn diagram,
+with the built-in SurfR function **SVenn**.
+
+
+```{r, fig.height= 6, fig.width=7}
+library(edgeR)
+S_list = list(SP_1 = c("EPCAM", "CD24",  "DLK1",  "CDCP1", "LYVE1"),
+              SP_2 = c("DLK1", "EPCAM", "EGFR", "UPK1A", "UPK2"))
+SurfR::SVenn(S_list,
+             cols.use= c("green", "blue"),
+             opacity = 0.5,
+             output_intersectionFile = FALSE)
+
 ```
 
 

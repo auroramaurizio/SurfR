@@ -61,11 +61,21 @@ which can be assigned and further customized.
 Plot PCA highlighting one or two data features
 }
 \examples{
-plotPCA(matrix = cpm(cGSE121810),
-        metadata = mGSE121810,
+# Simulation of bulk RNA data
+countData <- matrix(floor(runif(10000, min=0, max=101)),ncol=4)
+colnames(countData) <- paste0("sample", 1:4)
+rownames(countData) <- paste0("gene", 1:(10000/4))
+metadata = data.frame(samplesID = paste0("sample", 1:4),
+                     condition = factor(c("A","A","B","B")),
+                     therapy = factor(c("T1","T2","T1","T2")))
+row.names(metadata) <- metadata$samplesID
+library(edgeR)
+plotPCA(matrix = cpm(countData),
+        metadata = metadata,
+        nTOP = 100,
         dims = c(1,2),
         color.by = "condition", shape.by = "therapy",
-        label = F, main = "PCA GSE121810")
+        label = FALSE, main = "PCA")
 }
 \seealso{
 Other plot functions: 

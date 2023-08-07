@@ -16,6 +16,7 @@
 #'                  stat = c(12.68, 17.69),
 #'                  pvalue = c(7.30135e-37, 4.37011e-70),
 #'                  padj = c(1.49936e-35, 1.12976e-67))
+#' library(enrichR)
 #' annotated_DGE = Annotate_SPID(DGE, "WikiPathway_2021_Human")
 #'
 #' # Output of Gene2SProtein function
@@ -27,19 +28,25 @@
 #' @family functional-annotation functions
 #' @seealso \code{\link{DGE}} function for DGE,
 #' and \code{\link{Gene2SProtein}} function for Gene2SProtein analysis
+#' @importFrom enrichR listEnrichrDbs
+#' @importFrom hypeR enrichr_download
+#' @importFrom assertr col_concat
+#' @importFrom tidyr separate_rows
+#' @importFrom magrittr %>%
+#'
 #' @export
 
 Annotate_SPID <- function(DGE,
                           enrich.database  = "WikiPathway_2021_Human",
                           output_tsv = F) {
-  # options(warn=-1)
-  import::here(hypeR)
   import::here(enrichR)
+  import::here(hypeR)
   import::here(assertr)
-  import::here(MASS)
   import::here(tidyr)
   import::here(dplyr)
   import::here(magrittr,"%>%")
+
+  #enrichR::listEnrichrSites()
 
   if (is.null(dim(DGE))) {
     stop("DGE is empty")

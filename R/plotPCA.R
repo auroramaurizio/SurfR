@@ -22,13 +22,30 @@
 #' @return PCA plot objec created by ggplot2,
 #' which can be assigned and further customized.
 #' @examples
-#' plotPCA(matrix = cpm(cGSE121810),
-#'         metadata = mGSE121810,
+#' # Simulation of bulk RNA data
+#' countData <- matrix(floor(runif(10000, min=0, max=101)),ncol=4)
+#' colnames(countData) <- paste0("sample", 1:4)
+#' rownames(countData) <- paste0("gene", 1:(10000/4))
+#' metadata = data.frame(samplesID = paste0("sample", 1:4),
+#'                      condition = factor(c("A","A","B","B")),
+#'                      therapy = factor(c("T1","T2","T1","T2")))
+#' row.names(metadata) <- metadata$samplesID
+#' library(edgeR)
+#' plotPCA(matrix = cpm(countData),
+#'         metadata = metadata,
+#'         nTOP = 100,
 #'         dims = c(1,2),
 #'         color.by = "condition", shape.by = "therapy",
-#'         label = F, main = "PCA GSE121810")
+#'         label = FALSE, main = "PCA")
 #' @family plot functions
+#' @importFrom ggplot2 ggplot aes geom_point xlab ylab coord_fixed ggtitle theme theme_bw geom_hline geom_vline element_text scale_color_manual scale_shape_manual
+#' @importFrom ggrepel geom_label_repel
+#' @importFrom stats prcomp
 #' @export
+#'
+#'
+
+
 plotPCA <- function(matrix,
                     metadata,
                     nTOP = 500,
