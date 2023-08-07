@@ -5,7 +5,7 @@
 #' @param dfList Dataframes list
 #' @param enrich.databases Vector of EnrichR databases to consult
 #' @param p_adj Double. Adjusted pvalue threshold for the enrichment
-#' @param avglogFC Double. Fold change threshold for the enrichment
+#' @param logFC Double. Fold change threshold for the enrichment
 #' @return A list of enrichment tables for upregulated and downregulated genes
 #' in the different enrichr databases
 #' @examples
@@ -22,7 +22,9 @@
 #' dfList = list(df1 = df1, df2 = df2)
 #' test = Enrichment(dfList)
 #' @family functional-annotation functions
-#' @seealso \code{\link{https://maayanlab.cloud/Enrichr/}} for additional information about enrichR.
+#' @seealso \url{https://maayanlab.cloud/Enrichr/} for additional information about enrichR.
+#' @importFrom enrichR listEnrichrDbs enrichr
+#' @importFrom openxlsx write.xlsx
 #' @export
 
 
@@ -35,7 +37,8 @@ Enrichment <- function(dfList ,enrich.databases  = c("GO_Biological_Process_2021
                                           "BioCarta_2016",
                                           "Jensen_TISSUES",
                                           "Jensen_COMPARTMENTS",
-                                          "Jensen_DISEASES"), p_adj = 0.05, logFC = 1) {
+                                          "Jensen_DISEASES"),
+                       p_adj = 0.05, logFC = 1) {
 
   import::here(enrichR)
   import::here(openxlsx)

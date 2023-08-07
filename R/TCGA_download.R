@@ -4,32 +4,45 @@
 #'
 #' @param project, Character. A valid project from TCGAbiolinks:::getGDCprojects()$project_id)]
 #' @param whichcounts Character. Counts data form to use. Choose from: unstranded, stranded_first,stranded_second. By default, unstranded.
+#' @param barcodes Character. A vector with names of the barcodes you want to download. If NULL (default) it downloads all the available barcodes in the project.
 #' @param save.matrix Logical. If \code{TRUE}, outputs a tsv file with the Matrix. By default, FALSE.
-#' @param save.metdata Logical. If \code{TRUE}, outputs a tsv file with the metadata. By default, FALSE.
+#' @param save.metadata Logical. If \code{TRUE}, outputs a tsv file with the metadata. By default, FALSE.
 #' @return A list containing the Matrix and the metadata.
+#' @importFrom TCGAbiolinks GDCquery GDCdownload GDCprepare
+#' @importFrom SummarizedExperiment assay
 #' @examples
-#' TCGA_download(project="TCGA-UVM",
-#'               whichcounts = "unstranded",
-#'               save.matrix = F, save.metadata = F)
+#' GBM_list_s1 <- TCGA_download(project="TCGA-GBM",
+#'                              whichcounts = "unstranded",
+#'                              save.matrix = FALSE, save.metadata = FALSE,
+#'                              barcodes = c("TCGA-06-0878-01A-01R-1849-01"))
 #' @family public-data functions
-#' @seealso \code{\link{hello}} for \code{\link{hello}} for DGE analysis.
 #' @export
 TCGA_download <- function(project,
                  whichcounts = "unstranded",
                  save.matrix = F,
-                 save.metadata = F) {
+                 save.metadata = F,
+                 barcodes = NULL) {
 
       import::here(TCGAbiolinks)
       import::here(data.table)
       import::here(biomaRt)
       import::here(SummarizedExperiment)
 
+      if (is.null(barcodes)) {
+         query <- TCGAbiolinks::GDCquery(project,
+                                         data.category= "Transcriptome Profiling",
+                                         data.type = "Gene Expression Quantification",
+                                         sample.type = c("Solid Tissue Normal","Primary Tumor"),
+                                         workflow.type="STAR - Counts")
+       } else {
+         query <- TCGAbiolinks::GDCquery(project,
+                                         data.category= "Transcriptome Profiling",
+                                         data.type = "Gene Expression Quantification",
+                                         sample.type = c("Solid Tissue Normal","Primary Tumor"),
+                                         workflow.type="STAR - Counts",
+                                         barcode = barcodes)
+       }
 
-       query <- TCGAbiolinks::GDCquery(project,
-                         data.category= "Transcriptome Profiling",
-                         data.type = "Gene Expression Quantification",
-                         sample.type = c("Solid Tissue Normal","Primary Tumor"),
-                         workflow.type="STAR - Counts")
 
        tryCatch(TCGAbiolinks::GDCdownload(query, method = "client"), error = function(e)TCGAbiolinks::GDCdownload(query))
        data <- TCGAbiolinks::GDCprepare(query, summarizedExperiment = TRUE)

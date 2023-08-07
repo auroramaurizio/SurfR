@@ -1,29 +1,33 @@
 #' SVenn
 #'
-#' Venn diagram of common surface proteins overexpressed among different studies
+#' Venn diagram of common surface proteins overexpressed among up to 7 different studies
 #'
-#' @param S_list A list of surface proteins detected in different studies.
+#' @param S_list A list of a maximum of 7 surface protein sets detected in different studies.
 #' @param cols.use Vector of colors, each color corresponds to a study.
 #' By default, ggplot assigns colors.
-#' @param main Plot title. Default = Venn.
 #' @param opacity Degree of opacity for the color(s) specified with cols.use (less opacity, more transparency).
-#' @param output_intersection logical. If TRUE write an output of protein in the intersections
-#' @param filename Name of the output file with the intersections
+#' @param output_intersectionFile logical. If TRUE (default) write an xlsx output of protein in the intersections.
+#' @param filename Name of the output file with the intersections.
 #' @examples
-#' SVenn(S_list, main = "my Venn")
-#' @return a
+#' S_list = list(SP1 = c("EPCAM", "CD24",  "DLK1",  "CDCP1", "LYVE1"),
+#'               SP2 = c("DLK1", "EPCAM", "EGFR", "UPK1A", "UPK2"))
+#' SP = SVenn(S_list, output_intersectionFile = TRUE)
 #' @family plot functions
-#' @seealso \code{\link{hello}} for counts data and metadata download, and \code{\link{hello}} for Gene2SProtein analysis
+#' @importFrom venn venn
+#' @importFrom openxlsx write.xlsx
+#' @seealso \code{\link{Gene2SProtein}} for detection of Surface proteins from a list of genes.
 #' @export
-#'
 
-SVenn <- function(S_List,cols.use=NULL,
-                  main = "Venn",
+SVenn <- function(S_list,cols.use=NULL,
                   opacity = 0.5,
-                  output_intersection = FALSE,
+                  output_intersectionFile = TRUE,
                   filename = "intersection.xlsx") {
-  import::venn
-  import::ggplot2
+  import::here(venn)
+  import::here(openxlsx)
+
+  if (length(S_list) > 7) {
+    stop("This function can plot Venn diagram with up to 7 sets")
+  }
 
   if (is.null(x = cols.use)) {
     cols.use = scales::hue_pal()(length(x = names(S_list)) )
@@ -32,31 +36,39 @@ SVenn <- function(S_List,cols.use=NULL,
                "unique elements and supplied only",length(cols.use),"color \n"))
   }
 
-  SP <- venn::venn(S_list,
-                   opacity = opacity,
-                   box = FALSE,
-                   ilab = TRUE,
-                   zcolor = cols.use,
-                   ilcs = 1.5,
-                   sncs = 1.5,
-                   ggplot = FALSE)
+  suppressWarnings({
 
-  SP <- SP + ggplot2::ggtitle(main)
+    SP <- venn::venn(S_list,
+                     opacity = opacity,
+                     box = FALSE,
+                     ilab = TRUE,
+                     zcolor = cols.use,
+                     ilcs = 1.5,
+                     sncs = 1.5,
+                     ggplot = FALSE)
 
 
-  # ------ Table down pathway intersection --------
-  if (output_intersection) {
-    a = venn::venn(S_list, intersections = T)
-    list_intersection = attr(x = a, "intersections")
+    # ------ Table down pathway intersection --------
+    if (output_intersectionFile) {
+      list_intersection = attr(x = venn::venn(S_list, intersections = T,
+                                              opacity = opacity,
+                                              box = FALSE,
+                                              ilab = TRUE,
+                                              zcolor = cols.use,
+                                              ilcs = 1.5,
+                                              sncs = 1.5,
+                                              ggplot = FALSE),
+                               "intersections")
 
-    df = data.frame()
-    for (intersection in names(list_intersection)) {
-      entry = data.frame(Intersection = intersection,
-                         SurfaceProteins = list_intersection[[intersection]])
-      df = rbind(df, entry)
+      df = data.frame()
+      for (intersection in names(list_intersection)) {
+        entry = data.frame(Intersection = intersection,
+                           SurfaceProteins = list_intersection[[intersection]])
+        df = rbind(df, entry)
+      }
+      openxlsx::write.xlsx(df, filename, asTable = TRUE, overwrite = TRUE)
     }
-    write.xlsx(df, filename, asTable = T)
-  }
+  })
 
 
 }

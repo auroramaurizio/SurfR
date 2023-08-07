@@ -16,11 +16,20 @@
 #' @param output_filename Name of the tsv output file. Default is DEGs.tsv.
 #' @return A dataframe with \code{DEGs}
 #' @examples
-#' DEG1_df = DGE(expression, metadata, TEST = "T", CTRL = "N", Nreplica = 45, alpha = 0.05, output_tsv = T, output_filename = "DEG1.tsv")
-#' @section Warning:
-#' Bla bla bla
-#' @family aggregate functions
-#' @seealso \code{\link{hello}} for counts data and metadata download, and \code{\link{hello}} for Gene2SProtein analysis
+#' # Simulation of bulk RNA data
+#' countData <- matrix(floor(runif(10000, min=0, max=101)),ncol=4)
+#' colnames(countData) <- paste0("sample", 1:4)
+#' rownames(countData) <- paste0("gene", 1:(10000/4))
+#' metadata = data.frame(samplesID = paste0("sample", 1:4),
+#'                      condition = factor(c("A","A","B","B")))
+#' row.names(metadata) <- metadata$samplesID
+#' # Perform DGE
+#' DGEresults = DGE(expression = countData, metadata = metadata,
+#'                  Nreplica = 2,
+#'                  design = "~condition",condition = "condition",
+#'                  TEST = "A", CTRL = "B")
+#' @importFrom DESeq2 DESeqDataSetFromMatrix DESeq counts results
+#' @importFrom edgeR cpm
 #' @export
 
 DGE <- function(expression,
@@ -31,7 +40,6 @@ DGE <- function(expression,
                 TEST,
                 CTRL,
                 alpha = 0.05,
-                exp_filt_ctrl = 0,
                 FC_filt = 0,
                 output_tsv = FALSE,
                 output_filename = "DEGs.tsv") {
@@ -43,6 +51,7 @@ DGE <- function(expression,
 
   import::here(edgeR)
 
+
   # check the match between TEST CTRL and metadata
   if (length(c(CTRL, TEST) %in% metadata[,condition]) == 0) {
     stop(paste0("In your metadata the column ",condition, "does not contain ",  CTRL, " and ", TEST,"."))
@@ -50,6 +59,10 @@ DGE <- function(expression,
     stop(paste0("In your metadata the column ",condition, "does not contain ",  CTRL, "."))
   } else if (length(c(TEST) %in% metadata[,condition]) == 0) {
     stop(paste0("In your metadata the column ",condition, "does not contain ",  TEST,"."))
+  }
+
+  if (!(setequal(row.names(metadata), colnames(expression)))) {
+    stop("row.names of metadata must be equal to expression matrix colnames")
   }
 
   # perform DGE

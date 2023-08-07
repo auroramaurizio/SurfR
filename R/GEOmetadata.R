@@ -19,6 +19,7 @@
 #' @seealso
 #' \url{https://www.ncbi.nlm.nih.gov/geo} for info on GEO repository
 #' @family public-data functions
+#' @importFrom stringr str_remove_all str_sub str_replace_all
 #' @export
 GEOmetadata <- function(GSE, GPL = "") {
   import::here(stringr, str_remove_all)

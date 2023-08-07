@@ -29,9 +29,24 @@ Output of Enrichment.R function for one DGE experiment.}
 Barplot representing the top up-regulated or down-regulated significant pathways
 }
 \examples{
-Enrichment_barplot(dfList,
-                   enrich.databases = c("GO_Biological_Process_2018","GO_Cellular_Component_2018"),
-                   p_adj = 0.01, num_term = 5, cond = "UP")
+dbs = c("GO_Biological_Process_2021","WikiPathways_2016", "MSigDB_Hallmark_2020")
+dfList <- list()
+if (requireNamespace("enrichR", quietly = TRUE)) {
+    up_genes = c("RUNX1", "DLK1", "TOP2A", "EPCAM", "GATA1", "KDR")
+    dfList[["fdr_up"]] <- enrichR::enrichr(up_genes, dbs)
+    dw_genes = c("CD275", "COL1A1", "COL1A2","LUM", "SOX9")
+    dfList[["fdr_down"]] <- enrichR::enrichr(dw_genes, dbs)
+    # Plot for upregulated gene
+    Enrichment_barplot(dfList,
+                       enrich.databases = dbs,
+                       p_adj = 0.01, num_term = 5, cond = "UP")
+    # Plot for downregulated gene
+    Enrichment_barplot(dfList,
+                       enrich.databases = dbs,
+                       p_adj = 0.01, num_term = 5, cond = "DOWN")
+} else {
+    print("example require enrichR package")
+}
 }
 \seealso{
 Other functional-annotation functions: 

@@ -13,7 +13,6 @@ DGE(
   TEST,
   CTRL,
   alpha = 0.05,
-  exp_filt_ctrl = 0,
   FC_filt = 0,
   output_tsv = FALSE,
   output_filename = "DEGs.tsv"
@@ -49,15 +48,17 @@ A dataframe with \code{DEGs}
 \description{
 Perform Differential Gene Expression Analysis of RNA-Seq Data
 }
-\section{Warning}{
-
-Bla bla bla
-}
-
 \examples{
-DEG1_df = DGE(expression, metadata, TEST = "T", CTRL = "N", Nreplica = 45, alpha = 0.05, output_tsv = T, output_filename = "DEG1.tsv")
+# Simulation of bulk RNA data
+countData <- matrix(floor(runif(10000, min=0, max=101)),ncol=4)
+colnames(countData) <- paste0("sample", 1:4)
+rownames(countData) <- paste0("gene", 1:(10000/4))
+metadata = data.frame(samplesID = paste0("sample", 1:4),
+                     condition = factor(c("A","A","B","B")))
+row.names(metadata) <- metadata$samplesID
+# Perform DGE
+DGEresults = DGE(expression = countData, metadata = metadata,
+                 Nreplica = 2,
+                 design = "~condition",condition = "condition",
+                 TEST = "A", CTRL = "B")
 }
-\seealso{
-\code{\link{hello}} for counts data and metadata download, and \code{\link{hello}} for Gene2SProtein analysis
-}
-\concept{aggregate functions}

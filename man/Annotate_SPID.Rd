@@ -34,6 +34,7 @@ DGE = data.frame(GeneID = c("DLK1", "TOP2A"),
                  stat = c(12.68, 17.69),
                  pvalue = c(7.30135e-37, 4.37011e-70),
                  padj = c(1.49936e-35, 1.12976e-67))
+library(enrichR)
 annotated_DGE = Annotate_SPID(DGE, "WikiPathway_2021_Human")
 
 # Output of Gene2SProtein function

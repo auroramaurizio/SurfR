@@ -32,8 +32,9 @@
 #' The surfy database is interrogated using the gene identification type of your preference
 #' between \code{gene_name}, \code{ensembl}, \code{entrez} or \code{uniProt_name}. Note that
 #' you might loose some match due to difference gene version IDs.
-#'
-#' @seealso \code{\link{hello}} for DGE analysis,
+#' @importFrom openxlsx read.xlsx write.xlsx
+#' @importFrom rio import
+#' @seealso \code{\link{DGE}} for DGE analysis,
 #' \url{https://wlab.ethz.ch/surfaceome} for info on Surfy
 #' @export
 Gene2SProtein <- function(genes,
@@ -42,9 +43,8 @@ Gene2SProtein <- function(genes,
                           output_filename = "surfaceProteins.tsv",
                           Surfy_version = "log") {
 
-
-  import::here(openxlsx, read.xlsx)
   import::here(rio, import)
+  import::here(openxlsx, read.xlsx)
   import::here(openxlsx, write.xlsx)
 
 
