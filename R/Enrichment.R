@@ -25,6 +25,7 @@
 #' @seealso \url{https://maayanlab.cloud/Enrichr/} for additional information about enrichR.
 #' @importFrom enrichR listEnrichrDbs enrichr
 #' @importFrom openxlsx write.xlsx
+#' @importFrom utils write.table
 #' @export
 
 
@@ -40,8 +41,8 @@ Enrichment <- function(dfList ,enrich.databases  = c("GO_Biological_Process_2021
                                           "Jensen_DISEASES"),
                        p_adj = 0.05, logFC = 1) {
 
-  import::here(enrichR)
-  import::here(openxlsx)
+  #import::here(enrichR)
+  #import::here(openxlsx)
 
   dir.create('enrichR/', showWarnings=FALSE, recursive=TRUE)
   enrichr.list <- list()
@@ -49,7 +50,8 @@ Enrichment <- function(dfList ,enrich.databases  = c("GO_Biological_Process_2021
   # enrichment Parameters
   # -------------------------
 
-  db = enrichR::listEnrichrDbs()
+  #db = enrichR::listEnrichrDbs()
+  db = listEnrichrDbs()
   if (length(setdiff(enrich.databases, db$libraryName))>0) {
     warning(paste(setdiff(enrich.databases, db$libraryName), "is not an enrichR geneset and will be removed.\n"))
     enrich.databases = intersect(enrich.databases, db$libraryName)
@@ -102,8 +104,8 @@ Enrichment <- function(dfList ,enrich.databases  = c("GO_Biological_Process_2021
 
 
   enrichr.list[[i]] <- lapply(list(pos_list,neg_list),function(x) {
-    enrichR::enrichr(genes = x, databases = enrich.databases)
-
+    #enrichR::enrichr(genes = x, databases = enrich.databases)
+    enrichr(genes = x, databases = enrich.databases)
   })
   names(enrichr.list[[i]]) <-  c("fdr_up","fdr_down")
 
@@ -113,7 +115,8 @@ Enrichment <- function(dfList ,enrich.databases  = c("GO_Biological_Process_2021
      for (j in c("fdr_up","fdr_down")){
        filename = paste("./enrichR/",i,j,".xlsx", sep="")
        if(!is.null(enrichr.list[[i]][[j]])) {
-         openxlsx::write.xlsx(x = enrichr.list[[i]][[j]], file = filename)
+         #openxlsx::write.xlsx(x = enrichr.list[[i]][[j]], file = filename)
+         write.xlsx(x = enrichr.list[[i]][[j]], file = filename)
          }
        }}
 
