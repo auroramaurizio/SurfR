@@ -47,6 +47,7 @@
 #' for metaRNASeq package info
 #' @importFrom dplyr relocate
 #' @importFrom magrittr %>%
+#' @importFrom utils write.table
 #' @export
 
 combine_fisher_invnorm <- function(ind_deg,
@@ -56,8 +57,8 @@ combine_fisher_invnorm <- function(ind_deg,
                                    output_tsv = TRUE,
                                    output_filename = "combine_fisher_invnorm.tsv") {
 
-  import::here(dplyr)
-  import::here(magrittr,"%>%")
+  #import::here(dplyr)
+  #import::here(magrittr,"%>%")
 
   # Check if ind_deg is a list of at least two data.frame
 
@@ -98,7 +99,8 @@ combine_fisher_invnorm <- function(ind_deg,
   comb$DE_invnorm <- fishercomb$binaryadjpval
   comb$GeneID <- common_genes
 
-  comb <- comb %>%  dplyr::relocate(GeneID)
+  #comb <- comb %>%  dplyr::relocate(GeneID)
+  comb <- comb %>% relocate(GeneID)
 
 
 
