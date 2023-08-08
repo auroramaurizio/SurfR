@@ -41,6 +41,7 @@
 #' and \url{https://cran.r-project.org/web/packages/metaRNASeq/vignettes/metaRNASeq.pdf}
 #' for metaRNASeq package info
 #' @importFrom metaRNASeq fishercomb invnorm
+#' @importFrom gridExtra marrangeGrob
 #' @export
 metaRNAseq <- function(ind_deg,
                  test_statistic = "fishercomb",
@@ -48,7 +49,7 @@ metaRNAseq <- function(ind_deg,
                  adjpval.t = 0.05,
                  nrep = NULL) {
 
-  import::here(metaRNASeq)
+  #import::here(metaRNASeq)
 
   # Check if ind_deg is a list of at least two data.frame
 
@@ -85,11 +86,13 @@ metaRNAseq <- function(ind_deg,
   }
 
   ggplot2::ggsave(filename = "raw_pval.pdf",
-                  plot = gridExtra::marrangeGrob(histp, nrow = 1, ncol = 1),
+                  #plot = gridExtra::marrangeGrob(histp, nrow = 1, ncol = 1),
+                  plot = marrangeGrob(histp, nrow = 1, ncol = 1),
                   device = "pdf")
 
   if (test_statistic == "fishercomb") {
-    fish_comb <- metaRNASeq::fishercomb(rawpval, BHth = BHth)
+    #fish_comb <- metaRNASeq::fishercomb(rawpval, BHth = BHth)
+    fish_comb <- fishercomb(rawpval, BHth = BHth)
     fish_comb$DEname = common_genes
     fish_comb$binaryadjpval=ifelse(fish_comb$adjpval<=adjpval.t,1,0)
     pdf(file = paste("fishercomb_pval_hist.pdf",sep ="", collapse = NULL))
@@ -97,7 +100,8 @@ metaRNAseq <- function(ind_deg,
     dev.off()
     return(fish_comb)
   } else if (test_statistic == "invnorm"){
-    inv_norm <- metaRNASeq::invnorm(rawpval, nrep = nrep, BHth = BHth)
+    #inv_norm <- metaRNASeq::invnorm(rawpval, nrep = nrep, BHth = BHth)
+    inv_norm <- invnorm(rawpval, nrep = nrep, BHth = BHth)
     inv_norm$DEname = common_genes
     inv_norm$binaryadjpval=ifelse(inv_norm$adjpval<=adjpval.t,1,0)
     pdf(file = paste("invnorm_pval_hist.pdf",sep ="", collapse = NULL))
