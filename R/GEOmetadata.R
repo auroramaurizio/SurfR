@@ -22,10 +22,10 @@
 #' @importFrom stringr str_remove_all str_sub str_replace_all
 #' @export
 GEOmetadata <- function(GSE, GPL = "") {
-  import::here(stringr, str_remove_all)
-  import::here(stringr, str_sub)
-  import::here(stringr, str_split)
-  import::here(stringr, str_replace_all)
+  #import::here(stringr, str_remove_all)
+  #import::here(stringr, str_sub)
+  #import::here(stringr, str_split)
+  #import::here(stringr, str_replace_all)
 
 
   metafromfile <- function(file) {
