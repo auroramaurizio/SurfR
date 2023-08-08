@@ -20,11 +20,12 @@
 #' \url{https://maayanlab.cloud/archs4/} for info on ArchS4.
 #' @family public-data functions
 #' @importFrom rhdf5 h5read H5close
+#' @importFrom utils write.table
 #' @export
 #'
 DownloadArchS4 <- function(GSM, species, print_tsv = FALSE, filename = NULL) {
-  import::here(rhdf5, h5read)
-  import::here(rhdf5, H5close)
+  #import::here(rhdf5, h5read)
+  #import::here(rhdf5, H5close)
 
 
   set.seed(42)
