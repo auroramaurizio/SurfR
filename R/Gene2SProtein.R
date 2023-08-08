@@ -34,6 +34,7 @@
 #' you might loose some match due to difference gene version IDs.
 #' @importFrom openxlsx read.xlsx write.xlsx
 #' @importFrom rio import
+#' @importFrom utils write.table
 #' @seealso \code{\link{DGE}} for DGE analysis,
 #' \url{https://wlab.ethz.ch/surfaceome} for info on Surfy
 #' @export
@@ -43,9 +44,9 @@ Gene2SProtein <- function(genes,
                           output_filename = "surfaceProteins.tsv",
                           Surfy_version = "log") {
 
-  import::here(rio, import)
-  import::here(openxlsx, read.xlsx)
-  import::here(openxlsx, write.xlsx)
+  #import::here(rio, import)
+  #import::here(openxlsx, read.xlsx)
+  #import::here(openxlsx, write.xlsx)
 
 
 
