@@ -42,8 +42,8 @@ Enrichment_barplot <- function(Enrich,
                                p_adj = 0.05, num_term = 10, cond = "UP") {
 
 
-     import::here(stringr)
-     import::here(ggplot2)
+     #import::here(stringr)
+     #import::here(ggplot2)
 
      enrichR.table = data.frame()
 
@@ -68,8 +68,6 @@ Enrichment_barplot <- function(Enrich,
      }
 
      for (dat in enrich.databases) {
-     #Table <- openxlsx::read.xlsx(xlsxFile=dfList, sheet=dat, startRow=1, colNames=T, rowNames=T,
-     #                         detectDates=F, skipEmptyRows=T, skipEmptyCols=T, na.strings="NA", fillMergedCells=F)
      Table <- enrich_list[[dat]]
      enrichR.table = rbind(enrichR.table, Table)
      }
@@ -105,12 +103,20 @@ Enrichment_barplot <- function(Enrich,
      top_sig <- top_sig[order(top_sig$gene.ratio),]
 
 
-     p_top_sig <- ggplot2::ggplot(top_sig, ggplot2::aes(x=Pathway, y=gene.ratio, fill=Log10Adj.P.value)) +
-       ggplot2::geom_bar(stat="identity")+
-       ggplot2::scale_fill_gradient(low = "blue", high = "red",  name = "-Log10(p.adj.value)") +
-       ggplot2::scale_x_discrete(limits = top_sig$Pathway)+
-       ggplot2::labs(title = cond) +
-       ggplot2::coord_flip()
+     #p_top_sig <- ggplot2::ggplot(top_sig, ggplot2::aes(x=Pathway, y=gene.ratio, fill=Log10Adj.P.value)) +
+     #  ggplot2::geom_bar(stat="identity")+
+     #  ggplot2::scale_fill_gradient(low = "blue", high = "red",  name = "-Log10(p.adj.value)") +
+     #  ggplot2::scale_x_discrete(limits = top_sig$Pathway)+
+     #  ggplot2::labs(title = cond) +
+     #  ggplot2::coord_flip()
+
+     p_top_sig <- ggplot(top_sig, ggplot2::aes(x=Pathway, y=gene.ratio, fill=Log10Adj.P.value)) +
+       geom_bar(stat="identity")+
+       scale_fill_gradient(low = "blue", high = "red",  name = "-Log10(p.adj.value)") +
+       scale_x_discrete(limits = top_sig$Pathway)+
+       labs(title = cond) +
+       coord_flip()
+
 
      pdf("Top_sig_Pathways_barplot.pdf", 10, 5)
      p_top_sig
