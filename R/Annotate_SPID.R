@@ -33,18 +33,20 @@
 #' @importFrom assertr col_concat
 #' @importFrom tidyr separate_rows
 #' @importFrom magrittr %>%
+#' @importFrom utils write.table
+#' @import dplyr
 #'
 #' @export
 
 Annotate_SPID <- function(DGE,
                           enrich.database  = "WikiPathway_2021_Human",
                           output_tsv = F) {
-  import::here(enrichR)
-  import::here(hypeR)
-  import::here(assertr)
-  import::here(tidyr)
-  import::here(dplyr)
-  import::here(magrittr,"%>%")
+  #import::here(enrichR)
+  #import::here(hypeR)
+  #import::here(assertr)
+  #import::here(tidyr)
+  #import::here(dplyr)
+  #import::here(magrittr,"%>%")
 
   #enrichR::listEnrichrSites()
 
@@ -56,29 +58,35 @@ Annotate_SPID <- function(DGE,
     stop("You can select only one enrich.database at a time.")
   }
 
-  db = enrichR::listEnrichrDbs()
+  #db = enrichR::listEnrichrDbs()
+  db = listEnrichrDbs()
   if (!(enrich.database %in% db$libraryName)) {
     stop(paste(enrich.database, "is not a valid enrichR geneset."))
   }
-  annotation_table = hypeR::enrichr_download(enrich.database)
+  #annotation_table = hypeR::enrichr_download(enrich.database)
+  annotation_table = enrichr_download(enrich.database)
 
   # here gives a warning, but we can safely ignore it
   suppressWarnings({annotation_table = as.data.frame(do.call(rbind, annotation_table))})
 
   colNames = colnames(annotation_table) # could be any number of column names here
-  annotation_table['test'] = assertr::col_concat(annotation_table, sep = " ")
+  #annotation_table['test'] = assertr::col_concat(annotation_table, sep = " ")
+  annotation_table['test'] = col_concat(annotation_table, sep = " ")
   annotation_table['GeneID'] <- trimws(annotation_table$test, which = c("both")) #remove whitespaces
   annotation_table$term = row.names(annotation_table)
   annotation_table_sub=annotation_table[,c("term","GeneID")]
 
-  exploded = unique(tidyr::separate_rows(annotation_table_sub, GeneID, sep = " ", convert = FALSE))
-
+  #exploded = unique(tidyr::separate_rows(annotation_table_sub, GeneID, sep = " ", convert = FALSE))
+  exploded = unique(separate_rows(annotation_table_sub, GeneID, sep = " ", convert = FALSE))
   #group by gene.. that is: one gene x row with associated all the descriptions (space separated)
   grouped  <-
     exploded %>%
-    dplyr::group_by(GeneID) %>%
-    dplyr::summarise(temp = toString(term)) %>%
-    dplyr::ungroup()
+    #dplyr::group_by(GeneID) %>%
+    #dplyr::summarise(temp = toString(term)) %>%
+    #dplyr::ungroup()
+    group_by(GeneID) %>%
+    summarise(temp = toString(term)) %>%
+    ungroup()
 
   colnames(grouped)=c("GeneID",enrich.database)
 
