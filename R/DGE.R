@@ -30,6 +30,7 @@
 #'                  TEST = "A", CTRL = "B")
 #' @importFrom DESeq2 DESeqDataSetFromMatrix DESeq counts results
 #' @importFrom edgeR cpm
+#' @importFrom utils write.table
 #' @export
 
 DGE <- function(expression,
@@ -44,12 +45,12 @@ DGE <- function(expression,
                 output_tsv = FALSE,
                 output_filename = "DEGs.tsv") {
 
-  import::here(DESeq2, DESeqDataSetFromMatrix)
-  import::here(DESeq2, DESeq)
-  import::here(DESeq2, counts)
-  import::here(DESeq2, results)
+  #import::here(DESeq2, DESeqDataSetFromMatrix)
+  #import::here(DESeq2, DESeq)
+  #import::here(DESeq2, counts)
+  #import::here(DESeq2, results)
 
-  import::here(edgeR)
+  #import::here(edgeR)
 
 
   # check the match between TEST CTRL and metadata
@@ -72,9 +73,11 @@ DGE <- function(expression,
                                 design = design.formula)
 
   min.samples = Nreplica
-  keep <- rowSums(edgeR::cpm(counts(dds)) >= 1) >= min.samples
+  #keep <- rowSums(edgeR::cpm(counts(dds)) >= 1) >= min.samples
+  keep <- rowSums(cpm(counts(dds)) >= 1) >= min.samples
   dds <- dds[keep,]
-  cpm = edgeR::cpm(counts(dds), log = F)
+  #cpm = edgeR::cpm(counts(dds), log = F)
+  cpm = cpm(counts(dds), log = F)
   dga <- DESeq(object = dds,
                test = "Wald",
                fitType = "parametric",
