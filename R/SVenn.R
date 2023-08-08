@@ -15,6 +15,7 @@
 #' @family plot functions
 #' @importFrom venn venn
 #' @importFrom openxlsx write.xlsx
+#' @importFrom scales hue_pal
 #' @seealso \code{\link{Gene2SProtein}} for detection of Surface proteins from a list of genes.
 #' @export
 
@@ -22,15 +23,16 @@ SVenn <- function(S_list,cols.use=NULL,
                   opacity = 0.5,
                   output_intersectionFile = TRUE,
                   filename = "intersection.xlsx") {
-  import::here(venn)
-  import::here(openxlsx)
+  #import::here(venn)
+  #import::here(openxlsx)
 
   if (length(S_list) > 7) {
     stop("This function can plot Venn diagram with up to 7 sets")
   }
 
   if (is.null(x = cols.use)) {
-    cols.use = scales::hue_pal()(length(x = names(S_list)) )
+    #cols.use = scales::hue_pal()(length(x = names(S_list)) )
+     cols.use = hue_pal()(length(x = names(S_list)) )
   } else if (length(cols.use) < length(x = names(S_list))) {
     stop(paste("you have",length(x = names(S_list)),
                "unique elements and supplied only",length(cols.use),"color \n"))
@@ -38,7 +40,8 @@ SVenn <- function(S_list,cols.use=NULL,
 
   suppressWarnings({
 
-    SP <- venn::venn(S_list,
+    #SP <- venn::venn(S_list,
+    SP <- venn(S_list,
                      opacity = opacity,
                      box = FALSE,
                      ilab = TRUE,
@@ -50,7 +53,8 @@ SVenn <- function(S_list,cols.use=NULL,
 
     # ------ Table down pathway intersection --------
     if (output_intersectionFile) {
-      list_intersection = attr(x = venn::venn(S_list, intersections = T,
+      #list_intersection = attr(x = venn::venn(S_list, intersections = T,
+      list_intersection = attr(x = venn(S_list, intersections = T,
                                               opacity = opacity,
                                               box = FALSE,
                                               ilab = TRUE,
@@ -66,7 +70,8 @@ SVenn <- function(S_list,cols.use=NULL,
                            SurfaceProteins = list_intersection[[intersection]])
         df = rbind(df, entry)
       }
-      openxlsx::write.xlsx(df, filename, asTable = TRUE, overwrite = TRUE)
+      #openxlsx::write.xlsx(df, filename, asTable = TRUE, overwrite = TRUE)
+      write.xlsx(df, filename, asTable = TRUE, overwrite = TRUE)
     }
   })
 
