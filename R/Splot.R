@@ -23,14 +23,15 @@ Splot <- function(SurfaceProteins_df,
                   group.by = "Membranome.Almen.main-class",
                   cols.use = NULL,
                   main = "Almen main class") {
-  import::here(ggplot2)
-  import::here(scales)
+  #import::here(ggplot2)
+  #import::here(scales)
 
   SurfaceProteins_df$v2plot = SurfaceProteins_df[,group.by]
 
 
   if (is.null(x = cols.use)) {
-    cols.use = scales::hue_pal()(length(x = levels(as.factor(SurfaceProteins_df$v2plot))) )
+    #cols.use = scales::hue_pal()(length(x = levels(as.factor(SurfaceProteins_df$v2plot))) )
+    cols.use = hue_pal()(length(x = levels(as.factor(SurfaceProteins_df$v2plot))) )
     if (length(which (is.na(SurfaceProteins_df$v2plot)) > 0)) {
       warning("NA value in your dataframe")
       # Add grey for NA protein
@@ -41,17 +42,32 @@ Splot <- function(SurfaceProteins_df,
                "Be carefull to NA value"))
   }
 
-  plot <- ggplot2::ggplot(SurfaceProteins_df, ggplot2::aes(x=v2plot)) +
-    ggplot2::geom_bar(color = 'black', fill = cols.use )+
-    ggplot2::theme(plot.title = ggplot2::element_text(color="black", size=18, face="bold.italic"),
-                   axis.text.x = ggplot2::element_text(angle = 45, face = "bold", color = "black", size=12, vjust = 1, hjust =1),
-                   axis.title.x = ggplot2::element_text(face = "bold", color = "black", size = 14),
-                   axis.text.y = ggplot2::element_text(angle = 0, face = "bold", color = "black", size=12),
-                   axis.title.y = ggplot2::element_text(face = "bold", color = "black", size = 14),
-                   legend.text = ggplot2::element_text(face = "bold", color = "black", size = 10),
+  #plot <- ggplot2::ggplot(SurfaceProteins_df, ggplot2::aes(x=v2plot)) +
+  #  ggplot2::geom_bar(color = 'black', fill = cols.use )+
+  #  ggplot2::theme(plot.title = ggplot2::element_text(color="black", size=18, face="bold.italic"),
+  #                 axis.text.x = ggplot2::element_text(angle = 45, face = "bold", color = "black", size=12, vjust = 1, hjust =1),
+  #                 axis.title.x = ggplot2::element_text(face = "bold", color = "black", size = 14),
+  #                 axis.text.y = ggplot2::element_text(angle = 0, face = "bold", color = "black", size=12),
+  #                 axis.title.y = ggplot2::element_text(face = "bold", color = "black", size = 14),
+  #                 legend.text = ggplot2::element_text(face = "bold", color = "black", size = 10),
+  #                 legend.position="top",
+  #                 panel.background = ggplot2::element_rect(fill = "white",colour = "black", size = 1, linetype = "solid")) +
+  #  ggplot2::labs(x = group.by, y = "N", title = main)
+
+  #ggplot2 <- ggrepel <- geom_label_repel <- hue_pal <- aes <- color <- shape <- sampleNames <- NULL
+  #return(plot)
+
+  plot <- ggplot(SurfaceProteins_df, aes(x=v2plot)) +
+    geom_bar(color = 'black', fill = cols.use )+
+    theme(plot.title = element_text(color="black", size=18, face="bold.italic"),
+                   axis.text.x = element_text(angle = 45, face = "bold", color = "black", size=12, vjust = 1, hjust =1),
+                   axis.title.x = element_text(face = "bold", color = "black", size = 14),
+                   axis.text.y = element_text(angle = 0, face = "bold", color = "black", size=12),
+                   axis.title.y = element_text(face = "bold", color = "black", size = 14),
+                   legend.text = element_text(face = "bold", color = "black", size = 10),
                    legend.position="top",
-                   panel.background = ggplot2::element_rect(fill = "white",colour = "black", size = 1, linetype = "solid")) +
-    ggplot2::labs(x = group.by, y = "N", title = main)
+                   panel.background = element_rect(fill = "white",colour = "black", size = 1, linetype = "solid")) +
+    labs(x = group.by, y = "N", title = main)
 
   ggplot2 <- ggrepel <- geom_label_repel <- hue_pal <- aes <- color <- shape <- sampleNames <- NULL
   return(plot)
