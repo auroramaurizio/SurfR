@@ -10,6 +10,8 @@
 #' @return A list containing the Matrix and the metadata.
 #' @importFrom TCGAbiolinks GDCquery GDCdownload GDCprepare
 #' @importFrom SummarizedExperiment assay
+#' @importFrom utils write.table 
+#' @import biomaRt
 #' @examples
 #' GBM_list_s1 <- TCGA_download(project="TCGA-GBM",
 #'                              whichcounts = "unstranded",
@@ -23,19 +25,21 @@ TCGA_download <- function(project,
                  save.metadata = F,
                  barcodes = NULL) {
 
-      import::here(TCGAbiolinks)
-      import::here(data.table)
-      import::here(biomaRt)
-      import::here(SummarizedExperiment)
+      #import::here(TCGAbiolinks)
+      #import::here(data.table)
+      #import::here(biomaRt)
+      #import::here(SummarizedExperiment)
 
       if (is.null(barcodes)) {
-         query <- TCGAbiolinks::GDCquery(project,
+      #   query <- TCGAbiolinks::GDCquery(project,
+         query <- GDCquery(project,
                                          data.category= "Transcriptome Profiling",
                                          data.type = "Gene Expression Quantification",
                                          sample.type = c("Solid Tissue Normal","Primary Tumor"),
                                          workflow.type="STAR - Counts")
        } else {
-         query <- TCGAbiolinks::GDCquery(project,
+      #   query <- TCGAbiolinks::GDCquery(project,
+         query <- GDCquery(project,
                                          data.category= "Transcriptome Profiling",
                                          data.type = "Gene Expression Quantification",
                                          sample.type = c("Solid Tissue Normal","Primary Tumor"),
@@ -44,14 +48,18 @@ TCGA_download <- function(project,
        }
 
 
-       tryCatch(TCGAbiolinks::GDCdownload(query, method = "client"), error = function(e)TCGAbiolinks::GDCdownload(query))
-       data <- TCGAbiolinks::GDCprepare(query, summarizedExperiment = TRUE)
+
+       #tryCatch(TCGAbiolinks::GDCdownload(query, method = "client"), error = function(e)TCGAbiolinks::GDCdownload(query))
+       #data <- TCGAbiolinks::GDCprepare(query, summarizedExperiment = TRUE)
+       tryCatch(GDCdownload(query, method = "client"), error = function(e)GDCdownload(query))
+       data <- GDCprepare(query, summarizedExperiment = TRUE)
 
        dir = 'TCGA/'
        dir.create(dir, recursive = TRUE, showWarnings = FALSE)
 
        # Save matrix
-       Matrix <- SummarizedExperiment::assay(data, whichcounts)
+       #Matrix <- SummarizedExperiment::assay(data, whichcounts)
+       Matrix <- assay(data, whichcounts)
        row.names(Matrix) <- data@rowRanges$gene_name
 
        # Save metadata
