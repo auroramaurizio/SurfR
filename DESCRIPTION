@@ -18,6 +18,7 @@ VignetteBuilder: knitr
 RoxygenNote: 7.2.3
 Imports:
   httr,
+  SPsimSeq,
   DESeq2,
   edgeR,
   rio,

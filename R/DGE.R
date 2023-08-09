@@ -32,6 +32,7 @@
 #' @importFrom edgeR cpm
 #' @importFrom utils write.table
 #' @importFrom stats as.formula
+#' @import SPsimSeq
 #' @export
 
 DGE <- function(expression,

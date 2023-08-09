@@ -94,7 +94,7 @@ library(SPsimSeq)
 data("zhang.data.sub")
 zhang.counts <- zhang.data.sub$counts
 MYCN.status  <- zhang.data.sub$MYCN.status
-# Simulation of bulk RNA data with
+# Simulation of bulk RNA data
 sim.data.bulk <- SPsimSeq(n.sim = 1, s.data = zhang.counts,
                           group = MYCN.status, n.genes = 1000, batch.config = 1,
                           group.config = c(0.5, 0.5), tot.samples = ncol(zhang.counts),
