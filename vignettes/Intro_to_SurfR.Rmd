@@ -526,7 +526,7 @@ head(Enrich$GEO$fdr_up$GO_Biological_Process_2021)
 ```
 
 **SurfR** implements several visualization methods to help interpret enrichment results 
-obtained through EnrichR (Kuleshov et al. 2013) using ggplot2, with the built-in function 
+obtained through EnrichR (Kuleshov et al. 2016) using ggplot2, with the built-in function 
 **Enrichment_barplot**.
 
 It depicts gene count ratio and enrichment scores (- Log10 adjusted p values) as bar height and color. Users can specify the number of terms (most significant) to display.
