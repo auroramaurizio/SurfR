@@ -59,7 +59,7 @@ devtools::install_git("https://srhpcgit01.ricerca.hsr.it/maurizio.aurora/surfr.g
 
 # Quick Start
 
-The basic idea behind **SurfR** has been to create a complete framework to detect surface protein coding genes within your data, or within public datasets. This framework facilitates the simultaneous analysis and comparison of multiple studies, easily revealing functional consensus and differences among distinct conditions. To begin, let’s ask SurfR which to detect surface protein coding genes among a vector of input genes. Gene ID can be provided as  `gene_name`, `ensembl`, `entrez` or `uniProt_name`.
+The basic idea behind **SurfR** has been to create a complete framework to detect surface protein coding genes within your data, or within public datasets. This framework facilitates the simultaneous analysis and comparison of multiple studies, easily revealing functional consensus and differences among distinct conditions. To begin, let’s ask SurfR to detect surface protein coding genes among a vector of input genes. Gene ID can be provided as  `gene_name`, `ensembl`, `entrez` or `uniProt_name`.
 
 The protein classification is based on a recently developed surfaceome predictor, called [**SURFY**](http://wlab.ethz.ch/surfaceome/), based on machine learning.
 
@@ -130,7 +130,7 @@ head(df_zhang)
 Once DEGS have been detected, we may want to isolate Surface protein-coding genes.
 
 The protein classification is based on a recently developed surfaceome predictor, 
-called **SURFY**, based on machine learning. 
+called  [**SURFY**](http://wlab.ethz.ch/surfaceome/), based on machine learning. 
 
 We use the built-in SurfR **Gene2SProtein** function to identify
 Surface protein-coding genes (SP). 
