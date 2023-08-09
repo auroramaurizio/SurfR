@@ -34,14 +34,14 @@ GEO queries are based on the ArchS4 pipeline. TCGA repository is interrogated th
 
 **SurfR** also offers the opportunity to increase the sample size of a cohort by integrating related datasets, therefore enhancing the power to detect differentially expressed genes of interest. Meta-analysis can be performed through metaRNASeq, taking into account inter-study variability that may arise from technical differences among studies (e.g., sample preparation, library protocols, batch effects) as well as additional biological variability.
 
-Gene ontology (GO) and pathway annotation can also be performed within SurfR to gain further insights about surface protein candidates.
+Gene ontology (GO) and pathway annotation can also be performed within **SurfR** to gain further insights about surface protein candidates.
 
 Finally, **SurfR** includes functions to visualize DEG and enrichment results, aiding in the interpretation of findings.
 
 
 # Installation
 
-SurfR Package can be installed from GitHub using devtools:
+**SurfR** Package can be installed from GitHub using devtools:
 
 ```
 # install some bioconductor packages 
@@ -60,7 +60,7 @@ devtools::install_git("https://srhpcgit01.ricerca.hsr.it/maurizio.aurora/surfr.g
 
 # Quick Start
 
-The basic idea behind **SurfR** has been to create a complete framework to detect surface protein coding genes within your data, or within public datasets. This framework facilitates the simultaneous analysis and comparison of multiple studies, easily revealing functional consensus and differences among distinct conditions. To begin, let’s ask SurfR to detect surface protein coding genes among a vector of input genes. Gene ID can be provided as  `gene_name`, `ensembl`, `entrez` or `uniProt_name`.
+The basic idea behind **SurfR** has been to create a complete framework to detect surface protein coding genes within your data, or within public datasets. This framework facilitates the simultaneous analysis and comparison of multiple studies, easily revealing functional consensus and differences among distinct conditions. To begin, let’s ask **SurfR** to detect surface protein coding genes among a vector of input genes. Gene ID can be provided as  `gene_name`, `ensembl`, `entrez` or `uniProt_name`.
 
 The protein classification is based on a recently developed surfaceome predictor, called [**SURFY**](http://wlab.ethz.ch/surfaceome/), based on machine learning.
 
