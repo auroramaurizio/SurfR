@@ -339,7 +339,6 @@ Analyzing data arising from several experiments studying the same question is a
 way to obtain more robust results, increasing the detection power of differentially expressed genes.
 
 In SurfR we provide a set of functions based on [MetaRNASeq package](https://cran.r-project.org/web/packages/metaRNASeq/vignettes/metaRNASeq.pdf) 
-by [Marot et al., 2020](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-15-91) 
 to combine data from multiple RNAseq experiments.
 
 Let’s suppose we want to integrate Breast cancer data from GEO and TCGA. 
