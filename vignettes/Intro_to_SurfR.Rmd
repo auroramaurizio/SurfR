@@ -35,6 +35,7 @@ GEO queries are based on the ArchS4 pipeline. TCGA repository is interrogated th
 **SurfR** also offers the opportunity to increase the sample size of a cohort by integrating related datasets, therefore enhancing the power to detect differentially expressed genes of interest. Meta-analysis can be performed through metaRNASeq, taking into account inter-study variability that may arise from technical differences among studies (e.g., sample preparation, library protocols, batch effects) as well as additional biological variability.
 
 Gene ontology (GO) and pathway annotation can also be performed within SurfR to gain further insights about surface protein candidates.
+
 Finally, **SurfR** includes functions to visualize DEG and enrichment results, aiding in the interpretation of findings.
 
 
