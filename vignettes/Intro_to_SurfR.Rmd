@@ -338,8 +338,8 @@ SPdw = Gene2SProtein(genes = fdrDW_GeneID, input_type ="gene_name")
 Analyzing data arising from several experiments studying the same question is a 
 way to obtain more robust results, increasing the detection power of differentially expressed genes.
 
-In SurfR we provide a set of functions based on [MetaRNASeq package](https://cran.r-project.org/web/packages/metaRNASeq/vignettes/metaRNASeq.pdf) 
-to combine data from multiple RNAseq experiments.
+In SurfR we provide a set of functions based on [MetaRNASeq](https://cran.r-project.org/web/packages/metaRNASeq/vignettes/metaRNASeq.pdf) 
+package to combine data from multiple RNAseq experiments.
 
 Let’s suppose we want to integrate Breast cancer data from GEO and TCGA. 
 Breast Cancer datasets are downloaded from TCGA with the SurfR built-in function  **TCGA_download**.
