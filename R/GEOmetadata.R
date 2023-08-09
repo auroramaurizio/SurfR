@@ -15,7 +15,6 @@
 #' @section Warning:
 #' If the GEO accession series has more than 1 sequencing platforms you need to
 #' specify the GPL series numbers.
-#' Add disclaim on GEO data curation!
 #' @seealso
 #' \url{https://www.ncbi.nlm.nih.gov/geo} for info on GEO repository
 #' @family public-data functions

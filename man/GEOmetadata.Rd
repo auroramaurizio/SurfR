@@ -23,7 +23,6 @@ given an input GEO accession series.
 
 If the GEO accession series has more than 1 sequencing platforms you need to
 specify the GPL series numbers.
-Add disclaim on GEO data curation!
 }
 
 \examples{
