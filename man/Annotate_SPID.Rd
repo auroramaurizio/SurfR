@@ -4,7 +4,11 @@
 \alias{Annotate_SPID}
 \title{Annotate_SPID}
 \usage{
-Annotate_SPID(DGE, enrich.database = "WikiPathway_2021_Human", output_tsv = F)
+Annotate_SPID(
+  DGE,
+  enrich.database = "WikiPathway_2021_Human",
+  output_tsv = FALSE
+)
 }
 \arguments{
 \item{DGE}{Data.frame containing annotated DEG list, as the output of DGE or Gene2SProtein function.}

@@ -78,7 +78,7 @@ DGE <- function(expression,
   keep <- rowSums(cpm(counts(dds)) >= 1) >= min.samples
   dds <- dds[keep,]
   #cpm = edgeR::cpm(counts(dds), log = F)
-  cpm = cpm(counts(dds), log = F)
+  cpm = cpm(counts(dds), log = FALSE)
   dga <- DESeq(object = dds,
                test = "Wald",
                fitType = "parametric",
@@ -93,7 +93,7 @@ DGE <- function(expression,
                       alpha                = alpha,
                       pAdjustMethod        = "BH")
 
-  dgeResults = dgeResults[order(dgeResults$pvalue, decreasing = F),]
+  dgeResults = dgeResults[order(dgeResults$pvalue, decreasing = FALSE),]
 
 
 
@@ -105,13 +105,13 @@ DGE <- function(expression,
 
 
   dgeResults$GeneID = row.names(dgeResults)
-  dgeResults = dgeResults[order(dgeResults$log2FoldChange, decreasing = T),
+  dgeResults = dgeResults[order(dgeResults$log2FoldChange, decreasing = TRUE),
                           c('GeneID', 'Mean_CPM_T','Mean_CPM_C',
                             'log2FoldChange','lfcSE','stat','pvalue','padj')]
 
   # -------- tsv --------
   if (output_tsv) {
-    write.table(dgeResults, output_filename, quote = F, sep = "\t")
+    write.table(dgeResults, output_filename, quote = FALSE, sep = "\t")
   }
 
 

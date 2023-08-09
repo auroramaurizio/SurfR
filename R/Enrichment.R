@@ -85,8 +85,8 @@ Enrichment <- function(dfList ,enrich.databases  = c("GO_Biological_Process_2021
     if (save.results) {
       dir.create('enrichR/', showWarnings=FALSE, recursive=TRUE)
       write.table(neg_list, paste('./enrichR/FDRdown_',i,
-                                  '.txt', sep =''), quote = F,
-                  row.names = F, col.names = F)
+                                  '.txt', sep =''), quote = FALSE,
+                  row.names = FALSE, col.names = FALSE)
     }
 
   }
@@ -104,8 +104,8 @@ Enrichment <- function(dfList ,enrich.databases  = c("GO_Biological_Process_2021
     if (save.results) {
       dir.create('enrichR/', showWarnings=FALSE, recursive=TRUE)
       write.table(pos_list, paste('./enrichR/FDRup_',i,
-                                  '.txt', sep =''), quote = F,
-                  row.names = F, col.names = F)
+                                  '.txt', sep =''), quote = FALSE,
+                  row.names = FALSE, col.names = FALSE)
     }
 
   }

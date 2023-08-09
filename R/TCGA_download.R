@@ -75,7 +75,7 @@ TCGA_download <- function(project,
 
        if (save.metadata ) {
          dir.create(dir, recursive = TRUE, showWarnings = FALSE)
-         write.table(metadata, file=paste0(dir, project,"_metadata.tsv",sep=""),sep="\t",quote=F)
+         write.table(metadata, file=paste0(dir, project,"_metadata.tsv",sep=""),sep="\t",quote=FALSE)
        }
 
        mat.met = list(Matrix, metadata)

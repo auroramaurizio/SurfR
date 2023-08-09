@@ -106,7 +106,7 @@ combine_fisher_invnorm <- function(ind_deg,
 
   # -------- tsv --------
   if (output_tsv) {
-    write.table(comb, output_filename, quote = F, sep = "\t")
+    write.table(comb, output_filename, quote = FALSE, sep = "\t")
   }
 
   GeneID <- NULL

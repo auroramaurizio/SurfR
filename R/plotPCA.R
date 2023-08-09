@@ -81,7 +81,7 @@ plotPCA <- function(matrix,
 
   # sort by variance and select topN
   vary <- apply(matrix,1,var)
-  vary_s <- sort(vary, decreasing = T)
+  vary_s <- sort(vary, decreasing = TRUE)
   TOP_N <- names(vary_s[1:nTOP])
   mtx_TOP <- matrix[TOP_N,]
 

@@ -63,7 +63,7 @@ Gene2SProtein <- function(genes,
     ST = read.xlsx(xlsxFile = paste0(".log/", log[length(log)]),
                    startRow = 1)
   } else {
-    dir.create(".log/", recursive = T, showWarnings = F)
+    dir.create(".log/", recursive = TRUE, showWarnings = FALSE)
     surfaceome_table_url='https://wlab.ethz.ch/surfaceome/table_S3_surfaceome.xlsx'
 
 
@@ -127,7 +127,7 @@ Gene2SProtein <- function(genes,
 
   # -------- tsv --------
   if (output_tsv) {
-    write.table(surface.proteins, output_filename, quote = F, sep = "\t")
+    write.table(surface.proteins, output_filename, quote = FALSE, sep = "\t")
   }
 
   openxlsx <- read.xlsx <- write.xlsx <- write.table <- rio <- import <- NULL

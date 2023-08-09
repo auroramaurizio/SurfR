@@ -1,3 +1,94 @@
+#' Format a string using placeholders - function from hypeR
+#'
+#' @param string A an unformatted string with placeholders
+#' @param ... Variables to format placeholders with
+#' @return A formatted string
+#'
+#' @examples
+#' \dontrun{
+#' format_str("Format with {1} and {2}", "x", "y")
+#' }
+#'
+#' @keywords internal
+.format_str <- function(string, ...) {
+  args <- list(...)
+  for (i in 1:length(args)) {
+    pattern <- paste("\\{", i, "}", sep="")
+    replacement <- args[[i]]
+    string <- gsub(pattern, replacement, string)
+  }
+  return(string)
+}
+
+
+
+
+#' Get url base for species-specific enrichr libraries  - function from hypeR
+#'
+#' @param db A species
+#' @return A url
+#'
+#' @keywords internal
+enrichr_urls <- function(db=c("Enrichr", "YeastEnrichr", "FlyEnrichr", "WormEnrichr", "FishEnrichr")) {
+  switch(match.arg(db),
+         "Enrichr"      = "http://maayanlab.cloud/Enrichr/{1}",
+         "YeastEnrichr" = "http://maayanlab.cloud/YeastEnrichr/{1}",
+         "FlyEnrichr"   = "http://maayanlab.cloud/FlyEnrichr/{1}",
+         "WormEnrichr"  = "http://maayanlab.cloud/WormEnrichr/{1}",
+         "FishEnrichr"  = "http://maayanlab.cloud/FishEnrichr/{1}"
+  )
+}
+
+#' Connect to the enrichr web application  - function from hypeR
+#'
+#' @param endpoint The url endpoint to connect to
+#' @param db A species
+#' @return A web response
+#'
+#' @importFrom httr GET http_status
+#'
+#' @keywords internal
+enrichr_connect <- function(endpoint, db=c("Enrichr", "YeastEnrichr", "FlyEnrichr", "WormEnrichr", "FishEnrichr")) {
+  url <- enrichr_urls(db)
+  response <- httr::GET(.format_str(url, endpoint))
+  if (!http_status(response)$category == "Success") {
+    stop(http_status(response)$message)
+  }
+  return(response)
+}
+
+
+
+#' Download data from enrichr in the form of a named list - function from hypeR
+#'
+#' @param genesets A name corresponding to available genesets
+#' @param db A species
+#' @return A list of genesets
+#'
+#' @examples
+#' ATLAS <- enrichr_download("Human_Gene_Atlas")
+#'
+#' @importFrom httr content
+#'
+#' @export
+enrichr_download <- function(genesets, db=c("Enrichr", "YeastEnrichr", "FlyEnrichr", "WormEnrichr", "FishEnrichr")) {
+  response <- enrichr_connect(.format_str("geneSetLibrary?mode=text&libraryName={1}", genesets), db)
+  data <- content(response, "text")
+  split <- strsplit(data, split="\n")[[1]]
+  genesets <- sapply(split, function(x) strsplit(x, "\t")[[1]])
+  names(genesets) <- unlist(lapply(genesets, function(x) x[1]))
+  lapply(genesets, function(x) {
+    genes <- x[3:length(x)]
+    genes <- genes[genes != ""]
+    unique(genes)
+  })
+}
+
+
+
+
+
+
 #' Annotate_SPID
 #'
 #' Annotate Surface Protein Coding genes according to EnrichR Libraries
@@ -29,7 +120,6 @@
 #' @seealso \code{\link{DGE}} function for DGE,
 #' and \code{\link{Gene2SProtein}} function for Gene2SProtein analysis
 #' @importFrom enrichR listEnrichrDbs
-#' @importFrom hypeR enrichr_download
 #' @importFrom assertr col_concat
 #' @importFrom tidyr separate_rows
 #' @importFrom magrittr %>%
@@ -38,9 +128,11 @@
 #'
 #' @export
 
+
+
 Annotate_SPID <- function(DGE,
                           enrich.database  = "WikiPathway_2021_Human",
-                          output_tsv = F) {
+                          output_tsv = FALSE) {
   #import::here(enrichR)
   #import::here(hypeR)
   #import::here(assertr)
@@ -94,7 +186,7 @@ Annotate_SPID <- function(DGE,
 
 
   if (output_tsv) {
-    write.table(merged, paste(enrich.database, "_SP_annotation.tsv", sep ="_"), quote = F, sep = "\t")
+    write.table(merged, paste(enrich.database, "_SP_annotation.tsv", sep ="_"), quote = FALSE, sep = "\t")
   }
   GeneID <- term <- NULL
   return(merged)

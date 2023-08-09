@@ -8,6 +8,7 @@
 #' @param opacity Degree of opacity for the color(s) specified with cols.use (less opacity, more transparency).
 #' @param output_intersectionFile logical. If TRUE (default) write an xlsx output of protein in the intersections.
 #' @param filename Name of the output file with the intersections.
+#' @return venn plot of common genes.
 #' @examples
 #' S_list = list(SP1 = c("EPCAM", "CD24",  "DLK1",  "CDCP1", "LYVE1"),
 #'               SP2 = c("DLK1", "EPCAM", "EGFR", "UPK1A", "UPK2"))
@@ -53,11 +54,9 @@ SVenn <- function(S_list,cols.use=NULL,
 
     # ------ Table down pathway intersection --------
     if (output_intersectionFile) {
-      #list_intersection = attr(x = venn::venn(S_list, intersections = T,
-      list_intersection = attr(x = venn(S_list, intersections = T,
+      list_intersection = attr(x = venn(S_list, intersections = TRUE,
                                               opacity = opacity,
                                               box = FALSE,
-                                              #ilab = TRUE,
                                               zcolor = cols.use,
                                               ilcs = 1.5,
                                               sncs = 1.5,
@@ -70,7 +69,6 @@ SVenn <- function(S_list,cols.use=NULL,
                            SurfaceProteins = list_intersection[[intersection]])
         df = rbind(df, entry)
       }
-      #openxlsx::write.xlsx(df, filename, asTable = TRUE, overwrite = TRUE)
       write.xlsx(df, filename, asTable = TRUE, overwrite = TRUE)
     }
   })

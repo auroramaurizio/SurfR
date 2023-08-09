@@ -24,6 +24,9 @@ By default, ggplot assigns colors.}
 
 \item{filename}{Name of the output file with the intersections.}
 }
+\value{
+venn plot of common genes.
+}
 \description{
 Venn diagram of common surface proteins overexpressed among up to 7 different studies
 }

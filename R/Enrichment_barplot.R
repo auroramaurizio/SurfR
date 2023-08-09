@@ -9,6 +9,7 @@
 #' @param num_term Double. Number of up-regulated and dw-regulated terms to represent
 #' @param cond String. Title of the plot.
 #' @param plot Logical. If TRUE save plot as pdf.
+#' @return bar plot of significant pathways.
 #' @examples
 #' dbs = c("GO_Biological_Process_2021","WikiPathways_2016", "MSigDB_Hallmark_2020")
 #' dfList <- list()
@@ -30,6 +31,7 @@
 #' }
 #' @family functional-annotation functions
 #' @family plot functions
+#' @import knitr
 #' @importFrom stringr str_replace
 #' @importFrom ggplot2 ggplot geom_bar aes scale_fill_gradient scale_x_discrete labs coord_flip
 #' @importFrom utils head

@@ -2,27 +2,22 @@ Package: SurfR
 Type: Package
 Title: Surface Protein Prediction and Identification
 Version: 0.99.0
-Author: Aurora Maurizio and Anna Sofia Tascini <maurizio.aurora@hsr.it> <tascini.annasofia@hsr.it>
-        person("Aurora", "Maurizio",
-                email = maurizio.aurora@hsr.it,
-                role = c("cre", "aut"),  
-                comment = c(ORCID = "0000-0002-7194-4637"))
-        person("Anna Sofia", "Tascini",
-                email = tascini.annasofia@hsr.it,
-                role = c("aut"),  
-                comment = c(ORCID = "0000-0001-5731-5490"))
-Maintainer: Aurora Maurizio and Anna Sofia Tascini <maurizio.aurora@hsr.it> <tascini.annasofia@hsr.it>
+Authors@R:c(person("Aurora", "Maurizio", email="auroramaurizio1@gmail.com", role = c("aut","cre")),
+           person("Anna Sofia", "Tascini", email="volpesofi@gmail.com", role = c("aut", "ctb")))
 Description: Identify Surface Protein coding genes from a list of candidates.
              Systematically download data from GEO and TCGA or use your own data. 
              Perform DGE on bulk RNAseq data. 
              Perform Meta-analysis. Descriptive enrichment analysis and plots.
 License: GPL-3 + file LICENSE
 Encoding: UTF-8
-LazyData: true
+LazyData: false
+biocViews: Software, Sequencing, RNASeq, GeneExpression, Transcription, DifferentialExpression, 
+           PrincipalComponent, GeneSetEnrichment, Pathways, BatchEffect,
+           FunctionalGenomics, Visualization, DataImport
 VignetteBuilder: knitr
 RoxygenNote: 7.2.3
 Imports:
-  import,
+  httr,
   DESeq2,
   edgeR,
   rio,
@@ -36,9 +31,7 @@ Imports:
   assertr,
   tidyr,
   dplyr,
-  hypeR,
   TCGAbiolinks,
-  data.table,
   biomaRt,
   metaRNASeq,
   enrichR,
@@ -47,5 +40,6 @@ Imports:
   gridExtra,
   SummarizedExperiment,
   knitr,
-  SPsimSeq,
-  qpdf
+  grDevices, 
+  graphics, 
+  utils

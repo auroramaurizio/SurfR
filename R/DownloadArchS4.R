@@ -28,7 +28,7 @@ DownloadArchS4 <- function(GSM, species, print_tsv = FALSE, filename = NULL) {
   #import::here(rhdf5, H5close)
 
 
-  set.seed(42)
+
   options(timeout=600)
   matrixh5_url=paste0('https://mssm-seq-matrix.s3.amazonaws.com/',species,'_matrix.h5')
 

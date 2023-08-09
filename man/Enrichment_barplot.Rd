@@ -28,6 +28,9 @@ Output of Enrichment.R function for one DGE experiment.}
 
 \item{plot}{Logical. If TRUE save plot as pdf.}
 }
+\value{
+bar plot of significant pathways.
+}
 \description{
 Barplot representing the top up-regulated or down-regulated significant pathways
 }
