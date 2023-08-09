@@ -243,7 +243,7 @@ SPdw = Gene2SProtein(genes = fdrDW_GeneID, input_type ="gene_name")
 
 The Cancer Genome Atlas (TCGA, https://tcga-data.nci.nih.gov/tcga/) contains data for thousands of tumor samples across more than 20 types of cancer. Navigating through all of the files manually is impossible. Therefore we provide a function based on TCGAbiolinks that automates and streamlines the retrieval of public TCGA transcriptomics data. 
 Note that to use this function you need to install the developmental version of
-[TCGAbiolink](https://github.com/BioinformaticsFMRP/TCGAbiolinks).
+[TCGAbiolinks](https://github.com/BioinformaticsFMRP/TCGAbiolinks).
 
 ```
 if (!requireNamespace("BiocManager", quietly = TRUE))
