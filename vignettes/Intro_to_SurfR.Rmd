@@ -29,10 +29,10 @@ Importantly, variations in transcriptomic profiles are often observed between he
 When a study aims to find new biomarkers, the small number of samples often limits the ability to obtain reliable results. However, as sequencing costs continue to decrease, several follow-up experiments will likely be conducted to re-address the same biological question, suggesting a need for methods able to jointly analyze data from multiple studies.
 
 
-Surfr` provides a solution to these issues, generating a list of ranked surface protein-coding differentially-expressed genes starting from the count matrix of your own RNA-seq experiment or from bulk transcriptomic data automatically retrieved from public databases (e.g. GEO, TCGA).
+**Surfr** provides a solution to these issues, generating a list of ranked surface protein-coding differentially-expressed genes starting from the raw count matrix of your own RNA-seq experiment or from bulk transcriptomic data automatically retrieved from public databases (e.g. GEO, TCGA).
 GEO queries are based on the ArchS4 pipeline. TCGA repository is interrogated through TCGAbiolinks.
 
-SurfR also offers the opportunity to increase the sample size of a cohort by integrating related datasets, therefore enhancing the power to detect differentially expressed genes of interest. Meta-analysis can be performed through metaRNASeq, taking into account inter-study variability that may arise from technical differences among studies (e.g., sample preparation, library protocols, batch effects) as well as additional biological variability.
+**SurfR** also offers the opportunity to increase the sample size of a cohort by integrating related datasets, therefore enhancing the power to detect differentially expressed genes of interest. Meta-analysis can be performed through metaRNASeq, taking into account inter-study variability that may arise from technical differences among studies (e.g., sample preparation, library protocols, batch effects) as well as additional biological variability.
 
 Gene ontology (GO) and pathway annotation can also be performed within SurfR to gain further insights about surface protein candidates.
 Finally, SurfR includes functions to visualize DEG and enrichment results, aiding in the interpretation of findings.
@@ -105,7 +105,7 @@ countMatrix = sim.data.bulk1$counts; row.names(countMatrix) <- row.names(zhang.c
 metadata = sim.data.bulk1$colData; metadata$Group = as.factor(metadata$Group)
 ```
 
-A fundamental task in the analysis of count data from RNA-seq is the detection of differentially expressed genes. For this task we rely on the package DESeq2, starting from counts data. The count data are presented as a table which reports, for each sample, the number of sequence fragments that have been assigned to each gene. 
+A fundamental task in the analysis of count data from RNA-seq is the detection of differentially expressed genes. For this task we rely on the package [DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html), starting from counts data. The count data are presented as a table which reports, for each sample, the number of sequence fragments that have been assigned to each gene. 
 
 We use the built-in SurfR **DGE** function, 
 to perform the differential expression analysis of the simulated dataset.
@@ -497,7 +497,7 @@ After identifying the subset of genes enriched in our specific condition of inte
 a range of analyses becomes useful to move beyond a mere gene list.
 
 A general enrichment analysis allows to gain further insights about upregulated or downregulated DEGs. 
-To do so, we use the SurfR built-in function **Enrichment**,  based on the [enrichR](https://cran.r-project.org/web/packages/enrichR/vignettes/enrichR.html) cran package (Kuleshov et al. 2016). 
+To do so, we use the SurfR built-in function **Enrichment**,  based on the [enrichR](https://cran.r-project.org/web/packages/enrichR/vignettes/enrichR.html) cran package. 
 You have the option to indicate the specific database you wish to utilize among the available in enrichR. 
 The enrichR function `listEnrichrDbs()` allows you to navigate the options. 
 
@@ -526,7 +526,7 @@ head(Enrich$GEO$fdr_up$GO_Biological_Process_2021)
 ```
 
 **SurfR** implements several visualization methods to help interpret enrichment results 
-obtained through EnrichR (Kuleshov et al. 2016) using ggplot2, with the built-in function 
+obtained through EnrichR using ggplot2, with the built-in function 
 **Enrichment_barplot**.
 
 It depicts gene count ratio and enrichment scores (- Log10 adjusted p values) as bar height and color. Users can specify the number of terms (most significant) to display.
