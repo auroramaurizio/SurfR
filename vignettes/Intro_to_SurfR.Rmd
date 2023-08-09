@@ -22,10 +22,15 @@ Aurora Maurizio (maurizio.aurora@hsr.it), Anna Sofia Tascini (tascini.annasofia@
 # Introduction
 
 Proteins at the cell surface connect intracellular and extracellular signaling networks and largely determine a cell’s capacity to communicate and interact with its environment. Since the transcriptomic differences between healthy-tissue and diseased cells might translate into different cell-surface protein repertoires, the investigation of the cell surfaceome could provide new possibilities for diagnosis, prognosis, development of new treatments, and new therapy response evaluation. Cell surface proteins i) may act as biomarkers for the detection of diseased cells in tissues or body fluids and ii) are the most prevalent target of human drugs: 66% of approved human drugs listed in the DrugBank database target a cell-surface protein.
+
 When a study aims to find new biomarkers, the small number of samples often limits the ability to obtain reliable results. However, as costs continue to decrease, several follow-up experiments will likely be conducted to re-address the same biological question, suggesting a need for methods able to jointly analyze data from multiple studies.
+
+
 Surfr` provides a solution to these issues, generating a list of surface protein-coding ranked differentially expressed genes starting from the count matrix of your own RNA-seq experiment or from transcriptomic data automatically retrieved from public databases (e.g. GEO, TCGA).
 GEO queries are based on the ArchS4 pipeline. TCGA repository is interrogated through TCGAbiolinks.
+
 SurfR also offers the opportunity to increase the sample size of a cohort by integrating related datasets, therefore increasing the power to detect differentially expressed genes of interest. Meta-analysis can be performed through metaRNASeq, taking into account inter-study variability that may arise from technical differences among studies (e.g., sample preparation, library protocols, batch effects) as well as additional biological variability.
+
 Gene ontology (GO) and pathway annotation can also be performed within SurfR to gain further insights about surface protein candidates.
 Finally, SurfR includes functions to visualize DEG and enrichment results, aiding in the interpretation of findings.
 
@@ -51,7 +56,7 @@ devtools::install_git("https://srhpcgit01.ricerca.hsr.it/maurizio.aurora/surfr.g
 
 # Quick Start
 
-The basic idea behind **SurfR** has been to create a complete framework to detect surface protein coding genes in your data, or public datasets obtained from multiple studies that can be analyzed and compared in a single run, easily revealing functional consensus and differences among distinct conditions. To begin, let’s ask SurfR which to detect surface protein coding genes among a vector of input genes. Gene ID can be provided as  `gene_name`, `ensembl`, `entrez` or `uniProt_name`.
+The basic idea behind **SurfR** has been to create a complete framework to detect surface protein coding genes within your data, or within public datasets. This framework facilitates the simultaneous analysis and comparison of multiple studies, easily revealing functional consensus and differences among distinct conditions. To begin, let’s ask SurfR which to detect surface protein coding genes among a vector of input genes. Gene ID can be provided as  `gene_name`, `ensembl`, `entrez` or `uniProt_name`.
 
 The protein classification is based on a recently developed surfaceome predictor, called [**SURFY**](http://wlab.ethz.ch/surfaceome/), based on machine learning.
 
