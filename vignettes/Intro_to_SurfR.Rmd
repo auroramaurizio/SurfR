@@ -213,7 +213,7 @@ df_GEO <- DGE(expression = cGSE121810,
               condition = "condition",
               alpha = 0.05,
               TEST = "neoadjuvant", CTRL =  "adjuvant",
-              output_tsv = F)
+              output_tsv = FALSE)
 
 head(df_GEO)
 ```
@@ -307,7 +307,7 @@ df_TCGA <- DGE(expression = cTCGA.THYM,
                condition = "shortLetterCode",
                alpha = 0.05,
                TEST = "TP", CTRL =  "NT",
-               output_tsv = F)
+               output_tsv = FALSE)
 
 head(df_TCGA)
 ```
@@ -419,7 +419,7 @@ df.TCGA <- DGE(expression = cTCGA.BRCA,
            condition = "shortLetterCode",
            alpha = 0.05,
            TEST = "TP", CTRL =  "NT",
-           output_tsv = F)
+           output_tsv = FALSE)
 head(df.TCGA)
 
 # GSE58135 DGE
@@ -430,7 +430,7 @@ df.GSE58135 <- DGE(expression = cGSE58135,
                    condition = "condition",
                    alpha = 0.05,
                    TEST = "TP", CTRL =  "NT",
-                   output_tsv = F)
+                   output_tsv = FALSE)
 head(df.GSE58135)
 
 
@@ -611,8 +611,9 @@ library(edgeR)
 SurfR::plotPCA(matrix = cpm(cGSE121810), metadata = mGSE121810, 
                dims = c(1,2),
                color.by = "condition", shape.by = "therapy", 
-               label = F, main = "PCA GSE121810")
+               label = FALSE, main = "PCA GSE121810")
 ```
+
 
 ## SessionInfo
 
