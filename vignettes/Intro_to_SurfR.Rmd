@@ -614,5 +614,8 @@ SurfR::plotPCA(matrix = cpm(cGSE121810), metadata = mGSE121810,
                label = F, main = "PCA GSE121810")
 ```
 
+## SessionInfo
 
-
+```{r, fig.height= 6, fig.width=7}
+sessionInfo()
+```
