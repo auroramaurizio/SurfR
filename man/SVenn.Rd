@@ -30,7 +30,7 @@ Venn diagram of common surface proteins overexpressed among up to 7 different st
 \examples{
 S_list = list(SP1 = c("EPCAM", "CD24",  "DLK1",  "CDCP1", "LYVE1"),
               SP2 = c("DLK1", "EPCAM", "EGFR", "UPK1A", "UPK2"))
-SP = SVenn(S_list, output_intersectionFile = TRUE)
+SP = SVenn(S_list, output_intersectionFile = FALSE)
 }
 \seealso{
 \code{\link{Gene2SProtein}} for detection of Surface proteins from a list of genes.

@@ -9,6 +9,7 @@
 #' @param BHth Benjamini Hochberg threshold.
 #' @param nrep Vector of numbers of replicates used in each study to calculate the previous one-sided p-values.
 #' @param adjpval.t threshold to represent as binary the Meta-Analysis output adjpval.
+#' @param plot Logical. If TRUE plot histogram of pvalues.
 #' By default, the False Discovery Rate is controlled at 0.05.
 #' @return A list with \code{DEindices} of DEG at the chosen Benjamini Hochberg threshold, and
 #' \code{TestStatistic}, \code{rawpval}, \code{adjpval}, \code{binaryadjpval} vectors for differential expression in the meta-analysis.
@@ -42,12 +43,16 @@
 #' for metaRNASeq package info
 #' @importFrom metaRNASeq fishercomb invnorm
 #' @importFrom gridExtra marrangeGrob
+#' @importFrom grDevices pdf dev.off
+#' @importFrom graphics hist
+#' @importFrom ggplot2 ggsave
 #' @export
 metaRNAseq <- function(ind_deg,
                  test_statistic = "fishercomb",
                  BHth = 0.05,
                  adjpval.t = 0.05,
-                 nrep = NULL) {
+                 nrep = NULL,
+                 plot = FALSE) {
 
   #import::here(metaRNASeq)
 
@@ -80,33 +85,41 @@ metaRNAseq <- function(ind_deg,
     }
     ind_deg[[i]] <- ind_deg[[i]][common_genes,]
     rawpval[[i]] <- ind_deg[[i]][["pvalue"]]
-    pdf(file = paste(names(ind_deg[i]),"_raw_pval_hist.pdf",sep ="", collapse = NULL))
-    hist(rawpval[[i]], breaks=100, col="grey", main= names(ind_deg[i]), xlab="Raw p-values")
-    dev.off()
+    if (plot) {
+      pdf(file = paste(names(ind_deg[i]),"_raw_pval_hist.pdf",sep ="", collapse = NULL))
+      hist(rawpval[[i]], breaks=100, col="grey", main= names(ind_deg[i]), xlab="Raw p-values")
+      dev.off()
+    }
   }
 
-  ggplot2::ggsave(filename = "raw_pval.pdf",
-                  #plot = gridExtra::marrangeGrob(histp, nrow = 1, ncol = 1),
-                  plot = marrangeGrob(histp, nrow = 1, ncol = 1),
-                  device = "pdf")
+  if (plot) {
+    ggsave(filename = "raw_pval.pdf",
+           #plot = gridExtra::marrangeGrob(histp, nrow = 1, ncol = 1),
+           plot = marrangeGrob(histp, nrow = 1, ncol = 1),
+           device = "pdf")
+  }
 
   if (test_statistic == "fishercomb") {
     #fish_comb <- metaRNASeq::fishercomb(rawpval, BHth = BHth)
     fish_comb <- fishercomb(rawpval, BHth = BHth)
     fish_comb$DEname = common_genes
     fish_comb$binaryadjpval=ifelse(fish_comb$adjpval<=adjpval.t,1,0)
-    pdf(file = paste("fishercomb_pval_hist.pdf",sep ="", collapse = NULL))
-    hist(fish_comb$rawpval, breaks=100, col="grey", main= names(ind_deg), xlab="Raw p-values")
-    dev.off()
+    if (plot) {
+      pdf(file = paste("fishercomb_pval_hist.pdf",sep ="", collapse = NULL))
+      hist(fish_comb$rawpval, breaks=100, col="grey", main= names(ind_deg), xlab="Raw p-values")
+      dev.off()
+    }
     return(fish_comb)
   } else if (test_statistic == "invnorm"){
     #inv_norm <- metaRNASeq::invnorm(rawpval, nrep = nrep, BHth = BHth)
     inv_norm <- invnorm(rawpval, nrep = nrep, BHth = BHth)
     inv_norm$DEname = common_genes
     inv_norm$binaryadjpval=ifelse(inv_norm$adjpval<=adjpval.t,1,0)
-    pdf(file = paste("invnorm_pval_hist.pdf",sep ="", collapse = NULL))
-    hist(inv_norm$rawpval, breaks=100, col="grey", main= names(ind_deg), xlab="Raw p-values")
-    dev.off()
+    if (plot) {
+      pdf(file = paste("invnorm_pval_hist.pdf",sep ="", collapse = NULL))
+      hist(inv_norm$rawpval, breaks=100, col="grey", main= names(ind_deg), xlab="Raw p-values")
+      dev.off()
+    }
     return(inv_norm)
   } else {
     stop("The defined test_statistic could only be either fishercomb or invnorm.")

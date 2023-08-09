@@ -11,7 +11,7 @@
 #' @examples
 #' S_list = list(SP1 = c("EPCAM", "CD24",  "DLK1",  "CDCP1", "LYVE1"),
 #'               SP2 = c("DLK1", "EPCAM", "EGFR", "UPK1A", "UPK2"))
-#' SP = SVenn(S_list, output_intersectionFile = TRUE)
+#' SP = SVenn(S_list, output_intersectionFile = FALSE)
 #' @family plot functions
 #' @importFrom venn venn
 #' @importFrom openxlsx write.xlsx
@@ -44,7 +44,7 @@ SVenn <- function(S_list,cols.use=NULL,
     SP <- venn(S_list,
                      opacity = opacity,
                      box = FALSE,
-                     ilab = TRUE,
+                     #ilab = TRUE,
                      zcolor = cols.use,
                      ilcs = 1.5,
                      sncs = 1.5,
@@ -57,7 +57,7 @@ SVenn <- function(S_list,cols.use=NULL,
       list_intersection = attr(x = venn(S_list, intersections = T,
                                               opacity = opacity,
                                               box = FALSE,
-                                              ilab = TRUE,
+                                              #ilab = TRUE,
                                               zcolor = cols.use,
                                               ilcs = 1.5,
                                               sncs = 1.5,

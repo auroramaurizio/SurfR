@@ -69,7 +69,7 @@ Splot <- function(SurfaceProteins_df,
                    panel.background = element_rect(fill = "white",colour = "black", size = 1, linetype = "solid")) +
     labs(x = group.by, y = "N", title = main)
 
-  ggplot2 <- ggrepel <- geom_label_repel <- hue_pal <- aes <- color <- shape <- sampleNames <- NULL
+  ggplot2 <- ggrepel <- geom_label_repel <- hue_pal <- aes <- color <- shape <- sampleNames <- v2plot <- NULL
   return(plot)
 }
 

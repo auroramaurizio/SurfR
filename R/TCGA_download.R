@@ -10,19 +10,22 @@
 #' @return A list containing the Matrix and the metadata.
 #' @importFrom TCGAbiolinks GDCquery GDCdownload GDCprepare
 #' @importFrom SummarizedExperiment assay
-#' @importFrom utils write.table 
+#' @importFrom utils write.table
 #' @import biomaRt
 #' @examples
 #' GBM_list_s1 <- TCGA_download(project="TCGA-GBM",
 #'                              whichcounts = "unstranded",
 #'                              save.matrix = FALSE, save.metadata = FALSE,
 #'                              barcodes = c("TCGA-06-0878-01A-01R-1849-01"))
+#' # remove downloaded data from TCGA
+#' unlink('GDCdata', recursive = TRUE, force = TRUE)
+#' file.remove("MANIFEST.txt")
 #' @family public-data functions
 #' @export
 TCGA_download <- function(project,
                  whichcounts = "unstranded",
-                 save.matrix = F,
-                 save.metadata = F,
+                 save.matrix = FALSE,
+                 save.metadata = FALSE,
                  barcodes = NULL) {
 
       #import::here(TCGAbiolinks)
@@ -55,7 +58,6 @@ TCGA_download <- function(project,
        data <- GDCprepare(query, summarizedExperiment = TRUE)
 
        dir = 'TCGA/'
-       dir.create(dir, recursive = TRUE, showWarnings = FALSE)
 
        # Save matrix
        #Matrix <- SummarizedExperiment::assay(data, whichcounts)
@@ -67,11 +69,13 @@ TCGA_download <- function(project,
        #annotation_table = subset(metadata, select = -c(treatments, primary_site, disease_type))
 
        if (save.matrix ) {
-       write.table(Matrix, file=paste0(dir, project,"_expression.tsv"), sep="\t", quote=FALSE)
+         dir.create(dir, recursive = TRUE, showWarnings = FALSE)
+         write.table(Matrix, file=paste0(dir, project,"_expression.tsv"), sep="\t", quote=FALSE)
        }
 
        if (save.metadata ) {
-       write.table(metadata, file=paste0(dir, project,"_metadata.tsv",sep=""),sep="\t",quote=F)
+         dir.create(dir, recursive = TRUE, showWarnings = FALSE)
+         write.table(metadata, file=paste0(dir, project,"_metadata.tsv",sep=""),sep="\t",quote=F)
        }
 
        mat.met = list(Matrix, metadata)

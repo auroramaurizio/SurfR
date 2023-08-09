@@ -145,6 +145,7 @@ SPup = Gene2SProtein(genes = fdrUP_GeneID, input_type ="gene_name")
 # dowregulated fdr
 fdrDW_GeneID = df_zhang[df_zhang$padj < 0.05 & df_zhang$log2FoldChange < 0,"GeneID"]
 SPdw = Gene2SProtein(genes = fdrDW_GeneID, input_type ="gene_name")
+
 ```
 
 
@@ -210,7 +211,7 @@ df_GEO <- DGE(expression = cGSE121810,
               condition = "condition",
               alpha = 0.05,
               TEST = "neoadjuvant", CTRL =  "adjuvant",
-              output_tsv = F)
+              output_tsv = FALSE)
 
 head(df_GEO)
 ```
@@ -267,7 +268,8 @@ library(SurfR)
 # available samples in the TCGA study
 barcodes2Download = c("TCGA-X7-A8D6-11A-22R-A42C-07", "TCGA-X7-A8D7-11A-11R-A42C-07",
                       "TCGA-XM-A8RB-01A-11R-A42C-07", "TCGA-X7-A8M0-01A-11R-A42C-07")
-TCGA.THYM = TCGA_download(project = "TCGA-THYM", barcodes = barcodes2Download)
+TCGA.THYM = TCGA_download(project = "TCGA-THYM", barcodes = barcodes2Download,
+                          save.matrix = FALSE, save.metadata = FALSE)
 ```
 
 ```{r echo=FALSE, warning=FALSE, include=FALSE, message = FALSE}
@@ -277,7 +279,11 @@ TCGA.THYM = TCGA_download(project = "TCGA-THYM", barcodes = barcodes2Download)
 # available samples in the TCGA study
 barcodes2Download = c("TCGA-X7-A8D6-11A-22R-A42C-07", "TCGA-X7-A8D7-11A-11R-A42C-07",
                       "TCGA-XM-A8RB-01A-11R-A42C-07", "TCGA-X7-A8M0-01A-11R-A42C-07")
-TCGA.THYM = TCGA_download(project = "TCGA-THYM", barcodes = barcodes2Download)
+TCGA.THYM = TCGA_download(project = "TCGA-THYM", barcodes = barcodes2Download,
+                          save.matrix = FALSE, save.metadata = FALSE)
+# remove automatically download dir and file
+unlink('GDCdata', recursive = TRUE, force = TRUE)
+file.remove("MANIFEST.txt")
 ```
 
 ```{r TCGA input}
@@ -304,7 +310,7 @@ df_TCGA <- DGE(expression = cTCGA.THYM,
                condition = "shortLetterCode",
                alpha = 0.05,
                TEST = "TP", CTRL =  "NT",
-               output_tsv = F)
+               output_tsv = FALSE)
 
 head(df_TCGA)
 ```
@@ -366,6 +372,9 @@ barcodes2Download = c("TCGA-BH-A1FU-11A-23R-A14D-07", "TCGA-BH-A1FC-11A-32R-A13Q
                       "TCGA-BH-A0DO-11A-22R-A12D-07", "TCGA-B6-A0RH-01A-21R-A115-07",
                       "TCGA-BH-A1FU-01A-11R-A14D-07", "TCGA-A1-A0SE-01A-11R-A084-07")
 TCGA.BRCA = TCGA_download(project = "TCGA-BRCA", barcodes = barcodes2Download)
+# remove automatically download dir and file
+unlink('GDCdata', recursive = TRUE, force = TRUE)
+file.remove("MANIFEST.txt")
 ```
 
 ```{r meta TCGA_input}
@@ -457,16 +466,18 @@ The function automatically produces and save as .pdf histograms of raw p-values 
 L_fishercomb = metaRNAseq(ind_deg = list(TCGA.BRCA =  df.TCGA, GEO.GSE58135 = df.GSE58135),
                           test_statistic = "fishercomb",
                           BHth = 0.05,
-                          adjpval.t = 0.05)
+                          adjpval.t = 0.05, 
+                          plot = FALSE)
 
 
 L_invnorm = metaRNAseq(ind_deg = list(TCGA.BRCA =  df.TCGA, GEO.GSE58135 = df.GSE58135),
                        test_statistic = "invnorm",
                        BHth = 0.05,
                        adjpval.t = 0.05,
-                       nrep = c(102, 56))
-
+                       nrep = c(102, 56),
+                       plot = FALSE)
 ```
+
 
 Finally, we can summarize the results of the meta-analysis in a data.frame highlighting the statistical information for the common genes to all methods using the built-in SurfR function **combine_fisher_invnorm** and use the built-in SurfR **Gene2SProtein** function to identify Surface protein-coding genes (SP) among those.
 
@@ -478,7 +489,7 @@ metacomb <- combine_fisher_invnorm(ind_deg = list(TCGA.BRCA =  df.TCGA,
                                                   GEO.GSE58135 = df.GSE58135),
                                    invnorm = L_invnorm,
                                    fishercomb = L_fishercomb,
-                                   adjpval = 0.05)
+                                   adjpval = 0.05, output_tsv = FALSE)
 
 
 metacomb_GeneID = metacomb[metacomb$signFC != 0, "GeneID"]
@@ -524,7 +535,8 @@ Enrich = Enrichment(dfList,
                     enrich.databases = c("GO_Biological_Process_2021", 
                                          "KEGG_2021_Human",
                                           "MSigDB_Hallmark_2020"),
-                    p_adj = 0.05, logFC = 1)
+                    p_adj = 0.05, logFC = 1,
+                    save.results = FALSE)
 
 head(Enrich$GEO$fdr_up$GO_Biological_Process_2021)
 

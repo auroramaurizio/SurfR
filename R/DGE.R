@@ -31,6 +31,7 @@
 #' @importFrom DESeq2 DESeqDataSetFromMatrix DESeq counts results
 #' @importFrom edgeR cpm
 #' @importFrom utils write.table
+#' @importFrom stats as.formula
 #' @export
 
 DGE <- function(expression,
@@ -112,6 +113,7 @@ DGE <- function(expression,
   if (output_tsv) {
     write.table(dgeResults, output_filename, quote = F, sep = "\t")
   }
+
 
   return(dgeResults) }
 

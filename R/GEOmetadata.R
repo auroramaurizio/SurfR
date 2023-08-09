@@ -19,7 +19,7 @@
 #' @seealso
 #' \url{https://www.ncbi.nlm.nih.gov/geo} for info on GEO repository
 #' @family public-data functions
-#' @importFrom stringr str_remove_all str_sub str_replace_all
+#' @importFrom stringr str_remove_all str_sub str_replace_all str_split
 #' @export
 GEOmetadata <- function(GSE, GPL = "") {
   #import::here(stringr, str_remove_all)
@@ -99,7 +99,7 @@ GEOmetadata <- function(GSE, GPL = "") {
     metadata = Reduce(f = rbind, metadata_i)
     }
 
-  stringr <- str_remove_all <- str_sub <- str_split <- str_split <- str_replace_all <- read.table <- NULL
+  stringr <- str_remove_all <- str_sub <- str_split <- str_replace_all <- read.table <- NULL
   return(metadata)
 
 }

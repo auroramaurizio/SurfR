@@ -34,7 +34,7 @@
 #' @importFrom tidyr separate_rows
 #' @importFrom magrittr %>%
 #' @importFrom utils write.table
-#' @import dplyr
+#' @importFrom dplyr group_by summarise ungroup
 #'
 #' @export
 
@@ -96,6 +96,7 @@ Annotate_SPID <- function(DGE,
   if (output_tsv) {
     write.table(merged, paste(enrich.database, "_SP_annotation.tsv", sep ="_"), quote = F, sep = "\t")
   }
+  GeneID <- term <- NULL
   return(merged)
 }
 
