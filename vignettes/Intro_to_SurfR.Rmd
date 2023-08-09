@@ -241,7 +241,7 @@ SPdw = Gene2SProtein(genes = fdrDW_GeneID, input_type ="gene_name")
 
 ### Download from TCGA (The Cancer Genome Atlas Program)
 
-The Cancer Genome Atlas [TCGA](https://tcga-data.nci.nih.gov/tcga/) contains data for thousands of tumor samples across more than 20 types of cancer. Navigating through all of the files manually is impossible. Therefore we provide a function based on TCGAbiolinks that automates and streamlines the retrieval of public TCGA transcriptomics data. 
+[TCGA](https://tcga-data.nci.nih.gov/tcga/) contains data for thousands of tumor samples across more than 20 types of cancer. Navigating through all of the files manually is impossible. Therefore we provide a function based on TCGAbiolinks that automates and streamlines the retrieval of public TCGA transcriptomics data. 
 Note that to use this function you need to install the developmental version of
 [TCGAbiolinks](https://github.com/BioinformaticsFMRP/TCGAbiolinks).
 
@@ -497,7 +497,7 @@ After identifying the subset of genes enriched in our specific condition of inte
 a range of analyses becomes useful to move beyond a mere gene list.
 
 A general enrichment analysis allows to gain further insights about upregulated or downregulated DEGs. 
-To do so, we use the SurfR built-in function **Enrichment**,  based on the **enrichR** cran package (Kuleshov et al. 2013). 
+To do so, we use the SurfR built-in function **Enrichment**,  based on the [enrichR](https://cran.r-project.org/web/packages/enrichR/vignettes/enrichR.html) cran package (Kuleshov et al. 2013). 
 You have the option to indicate the specific database you wish to utilize among the available in enrichR. 
 The enrichR function `listEnrichrDbs()` allows you to navigate the options. 
 
