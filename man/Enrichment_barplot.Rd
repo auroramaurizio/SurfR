@@ -10,7 +10,8 @@ Enrichment_barplot(
     "GO_Molecular_Function_2021"),
   p_adj = 0.05,
   num_term = 10,
-  cond = "UP"
+  cond = "UP",
+  plot = FALSE
 )
 }
 \arguments{
@@ -24,6 +25,8 @@ Output of Enrichment.R function for one DGE experiment.}
 \item{num_term}{Double. Number of up-regulated and dw-regulated terms to represent}
 
 \item{cond}{String. Title of the plot.}
+
+\item{plot}{Logical. If TRUE save plot as pdf.}
 }
 \description{
 Barplot representing the top up-regulated or down-regulated significant pathways

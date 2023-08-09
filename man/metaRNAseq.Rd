@@ -9,7 +9,8 @@ metaRNAseq(
   test_statistic = "fishercomb",
   BHth = 0.05,
   adjpval.t = 0.05,
-  nrep = NULL
+  nrep = NULL,
+  plot = FALSE
 )
 }
 \arguments{
@@ -21,10 +22,12 @@ By default: \code{fishercomb}.}
 
 \item{BHth}{Benjamini Hochberg threshold.}
 
-\item{adjpval.t}{threshold to represent as binary the Meta-Analysis output adjpval.
-By default, the False Discovery Rate is controlled at 0.05.}
+\item{adjpval.t}{threshold to represent as binary the Meta-Analysis output adjpval.}
 
 \item{nrep}{Vector of numbers of replicates used in each study to calculate the previous one-sided p-values.}
+
+\item{plot}{Logical. If TRUE plot histogram of pvalues.
+By default, the False Discovery Rate is controlled at 0.05.}
 }
 \value{
 A list with \code{DEindices} of DEG at the chosen Benjamini Hochberg threshold, and

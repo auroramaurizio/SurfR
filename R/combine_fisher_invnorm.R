@@ -109,6 +109,8 @@ combine_fisher_invnorm <- function(ind_deg,
     write.table(comb, output_filename, quote = F, sep = "\t")
   }
 
+  GeneID <- NULL
+
   return(comb)
 
 }

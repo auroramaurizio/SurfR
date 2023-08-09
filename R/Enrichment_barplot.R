@@ -8,6 +8,7 @@
 #' @param p_adj Double. Minimum Adjusted pvalue threshold for the enrichment
 #' @param num_term Double. Number of up-regulated and dw-regulated terms to represent
 #' @param cond String. Title of the plot.
+#' @param plot Logical. If TRUE save plot as pdf.
 #' @examples
 #' dbs = c("GO_Biological_Process_2021","WikiPathways_2016", "MSigDB_Hallmark_2020")
 #' dfList <- list()
@@ -31,6 +32,8 @@
 #' @family plot functions
 #' @importFrom stringr str_replace
 #' @importFrom ggplot2 ggplot geom_bar aes scale_fill_gradient scale_x_discrete labs coord_flip
+#' @importFrom utils head
+#' @importFrom grDevices pdf dev.off
 #' @export
 #'
 
@@ -39,7 +42,8 @@ Enrichment_barplot <- function(Enrich,
                                enrich.databases  = c("GO_Biological_Process_2021",
                                                      "GO_Cellular_Component_2021",
                                                      "GO_Molecular_Function_2021"),
-                               p_adj = 0.05, num_term = 10, cond = "UP") {
+                               p_adj = 0.05, num_term = 10, cond = "UP",
+                               plot = FALSE) {
 
 
      #import::here(stringr)
@@ -117,11 +121,13 @@ Enrichment_barplot <- function(Enrich,
        labs(title = cond) +
        coord_flip()
 
+     if (plot) {
+       pdf("Top_sig_Pathways_barplot.pdf", 10, 5)
+       p_top_sig
+       dev.off()
+     }
 
-     pdf("Top_sig_Pathways_barplot.pdf", 10, 5)
-     p_top_sig
-     dev.off()
-
+     Pathway <- gene.ratio <- Log10Adj.P.value <- NULL
      return(p_top_sig)
 
 }

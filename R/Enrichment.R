@@ -6,6 +6,7 @@
 #' @param enrich.databases Vector of EnrichR databases to consult
 #' @param p_adj Double. Adjusted pvalue threshold for the enrichment
 #' @param logFC Double. Fold change threshold for the enrichment
+#' @param save.results Logical. If TRUE saves input gene lists and enrichment results.
 #' @return A list of enrichment tables for upregulated and downregulated genes
 #' in the different enrichr databases
 #' @examples
@@ -20,7 +21,7 @@
 #'                   padj = c(2.28e-143, 2.18e-115, 2.18e-45, 0.006),
 #'                   row.names = c("MEST", "CDK1", "PCLAF", "BIRC5"))
 #' dfList = list(df1 = df1, df2 = df2)
-#' test = Enrichment(dfList)
+#' test = Enrichment(dfList, save.results = FALSE)
 #' @family functional-annotation functions
 #' @seealso \url{https://maayanlab.cloud/Enrichr/} for additional information about enrichR.
 #' @importFrom enrichR listEnrichrDbs enrichr
@@ -39,12 +40,12 @@ Enrichment <- function(dfList ,enrich.databases  = c("GO_Biological_Process_2021
                                           "Jensen_TISSUES",
                                           "Jensen_COMPARTMENTS",
                                           "Jensen_DISEASES"),
-                       p_adj = 0.05, logFC = 1) {
+                       p_adj = 0.05, logFC = 1,
+                       save.results = FALSE) {
 
   #import::here(enrichR)
   #import::here(openxlsx)
 
-  dir.create('enrichR/', showWarnings=FALSE, recursive=TRUE)
   enrichr.list <- list()
   # -------------------------
   # enrichment Parameters
@@ -81,9 +82,13 @@ Enrichment <- function(dfList ,enrich.databases  = c("GO_Biological_Process_2021
   if (length(neg_list)==0) {
     warning(paste("There are no significantly downregulated genes in",i))
   } else {
-    write.table(neg_list, paste('./enrichR/FDRdown_',i,
-                                '.txt', sep =''), quote = F,
-                row.names = F, col.names = F)
+    if (save.results) {
+      dir.create('enrichR/', showWarnings=FALSE, recursive=TRUE)
+      write.table(neg_list, paste('./enrichR/FDRdown_',i,
+                                  '.txt', sep =''), quote = F,
+                  row.names = F, col.names = F)
+    }
+
   }
 
 
@@ -96,9 +101,13 @@ Enrichment <- function(dfList ,enrich.databases  = c("GO_Biological_Process_2021
   if (length(pos_list)==0) {
     warning(paste("There are no significantly upregulated genes in",i))
   } else {
-    write.table(pos_list, paste('./enrichR/FDRup_',i,
-                                '.txt', sep =''), quote = F,
-                row.names = F, col.names = F)
+    if (save.results) {
+      dir.create('enrichR/', showWarnings=FALSE, recursive=TRUE)
+      write.table(pos_list, paste('./enrichR/FDRup_',i,
+                                  '.txt', sep =''), quote = F,
+                  row.names = F, col.names = F)
+    }
+
   }
 
 
@@ -111,14 +120,19 @@ Enrichment <- function(dfList ,enrich.databases  = c("GO_Biological_Process_2021
 
   }
 
-  for (i in names(dfList)) {
-     for (j in c("fdr_up","fdr_down")){
-       filename = paste("./enrichR/",i,j,".xlsx", sep="")
-       if(!is.null(enrichr.list[[i]][[j]])) {
-         #openxlsx::write.xlsx(x = enrichr.list[[i]][[j]], file = filename)
-         write.xlsx(x = enrichr.list[[i]][[j]], file = filename)
-         }
-       }}
+  if (save.results) {
+    dir.create('enrichR/', showWarnings=FALSE, recursive=TRUE)
+    for (i in names(dfList)) {
+      for (j in c("fdr_up","fdr_down")){
+        filename = paste("./enrichR/",i,j,".xlsx", sep="")
+        if(!is.null(enrichr.list[[i]][[j]])) {
+          #openxlsx::write.xlsx(x = enrichr.list[[i]][[j]], file = filename)
+          write.xlsx(x = enrichr.list[[i]][[j]], file = filename)
+        }
+      }}
+  }
 
-  return(enrichr.list)  }
+
+  return(enrichr.list)
+  }
 

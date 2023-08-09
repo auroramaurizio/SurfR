@@ -55,7 +55,7 @@ you might loose some match due to difference gene version IDs.
              "ENSG00000095574", "ENSG00000140678", "ENSG00000262484", "ENSG00000133739",
              "ENSG00000172469", "ENSG00000112992", "ENSG00000148343", "ENSG00000138593")
  SurfaceProteins_df = Gene2SProtein(Ensembl, input_type = "ensembl",
-                                   output_tsv = TRUE, Surfy_version = "new")
+                                   output_tsv = FALSE, Surfy_version = "new")
 }
 \seealso{
 \code{\link{DGE}} for DGE analysis,

@@ -11,7 +11,8 @@ Enrichment(
     "WikiPathways_2016", "BioCarta_2016", "Jensen_TISSUES", "Jensen_COMPARTMENTS",
     "Jensen_DISEASES"),
   p_adj = 0.05,
-  logFC = 1
+  logFC = 1,
+  save.results = FALSE
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ Enrichment(
 \item{p_adj}{Double. Adjusted pvalue threshold for the enrichment}
 
 \item{logFC}{Double. Fold change threshold for the enrichment}
+
+\item{save.results}{Logical. If TRUE saves input gene lists and enrichment results.}
 }
 \value{
 A list of enrichment tables for upregulated and downregulated genes
@@ -42,7 +45,7 @@ df2 <- data.frame(GeneID  = c("MEST", "CDK1", "PCLAF", "BIRC5"),
                   padj = c(2.28e-143, 2.18e-115, 2.18e-45, 0.006),
                   row.names = c("MEST", "CDK1", "PCLAF", "BIRC5"))
 dfList = list(df1 = df1, df2 = df2)
-test = Enrichment(dfList)
+test = Enrichment(dfList, save.results = FALSE)
 }
 \seealso{
 \url{https://maayanlab.cloud/Enrichr/} for additional information about enrichR.
