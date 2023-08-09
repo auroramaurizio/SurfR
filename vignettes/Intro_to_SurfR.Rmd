@@ -29,7 +29,7 @@ Importantly, variations in transcriptomic profiles are often observed between he
 When a study aims to find new biomarkers, the small number of samples often limits the ability to obtain reliable results. However, as sequencing costs continue to decrease, several follow-up experiments will likely be conducted to re-address the same biological question, suggesting a need for methods able to jointly analyze data from multiple studies.
 
 
-**Surfr** provides a solution to these issues, generating a list of ranked surface protein-coding differentially-expressed genes starting from the raw count matrix of your own RNA-seq experiment or from bulk transcriptomic data automatically retrieved from public databases such as GEO and TCGA.
+**SurfR** provides a solution to these issues, generating a list of ranked surface protein-coding differentially-expressed genes starting from the raw count matrix of your own RNA-seq experiment or from bulk transcriptomic data automatically retrieved from public databases such as GEO and TCGA.
 GEO queries are based on the ArchS4 pipeline. TCGA repository is interrogated through TCGAbiolinks.
 
 **SurfR** also offers the opportunity to increase the sample size of a cohort by integrating related datasets, therefore enhancing the power to detect differentially expressed genes of interest. Meta-analysis can be performed through metaRNASeq, taking into account inter-study variability that may arise from technical differences among studies (e.g., sample preparation, library protocols, batch effects) as well as additional biological variability.
