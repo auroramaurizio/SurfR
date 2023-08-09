@@ -1,7 +1,7 @@
 Package: SurfR
 Type: Package
 Title: Surface Protein Prediction and Identification
-Version: 0.1.0
+Version: 0.99.0
 Author: Aurora Maurizio and Anna Sofia Tascini <maurizio.aurora@hsr.it> <tascini.annasofia@hsr.it>
         person("Aurora", "Maurizio",
                 email = maurizio.aurora@hsr.it,
