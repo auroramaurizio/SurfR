@@ -137,6 +137,8 @@ We use the built-in SurfR **Gene2SProtein** function to identify
 Surface protein-coding genes (SP). 
 
 ```{r G2P zhang}
+# remove NA values
+df_zhang <- df_zhang[!is.na(df_zhang$padj),]
 # all fdr
 fdr_GeneID = df_zhang[df_zhang$padj < 0.05,"GeneID"]
 SP = Gene2SProtein(genes = fdr_GeneID, input_type ="gene_name")
@@ -227,6 +229,8 @@ We use the built-in SurfR **Gene2SProtein** function to identify
 Surface protein-coding genes (SP). 
 
 ```{r GEO SP}
+# remove NA values
+df_GEO <- df_GEO[!is.na(df_GEO$padj),]
 # Detect SP amoung differentially expressed genes
 fdr_GeneID = df_GEO[df_GEO$padj < 0.1,"GeneID"]
 SP = Gene2SProtein(genes = fdr_GeneID, input_type ="gene_name")
@@ -322,6 +326,10 @@ We use the built-in SurfR **Gene2SProtein** function to identify
 Surface protein-coding genes (SP).
 
 ```{r TCGA SP}
+
+# remove NA values
+df_TCGA <- df_TCGA[!is.na(df_TCGA$padj),]
+
 fdr_GeneID = df_TCGA[df_TCGA$padj < 0.05,"GeneID"]
 SP = Gene2SProtein(genes = fdr_GeneID, input_type ="gene_name")
 
