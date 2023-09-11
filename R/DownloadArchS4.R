@@ -24,9 +24,6 @@
 #' @export
 #'
 DownloadArchS4 <- function(GSM, species, print_tsv = FALSE, filename = NULL) {
-  #import::here(rhdf5, h5read)
-  #import::here(rhdf5, H5close)
-
 
 
   options(timeout=600)
