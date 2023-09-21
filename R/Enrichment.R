@@ -20,8 +20,8 @@
 #'                   log2FoldChange = c(5.78, 6.76, -7.78, -8.78),
 #'                   padj = c(2.28e-143, 2.18e-115, 2.18e-45, 0.006),
 #'                   row.names = c("MEST", "CDK1", "PCLAF", "BIRC5"))
-#' dfList = list(df1 = df1, df2 = df2)
-#' test = Enrichment(dfList, save.results = FALSE)
+#' dfList <- list(df1 = df1, df2 = df2)
+#' test <- Enrichment(dfList, save.results = FALSE)
 #' @family functional-annotation functions
 #' @seealso \url{https://maayanlab.cloud/Enrichr/} for additional information about enrichR.
 #' @importFrom enrichR listEnrichrDbs enrichr
@@ -52,7 +52,7 @@ Enrichment <- function(dfList ,enrich.databases  = c("GO_Biological_Process_2021
   # -------------------------
 
   #db = enrichR::listEnrichrDbs()
-  db = listEnrichrDbs()
+  db <- listEnrichrDbs()
   if (length(setdiff(enrich.databases, db$libraryName))>0) {
     warning(paste(setdiff(enrich.databases, db$libraryName), "is not an enrichR geneset and will be removed.\n"))
     enrich.databases = intersect(enrich.databases, db$libraryName)
@@ -67,7 +67,7 @@ Enrichment <- function(dfList ,enrich.databases  = c("GO_Biological_Process_2021
       df_obj <- dfList[[i]]
       signif <- (df_obj[df_obj$padj <= p_adj, ])
   number_of_sig_genes  <- nrow(signif)
-  #print(head(signif))
+
   cat(i, number_of_sig_genes, "significant genes\n")
 
   if (number_of_sig_genes == 0 ) {
@@ -78,7 +78,7 @@ Enrichment <- function(dfList ,enrich.databases  = c("GO_Biological_Process_2021
   neg <- nrow(signif[signif$log2FoldChange < logFC, ])
   cat(i, neg, "negative fold change\n")
 
-  neg_list <-  rownames(signif[signif$log2FoldChange < logFC, ])
+  neg_list <- rownames(signif[signif$log2FoldChange < logFC, ])
   if (length(neg_list)==0) {
     warning(paste("There are no significantly downregulated genes in",i))
   } else {
@@ -113,7 +113,6 @@ Enrichment <- function(dfList ,enrich.databases  = c("GO_Biological_Process_2021
 
 
   enrichr.list[[i]] <- lapply(list(pos_list,neg_list),function(x) {
-    #enrichR::enrichr(genes = x, databases = enrich.databases)
     enrichr(genes = x, databases = enrich.databases)
   })
   names(enrichr.list[[i]]) <-  c("fdr_up","fdr_down")
@@ -124,7 +123,7 @@ Enrichment <- function(dfList ,enrich.databases  = c("GO_Biological_Process_2021
     dir.create('enrichR/', showWarnings=FALSE, recursive=TRUE)
     for (i in names(dfList)) {
       for (j in c("fdr_up","fdr_down")){
-        filename = paste("./enrichR/",i,j,".xlsx", sep="")
+        filename <- paste("./enrichR/",i,j,".xlsx", sep="")
         if(!is.null(enrichr.list[[i]][[j]])) {
           #openxlsx::write.xlsx(x = enrichr.list[[i]][[j]], file = filename)
           write.xlsx(x = enrichr.list[[i]][[j]], file = filename)

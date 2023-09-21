@@ -138,52 +138,52 @@ plotPCA <- function(matrix,
     } else {
       score$sampleNames = new.label
     }
-   # pca = ggplot2::ggplot(score, ggplot2::aes(score[,pcx], y=score[,pcy], color=color, shape = shape, label = sampleNames)) +
-   #   ggrepel::geom_label_repel(data= score, ggplot2::aes(x=score[,pcx], y=score[,pcy],
-   #                                     color=color, label = sampleNames),
-   #                    size = 6,  box.padding = ggplot2::unit(1, "lines"),
-   #                    point.padding = ggplot2::unit(0.1, "lines"),
-   #                    segment.color = 'grey50') +
-   #   ggplot2::geom_point(size= pt.size)+
-   #   ggplot2::xlab(xlab) +
-   #   ggplot2::ylab(ylab) +
-   #   ggplot2::coord_fixed() + ggplot2::ggtitle(main) +
-   #   ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) +
-   #   ggplot2::theme_bw(base_size = 16) + #+ theme(legend.position = "right") +
-   #   ggplot2::geom_hline(yintercept=0, linetype="dashed", color = "darkgrey") +
-   #   ggplot2::geom_vline(xintercept=0, linetype="dashed", color = "darkgrey") +
-   #   ggplot2::theme(plot.title = ggplot2::element_text(color="black", size=16, face="bold.italic"),
-   #         axis.text.x = ggplot2::element_text(angle = 0, face = "bold", color = "black", size=12, hjust =.5),
-   #         axis.title.x = ggplot2::element_text(face = "bold", color = "black", size = 14),
-   #         axis.text.y = ggplot2::element_text(angle = 0, face = "bold", color = "black", size=12),
-   #         axis.title.y = ggplot2::element_text(face = "bold", color = "black", size = 14),
-   #         legend.text = ggplot2::element_text(face = "bold", color = "black", size = 10),
-   #         legend.position="right",
-   #         panel.background = ggplot2::element_rect(fill = "white",colour = "black", size = 1, linetype = "solid")) +
-   #   ggplot2::scale_color_manual(values=cols.use, name = color.by) +
-   #   ggplot2::scale_shape_manual(values = shape.use, name = shape.by)
- # } else {
-   #pca = ggplot2::ggplot(score, ggplot2::aes(score[,pcx], y=score[,pcy], color=color, shape = shape)) +
-   #   ggplot2::geom_point(size= pt.size)+
-   #  ggplot2::xlab(xlab) +
-   #   ggplot2::ylab(ylab) +
-   #   ggplot2::coord_fixed() + ggplot2::ggtitle(main) +
-   #   ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) +
-   #   ggplot2::theme_bw(base_size = 16) + #+ theme(legend.position = "right") +
-   #   ggplot2::geom_hline(yintercept=0, linetype="dashed", color = "darkgrey") +
-   #   ggplot2::geom_vline(xintercept=0, linetype="dashed", color = "darkgrey") +
-   #  ggplot2::theme(plot.title = ggplot2::element_text(color="black", size=16, face="bold.italic"),
-   #         axis.text.x = ggplot2::element_text(angle = 0, face = "bold", color = "black", size=12, hjust =.5),
-   #         axis.title.x = ggplot2::element_text(face = "bold", color = "black", size = 14),
-   #         axis.text.y = ggplot2::element_text(angle = 0, face = "bold", color = "black", size=12),
-   #         axis.title.y = ggplot2::element_text(face = "bold", color = "black", size = 14),
-   #         legend.text = ggplot2::element_text(face = "bold", color = "black", size = 10),
-   #         legend.position="right",
-   #         panel.background = ggplot2::element_rect(fill = "white",colour = "black", size = 1, linetype = "solid")) +
-   #   ggplot2::scale_color_manual(values=cols.use, name = color.by) +
-   #   ggplot2::scale_shape_manual(values = shape.use, name = shape.by)
+    # pca = ggplot2::ggplot(score, ggplot2::aes(score[,pcx], y=score[,pcy], color=color, shape = shape, label = sampleNames)) +
+    #   ggrepel::geom_label_repel(data= score, ggplot2::aes(x=score[,pcx], y=score[,pcy],
+    #                                     color=color, label = sampleNames),
+    #                    size = 6,  box.padding = ggplot2::unit(1, "lines"),
+    #                    point.padding = ggplot2::unit(0.1, "lines"),
+    #                    segment.color = 'grey50') +
+    #   ggplot2::geom_point(size= pt.size)+
+    #   ggplot2::xlab(xlab) +
+    #   ggplot2::ylab(ylab) +
+    #   ggplot2::coord_fixed() + ggplot2::ggtitle(main) +
+    #   ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) +
+    #   ggplot2::theme_bw(base_size = 16) + #+ theme(legend.position = "right") +
+    #   ggplot2::geom_hline(yintercept=0, linetype="dashed", color = "darkgrey") +
+    #   ggplot2::geom_vline(xintercept=0, linetype="dashed", color = "darkgrey") +
+    #   ggplot2::theme(plot.title = ggplot2::element_text(color="black", size=16, face="bold.italic"),
+    #         axis.text.x = ggplot2::element_text(angle = 0, face = "bold", color = "black", size=12, hjust =.5),
+    #         axis.title.x = ggplot2::element_text(face = "bold", color = "black", size = 14),
+    #         axis.text.y = ggplot2::element_text(angle = 0, face = "bold", color = "black", size=12),
+    #         axis.title.y = ggplot2::element_text(face = "bold", color = "black", size = 14),
+    #         legend.text = ggplot2::element_text(face = "bold", color = "black", size = 10),
+    #         legend.position="right",
+    #         panel.background = ggplot2::element_rect(fill = "white",colour = "black", size = 1, linetype = "solid")) +
+    #   ggplot2::scale_color_manual(values=cols.use, name = color.by) +
+    #   ggplot2::scale_shape_manual(values = shape.use, name = shape.by)
+    # } else {
+    #pca = ggplot2::ggplot(score, ggplot2::aes(score[,pcx], y=score[,pcy], color=color, shape = shape)) +
+    #   ggplot2::geom_point(size= pt.size)+
+    #  ggplot2::xlab(xlab) +
+    #   ggplot2::ylab(ylab) +
+    #   ggplot2::coord_fixed() + ggplot2::ggtitle(main) +
+    #   ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5)) +
+    #   ggplot2::theme_bw(base_size = 16) + #+ theme(legend.position = "right") +
+    #   ggplot2::geom_hline(yintercept=0, linetype="dashed", color = "darkgrey") +
+    #   ggplot2::geom_vline(xintercept=0, linetype="dashed", color = "darkgrey") +
+    #  ggplot2::theme(plot.title = ggplot2::element_text(color="black", size=16, face="bold.italic"),
+    #         axis.text.x = ggplot2::element_text(angle = 0, face = "bold", color = "black", size=12, hjust =.5),
+    #         axis.title.x = ggplot2::element_text(face = "bold", color = "black", size = 14),
+    #         axis.text.y = ggplot2::element_text(angle = 0, face = "bold", color = "black", size=12),
+    #         axis.title.y = ggplot2::element_text(face = "bold", color = "black", size = 14),
+    #         legend.text = ggplot2::element_text(face = "bold", color = "black", size = 10),
+    #         legend.position="right",
+    #         panel.background = ggplot2::element_rect(fill = "white",colour = "black", size = 1, linetype = "solid")) +
+    #   ggplot2::scale_color_manual(values=cols.use, name = color.by) +
+    #   ggplot2::scale_shape_manual(values = shape.use, name = shape.by)
 
- # }
+    # }
 
     pca = ggplot(score, aes(score[,pcx], y=score[,pcy], color=color, shape = shape, label = sampleNames)) +
       geom_label_repel(data= score, aes(x=score[,pcx], y=score[,pcy],

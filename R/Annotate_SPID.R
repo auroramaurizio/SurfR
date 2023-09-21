@@ -156,20 +156,19 @@ Annotate_SPID <- function(DGE,
     stop(paste(enrich.database, "is not a valid enrichR geneset."))
   }
   #annotation_table = hypeR::enrichr_download(enrich.database)
-  annotation_table = enrichr_download(enrich.database)
+  annotation_table <- enrichr_download(enrich.database)
 
   # here gives a warning, but we can safely ignore it
-  suppressWarnings({annotation_table = as.data.frame(do.call(rbind, annotation_table))})
+  suppressWarnings({annotation_table <- as.data.frame(do.call(rbind, annotation_table))})
 
-  colNames = colnames(annotation_table) # could be any number of column names here
-  #annotation_table['test'] = assertr::col_concat(annotation_table, sep = " ")
-  annotation_table['test'] = col_concat(annotation_table, sep = " ")
+  colNames <- colnames(annotation_table) # could be any number of column names here
+  annotation_table['test'] <- col_concat(annotation_table, sep = " ")
   annotation_table['GeneID'] <- trimws(annotation_table$test, which = c("both")) #remove whitespaces
-  annotation_table$term = row.names(annotation_table)
-  annotation_table_sub=annotation_table[,c("term","GeneID")]
+  annotation_table$term <- row.names(annotation_table)
+  annotation_table_sub <- annotation_table[,c("term","GeneID")]
 
   #exploded = unique(tidyr::separate_rows(annotation_table_sub, GeneID, sep = " ", convert = FALSE))
-  exploded = unique(separate_rows(annotation_table_sub, GeneID, sep = " ", convert = FALSE))
+  exploded <- unique(separate_rows(annotation_table_sub, GeneID, sep = " ", convert = FALSE))
   #group by gene.. that is: one gene x row with associated all the descriptions (space separated)
   grouped  <-
     exploded %>%
@@ -180,7 +179,7 @@ Annotate_SPID <- function(DGE,
     summarise(temp = toString(term)) %>%
     ungroup()
 
-  colnames(grouped)=c("GeneID",enrich.database)
+  colnames(grouped) <- c("GeneID",enrich.database)
 
   merged <- merge(DGE, grouped, by="GeneID", all.x = TRUE)
 

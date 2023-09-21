@@ -15,7 +15,7 @@
 #' \code{TestStatistic}, \code{rawpval}, \code{adjpval}, \code{binaryadjpval} vectors for differential expression in the meta-analysis.
 #' @examples
 #' # Deseq2 output samples
-#' DGE1 = data.frame(GeneID = c("DLK1", "EPCAM"),
+#' DGE1 <- data.frame(GeneID = c("DLK1", "EPCAM"),
 #'                  Mean_CPM_T = c(5.92, 9.91),
 #'                  Mean_CPM_C = c(0.04, 0.03),
 #'                  log2FoldChange = c(10.22, 8.42),
@@ -24,7 +24,7 @@
 #'                  pvalue = c(7.30135e-37, 4.37011e-70),
 #'                  padj = c(1.49936e-35, 1.12976e-67),
 #'                  row.names = c("DLK1", "EPCAM"))
-#' DGE2 = data.frame(GeneID = c("DLK1", "EPCAM"),
+#' DGE2 <- data.frame(GeneID = c("DLK1", "EPCAM"),
 #'                  Mean_CPM_T = c(3.92, 8.91),
 #'                  Mean_CPM_C = c(0.04, 0.03),
 #'                  log2FoldChange = c(7.22, 5.81),
@@ -34,9 +34,9 @@
 #'                  padj = c(1.49936e-35, 1.12976e-67),
 #'                  row.names = c("DLK1", "EPCAM"))
 #' # input list
-#' ind_deg = list(DEG1_df = DGE1, DEG2_df = DGE2)
+#' ind_deg <- list(DEG1_df = DGE1, DEG2_df = DGE2)
 #' # perform meta-analysis
-#' comb_pval_df = metaRNAseq(ind_deg, test_statistic = "invnorm", BHth = 0.05, nrep = c(2,2))
+#' comb_pval_df <- metaRNAseq(ind_deg, test_statistic = "invnorm", BHth = 0.05, nrep = c(2,2))
 #' @family meta-analysis functions
 #' @seealso \code{\link{DGE}} for DGE analysis,
 #' and \url{https://cran.r-project.org/web/packages/metaRNASeq/vignettes/metaRNASeq.pdf}
@@ -54,7 +54,6 @@ metaRNAseq <- function(ind_deg,
                  nrep = NULL,
                  plot = FALSE) {
 
-  #import::here(metaRNASeq)
 
   # Check if ind_deg is a list of at least two data.frame
 
@@ -65,7 +64,7 @@ metaRNAseq <- function(ind_deg,
     stop(paste("ind_deg contains", length(ind_deg), "data.frame. Please provide a list of at least two data.frames"))
   }
 
-  common_genes = Reduce(intersect, lapply(ind_deg, rownames))
+  common_genes <- Reduce(intersect, lapply(ind_deg, rownames))
   if (length(common_genes) == 0) {
     stop(" your DGE data.frames do not have any shared gene")
   }
@@ -74,7 +73,6 @@ metaRNAseq <- function(ind_deg,
   if (test_statistic == "invnorm" & length(ind_deg) != length(nrep)){
     stop("nrep must have the same number of elements of ind_deg.")
   }
-
 
   histp  <- list()
   rawpval <- list()
@@ -94,7 +92,6 @@ metaRNAseq <- function(ind_deg,
 
   if (plot) {
     ggsave(filename = "raw_pval.pdf",
-           #plot = gridExtra::marrangeGrob(histp, nrow = 1, ncol = 1),
            plot = marrangeGrob(histp, nrow = 1, ncol = 1),
            device = "pdf")
   }
@@ -102,8 +99,8 @@ metaRNAseq <- function(ind_deg,
   if (test_statistic == "fishercomb") {
     #fish_comb <- metaRNASeq::fishercomb(rawpval, BHth = BHth)
     fish_comb <- fishercomb(rawpval, BHth = BHth)
-    fish_comb$DEname = common_genes
-    fish_comb$binaryadjpval=ifelse(fish_comb$adjpval<=adjpval.t,1,0)
+    fish_comb$DEname <- common_genes
+    fish_comb$binaryadjpval <- ifelse(fish_comb$adjpval<=adjpval.t,1,0)
     if (plot) {
       pdf(file = paste("fishercomb_pval_hist.pdf",sep ="", collapse = NULL))
       hist(fish_comb$rawpval, breaks=100, col="grey", main= names(ind_deg), xlab="Raw p-values")
@@ -113,8 +110,8 @@ metaRNAseq <- function(ind_deg,
   } else if (test_statistic == "invnorm"){
     #inv_norm <- metaRNASeq::invnorm(rawpval, nrep = nrep, BHth = BHth)
     inv_norm <- invnorm(rawpval, nrep = nrep, BHth = BHth)
-    inv_norm$DEname = common_genes
-    inv_norm$binaryadjpval=ifelse(inv_norm$adjpval<=adjpval.t,1,0)
+    inv_norm$DEname <- common_genes
+    inv_norm$binaryadjpval <- ifelse(inv_norm$adjpval<=adjpval.t,1,0)
     if (plot) {
       pdf(file = paste("invnorm_pval_hist.pdf",sep ="", collapse = NULL))
       hist(inv_norm$rawpval, breaks=100, col="grey", main= names(ind_deg), xlab="Raw p-values")

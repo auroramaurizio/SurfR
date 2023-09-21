@@ -12,7 +12,7 @@
 #' \code{TestStatistic}, \code{rawpval}, \code{adjpval}, \code{binaryadjpval} vectors for differential expression in the meta-analysis.
 #' @examples
 #' # Deseq2 output samples
-#' DGE1 = data.frame(GeneID = c("DLK1", "EPCAM"),
+#' DGE1 <- data.frame(GeneID = c("DLK1", "EPCAM"),
 #'                  Mean_CPM_T = c(5.92, 9.91),
 #'                  Mean_CPM_C = c(0.04, 0.03),
 #'                  log2FoldChange = c(10.22, 8.42),
@@ -21,7 +21,7 @@
 #'                  pvalue = c(7.30135e-37, 4.37011e-70),
 #'                  padj = c(1.49936e-35, 1.12976e-67),
 #'                  row.names = c("DLK1", "EPCAM"))
-#' DGE2 = data.frame(GeneID = c("DLK1", "EPCAM"),
+#' DGE2 <- data.frame(GeneID = c("DLK1", "EPCAM"),
 #'                  Mean_CPM_T = c(3.92, 8.91),
 #'                  Mean_CPM_C = c(0.04, 0.03),
 #'                  log2FoldChange = c(7.22, 5.81),
@@ -31,13 +31,13 @@
 #'                  padj = c(1.49936e-35, 1.12976e-67),
 #'                  row.names = c("DLK1", "EPCAM"))
 #' # input list
-#' ind_deg = list(DEG1_df = DGE1, DEG2_df = DGE2)
+#' ind_deg <- list(DEG1_df = DGE1, DEG2_df = DGE2)
 #' # perform invnorm meta-analysis
-#' invnorm = metaRNAseq(ind_deg, test_statistic = "invnorm", BHth = 0.05, nrep = c(2,2))
+#' invnorm <- metaRNAseq(ind_deg, test_statistic = "invnorm", BHth = 0.05, nrep = c(2,2))
 #' # perform fishercomb meta-analysis
-#' fishercomb = metaRNAseq(ind_deg, test_statistic = "fishercomb", BHth = 0.05)
+#' fishercomb <- metaRNAseq(ind_deg, test_statistic = "fishercomb", BHth = 0.05)
 #' # combine results
-#' comb_pval_df = combine_fisher_invnorm(ind_deg,
+#' comb_pval_df <- combine_fisher_invnorm(ind_deg,
 #'                                       invnorm, fishercomb,
 #'                                       adjpval = 0.05,
 #'                                       output_tsv = FALSE)
@@ -69,18 +69,18 @@ combine_fisher_invnorm <- function(ind_deg,
     stop(paste("ind_deg contains", length(ind_deg), "data.frame. Please provide a list of at least 2 data.frames"))
   }
 
-  common_genes = Reduce(intersect, lapply(ind_deg, rownames))
+  common_genes <- Reduce(intersect, lapply(ind_deg, rownames))
   # check if common_genes is empty
   if (length(common_genes) == 0) {
     stop(" your DGE data.frames do not have common genes")
   }
 
-  DE = data.frame(genes=common_genes)
-  FC = data.frame(genes=common_genes)
+  DE <- data.frame(genes=common_genes)
+  FC <- data.frame(genes=common_genes)
 
   for (i in 1:length(ind_deg)) {
     ind_deg[[i]] <- ind_deg [[i]][common_genes,]
-    ind_deg[[i]][["binarypadj"]]=ifelse(ind_deg[[i]][["padj"]]<=adjpval,1,0)
+    ind_deg[[i]][["binarypadj"]] <- ifelse(ind_deg[[i]][["padj"]]<=adjpval,1,0)
     FC[[paste(names(ind_deg[i]), "log2FC", sep ="_")]] <- ind_deg[[i]][["log2FoldChange"]]
     DE[[paste(names(ind_deg[i]), "binarypadj", sep ="_")]] <- ind_deg[[i]][["binarypadj"]]
   }

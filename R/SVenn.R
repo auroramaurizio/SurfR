@@ -10,9 +10,9 @@
 #' @param filename Name of the output file with the intersections.
 #' @return venn plot of common genes.
 #' @examples
-#' S_list = list(SP1 = c("EPCAM", "CD24",  "DLK1",  "CDCP1", "LYVE1"),
+#' S_list <- list(SP1 = c("EPCAM", "CD24",  "DLK1",  "CDCP1", "LYVE1"),
 #'               SP2 = c("DLK1", "EPCAM", "EGFR", "UPK1A", "UPK2"))
-#' SP = SVenn(S_list, output_intersectionFile = FALSE)
+#' SP <- SVenn(S_list, output_intersectionFile = FALSE)
 #' @family plot functions
 #' @importFrom venn venn
 #' @importFrom openxlsx write.xlsx
@@ -24,16 +24,14 @@ SVenn <- function(S_list,cols.use=NULL,
                   opacity = 0.5,
                   output_intersectionFile = TRUE,
                   filename = "intersection.xlsx") {
-  #import::here(venn)
-  #import::here(openxlsx)
+
 
   if (length(S_list) > 7) {
     stop("This function can plot Venn diagram with up to 7 sets")
   }
 
   if (is.null(x = cols.use)) {
-    #cols.use = scales::hue_pal()(length(x = names(S_list)) )
-     cols.use = hue_pal()(length(x = names(S_list)) )
+     cols.use <- hue_pal()(length(x = names(S_list)) )
   } else if (length(cols.use) < length(x = names(S_list))) {
     stop(paste("you have",length(x = names(S_list)),
                "unique elements and supplied only",length(cols.use),"color \n"))
@@ -41,7 +39,6 @@ SVenn <- function(S_list,cols.use=NULL,
 
   suppressWarnings({
 
-    #SP <- venn::venn(S_list,
     SP <- venn(S_list,
                      opacity = opacity,
                      box = FALSE,
@@ -54,7 +51,7 @@ SVenn <- function(S_list,cols.use=NULL,
 
     # ------ Table down pathway intersection --------
     if (output_intersectionFile) {
-      list_intersection = attr(x = venn(S_list, intersections = TRUE,
+      list_intersection <- attr(x = venn(S_list, intersections = TRUE,
                                               opacity = opacity,
                                               box = FALSE,
                                               zcolor = cols.use,
@@ -63,11 +60,11 @@ SVenn <- function(S_list,cols.use=NULL,
                                               ggplot = FALSE),
                                "intersections")
 
-      df = data.frame()
+      df <- data.frame()
       for (intersection in names(list_intersection)) {
-        entry = data.frame(Intersection = intersection,
+        entry <- data.frame(Intersection = intersection,
                            SurfaceProteins = list_intersection[[intersection]])
-        df = rbind(df, entry)
+        df <- rbind(df, entry)
       }
       write.xlsx(df, filename, asTable = TRUE, overwrite = TRUE)
     }

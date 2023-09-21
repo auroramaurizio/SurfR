@@ -28,20 +28,14 @@ TCGA_download <- function(project,
                  save.metadata = FALSE,
                  barcodes = NULL) {
 
-      #import::here(TCGAbiolinks)
-      #import::here(data.table)
-      #import::here(biomaRt)
-      #import::here(SummarizedExperiment)
 
       if (is.null(barcodes)) {
-      #   query <- TCGAbiolinks::GDCquery(project,
          query <- GDCquery(project,
                                          data.category= "Transcriptome Profiling",
                                          data.type = "Gene Expression Quantification",
                                          sample.type = c("Solid Tissue Normal","Primary Tumor"),
                                          workflow.type="STAR - Counts")
        } else {
-      #   query <- TCGAbiolinks::GDCquery(project,
          query <- GDCquery(project,
                                          data.category= "Transcriptome Profiling",
                                          data.type = "Gene Expression Quantification",
@@ -51,22 +45,17 @@ TCGA_download <- function(project,
        }
 
 
-
-       #tryCatch(TCGAbiolinks::GDCdownload(query, method = "client"), error = function(e)TCGAbiolinks::GDCdownload(query))
-       #data <- TCGAbiolinks::GDCprepare(query, summarizedExperiment = TRUE)
        tryCatch(GDCdownload(query, method = "client"), error = function(e)GDCdownload(query))
        data <- GDCprepare(query, summarizedExperiment = TRUE)
 
-       dir = 'TCGA/'
+       dir <- 'TCGA/'
 
        # Save matrix
-       #Matrix <- SummarizedExperiment::assay(data, whichcounts)
        Matrix <- assay(data, whichcounts)
        row.names(Matrix) <- data@rowRanges$gene_name
 
        # Save metadata
-       metadata = as.data.frame(data@colData)
-       #annotation_table = subset(metadata, select = -c(treatments, primary_site, disease_type))
+       metadata <- as.data.frame(data@colData)
 
        if (save.matrix ) {
          dir.create(dir, recursive = TRUE, showWarnings = FALSE)
@@ -78,9 +67,7 @@ TCGA_download <- function(project,
          write.table(metadata, file=paste0(dir, project,"_metadata.tsv",sep=""),sep="\t",quote=FALSE)
        }
 
-       mat.met = list(Matrix, metadata)
-
-       #print(TCGAbiolinks:::getProjectSummary(project))
+       mat.met <- list(Matrix, metadata)
 
        return(mat.met) }
 

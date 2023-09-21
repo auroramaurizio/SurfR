@@ -11,8 +11,8 @@
 #' @section Warning:
 #' If the defined GSM ids do not have any match in ArchS4 database, we suggest to contact ArchS4 curator to add them.
 #' @examples
-#' GSM = c("GSM3447008", "GSM3447009")
-#' GEO_count_matrix = DownloadArchS4(GSM, species = "human",
+#' GSM <- c("GSM3447008", "GSM3447009")
+#' GEO_count_matrix <- DownloadArchS4(GSM, species = "human",
 #'                                   print_tsv = FALSE, filename = NULL)
 #' @seealso
 #' \code{\link{GEOmetadata}} function for downloading GEO metadata.
@@ -27,25 +27,25 @@ DownloadArchS4 <- function(GSM, species, print_tsv = FALSE, filename = NULL) {
 
 
   options(timeout=600)
-  matrixh5_url=paste0('https://mssm-seq-matrix.s3.amazonaws.com/',species,'_matrix.h5')
+  matrixh5_url <- paste0('https://mssm-seq-matrix.s3.amazonaws.com/',species,'_matrix.h5')
 
-  series = h5read(matrixh5_url,  name = "meta/Sample_series_id", s3 = TRUE)
-  samples = h5read(matrixh5_url,  name = "meta/Sample_geo_accession", s3 = TRUE)
-  genes = h5read(matrixh5_url,  name = "meta/genes", s3 = TRUE)
+  series <- h5read(matrixh5_url,  name = "meta/Sample_series_id", s3 = TRUE)
+  samples <- h5read(matrixh5_url,  name = "meta/Sample_geo_accession", s3 = TRUE)
+  genes <- h5read(matrixh5_url,  name = "meta/genes", s3 = TRUE)
 
 
   if (length(samples %in% GSM) == 0) {
     stop("The defined GSM ids do not have any match in ArchS4 database. \n We suggest to contact ArchS4 curator to add them.")
   }
-  sample_locations = which(samples %in% GSM)
+  sample_locations <- which(samples %in% GSM)
 
   # extract gene expression from compressed data
-  expression = h5read(matrixh5_url, "data/expression",
+  expression <- h5read(matrixh5_url, "data/expression",
                       index=list(1:length(genes), sample_locations), s3 = TRUE)
   H5close()
 
-  rownames(expression) = genes
-  colnames(expression) = samples[sample_locations]
+  rownames(expression) <- genes
+  colnames(expression) <- samples[sample_locations]
 
   #-------- Print file --------
   if (print_tsv) {

@@ -20,11 +20,11 @@
 #' countData <- matrix(floor(runif(10000, min=0, max=101)),ncol=4)
 #' colnames(countData) <- paste0("sample", 1:4)
 #' rownames(countData) <- paste0("gene", 1:(10000/4))
-#' metadata = data.frame(samplesID = paste0("sample", 1:4),
+#' metadata <- data.frame(samplesID = paste0("sample", 1:4),
 #'                      condition = factor(c("A","A","B","B")))
 #' row.names(metadata) <- metadata$samplesID
 #' # Perform DGE
-#' DGEresults = DGE(expression = countData, metadata = metadata,
+#' DGEresults <- DGE(expression = countData, metadata = metadata,
 #'                  Nreplica = 2,
 #'                  design = "~condition",condition = "condition",
 #'                  TEST = "A", CTRL = "B")
@@ -47,13 +47,6 @@ DGE <- function(expression,
                 output_tsv = FALSE,
                 output_filename = "DEGs.tsv") {
 
-  #import::here(DESeq2, DESeqDataSetFromMatrix)
-  #import::here(DESeq2, DESeq)
-  #import::here(DESeq2, counts)
-  #import::here(DESeq2, results)
-
-  #import::here(edgeR)
-
 
   # check the match between TEST CTRL and metadata
   if (length(c(CTRL, TEST) %in% metadata[,condition]) == 0) {
@@ -69,17 +62,15 @@ DGE <- function(expression,
   }
 
   # perform DGE
-  design.formula = as.formula(design)
+  design.formula <- as.formula(design)
   dds <- DESeqDataSetFromMatrix(countData = expression,
                                 colData = metadata,
                                 design = design.formula)
 
-  min.samples = Nreplica
-  #keep <- rowSums(edgeR::cpm(counts(dds)) >= 1) >= min.samples
+  min.samples <- Nreplica
   keep <- rowSums(cpm(counts(dds)) >= 1) >= min.samples
   dds <- dds[keep,]
-  #cpm = edgeR::cpm(counts(dds), log = F)
-  cpm = cpm(counts(dds), log = FALSE)
+  cpm <- cpm(counts(dds), log = FALSE)
   dga <- DESeq(object = dds,
                test = "Wald",
                fitType = "parametric",
@@ -94,19 +85,19 @@ DGE <- function(expression,
                       alpha                = alpha,
                       pAdjustMethod        = "BH")
 
-  dgeResults = dgeResults[order(dgeResults$pvalue, decreasing = FALSE),]
+  dgeResults <- dgeResults[order(dgeResults$pvalue, decreasing = FALSE),]
 
 
 
-  dgeResults$Mean_CPM_C = rowMeans(cpm[row.names(dgeResults),
+  dgeResults$Mean_CPM_C <- rowMeans(cpm[row.names(dgeResults),
                                        row.names(metadata[metadata[,condition] ==CTRL,])])
-  dgeResults$Mean_CPM_T = rowMeans(cpm[row.names(dgeResults),
+  dgeResults$Mean_CPM_T <- rowMeans(cpm[row.names(dgeResults),
                                        row.names(metadata[metadata[,condition] ==TEST,])])
 
 
 
-  dgeResults$GeneID = row.names(dgeResults)
-  dgeResults = dgeResults[order(dgeResults$log2FoldChange, decreasing = TRUE),
+  dgeResults$GeneID <- row.names(dgeResults)
+  dgeResults <- dgeResults[order(dgeResults$log2FoldChange, decreasing = TRUE),
                           c('GeneID', 'Mean_CPM_T','Mean_CPM_C',
                             'log2FoldChange','lfcSE','stat','pvalue','padj')]
 
