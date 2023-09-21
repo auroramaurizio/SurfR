@@ -1,9 +1,9 @@
 Package: SurfR
 Type: Package
 Title: Surface Protein Prediction and Identification
-Version: 0.99.3
-Authors@R:c(person("Aurora", "Maurizio", email="auroramaurizio1@gmail.com", role = c("aut","cre")),
-           person("Anna Sofia", "Tascini", email="volpesofi@gmail.com", role = c("aut", "ctb")))
+Version: 0.99.4
+Authors@R:c(person("Aurora", "Maurizio", email="auroramaurizio1@gmail.com", role = c("aut","cre"), comment = c(ORCID = "0000-0002-7194-4637")),
+           person("Anna Sofia", "Tascini", email="volpesofi@gmail.com", role = c("aut", "ctb"), comment = c(ORCID = "0000-0001-5731-5490")))
 Description: Identify Surface Protein coding genes from a list of candidates.
              Systematically download data from GEO and TCGA or use your own data. 
              Perform DGE on bulk RNAseq data. 
@@ -11,9 +11,11 @@ Description: Identify Surface Protein coding genes from a list of candidates.
 License: GPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: false
+BugReports: https://github.com/auroramaurizio/SurfR/issues
+URL: https://github.com/auroramaurizio/SurfR
 biocViews: Software, Sequencing, RNASeq, GeneExpression, Transcription, DifferentialExpression, 
            PrincipalComponent, GeneSetEnrichment, Pathways, BatchEffect,
-           FunctionalGenomics, Visualization, DataImport
+           FunctionalGenomics, Visualization, DataImport, FunctionalPrediction, GenePrediction, GO
 VignetteBuilder: knitr
 RoxygenNote: 7.2.3
 Imports:
