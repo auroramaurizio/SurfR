@@ -78,7 +78,8 @@ combine_fisher_invnorm <- function(ind_deg,
   DE <- data.frame(genes=common_genes)
   FC <- data.frame(genes=common_genes)
 
-  for (i in 1:length(ind_deg)) {
+  #for (i in 1:length(ind_deg)) {
+  for (i in seq_along(ind_deg)) {
     ind_deg[[i]] <- ind_deg [[i]][common_genes,]
     ind_deg[[i]][["binarypadj"]] <- ifelse(ind_deg[[i]][["padj"]]<=adjpval,1,0)
     FC[[paste(names(ind_deg[i]), "log2FC", sep ="_")]] <- ind_deg[[i]][["log2FoldChange"]]

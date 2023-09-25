@@ -39,7 +39,8 @@ GEOmetadata <- function(GSE, GPL = "") {
 
     metadata <- as.data.frame(metadata_2_format[2:dim(metadata_2_format)[1],])
     metadata$GSE <- GSE
-    metadata <- metadata[,c("GSE", colnames(metadata)[1:length(colnames(metadata))-1])]
+    #metadata <- metadata[,c("GSE", colnames(metadata)[1:length(colnames(metadata))-1])]
+    metadata <- metadata[, c("GSE", colnames(metadata)[seq_along(colnames(metadata)) - 1])]
     cnames <- c("GSE","title","GSM", "GPL")
 
     # replace empty spaces with NA

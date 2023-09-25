@@ -12,7 +12,8 @@
 #' @keywords internal
 .format_str <- function(string, ...) {
   args <- list(...)
-  for (i in 1:length(args)) {
+  #for (i in 1:length(args)) {
+  for (i in seq_along(args)) {
     pattern <- paste("\\{", i, "}", sep="")
     replacement <- args[[i]]
     string <- gsub(pattern, replacement, string)
@@ -75,7 +76,10 @@ enrichr_download <- function(genesets, db=c("Enrichr", "YeastEnrichr", "FlyEnric
   response <- enrichr_connect(.format_str("geneSetLibrary?mode=text&libraryName={1}", genesets), db)
   data <- content(response, "text")
   split <- strsplit(data, split="\n")[[1]]
-  genesets <- sapply(split, function(x) strsplit(x, "\t")[[1]])
+  #genesets <- sapply(split, function(x) strsplit(x, "\t")[[1]])
+  for (i in seq_along(split)) {
+    genesets[i] <- unlist(strsplit(split[[i]][1], "\t"))[1]
+  }
   names(genesets) <- unlist(lapply(genesets, function(x) x[1]))
   lapply(genesets, function(x) {
     genes <- x[3:length(x)]

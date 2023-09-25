@@ -77,7 +77,8 @@ metaRNAseq <- function(ind_deg,
   histp  <- list()
   rawpval <- list()
 
-  for (i in 1:length(ind_deg)){
+  #for (i in 1:length(ind_deg)){
+  for (i in seq_along(ind_deg)){
     if (!("pvalue" %in% colnames(ind_deg[[i]]))) {
       stop(paste("The DGE dataframe",names(ind_deg)[i]," must include a column named pvalue."))
     }

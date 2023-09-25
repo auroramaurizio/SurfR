@@ -85,7 +85,13 @@ Enrichment_barplot <- function(Enrich,
      p <- enrichR.table[enrichR.table$Adjusted.P.value < p_adj,"Term"]
 
      if(length(p)>0) { # Discarding the not-significant results (to avoid errors)
-     pathways.dataframe <- data.frame(Pathway=p, gene.ratio=sapply(p, fx), p.value=enrichR.table[p,]$P.value, p.value.adj=enrichR.table[p,]$Adjusted.P.value)
+     #pathways.dataframe <- data.frame(Pathway=p, gene.ratio=sapply(p, fx), p.value=enrichR.table[p,]$P.value, p.value.adj=enrichR.table[p,]$Adjusted.P.value)
+     pathways.dataframe <- data.frame(
+       Pathway = p,
+       gene.ratio = vapply(p, fx, FUN.VALUE = numeric(1)),
+       p.value = enrichR.table[p, ]$P.value,
+       p.value.adj = enrichR.table[p, ]$Adjusted.P.value
+     )
      # Formatting the dataframe for the plot
      pathways.dataframe <- pathways.dataframe[order(pathways.dataframe$p.value.adj),]
      pathways.dataframe$Pathway.num <- as.factor(dim(pathways.dataframe)[1]:1) # as.factor is somehow necessary to write the pathway names
@@ -95,7 +101,9 @@ Enrichment_barplot <- function(Enrich,
      # N Top significant pathways
      ###############################################
 
-     top_sig <- head(pathways.dataframe[1:num_term,], num_term)
+     #top_sig <- head(pathways.dataframe[1:num_term,], num_term)
+     top_sig <- head(pathways.dataframe[seq_len(num_term), ], num_term)
+
 
      ###############################################
      # Significant pathway barplot
