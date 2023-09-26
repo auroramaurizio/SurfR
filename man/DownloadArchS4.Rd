@@ -28,8 +28,8 @@ If the defined GSM ids do not have any match in ArchS4 database, we suggest to c
 }
 
 \examples{
-GSM = c("GSM3447008", "GSM3447009")
-GEO_count_matrix = DownloadArchS4(GSM, species = "human",
+GSM <- c("GSM3447008", "GSM3447009")
+GEO_count_matrix <- DownloadArchS4(GSM, species = "human",
                                   print_tsv = FALSE, filename = NULL)
 }
 \seealso{

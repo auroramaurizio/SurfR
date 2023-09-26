@@ -51,13 +51,13 @@ Perform Differential Gene Expression Analysis of RNA-Seq Data
 \examples{
 # Simulation of bulk RNA data
 countData <- matrix(floor(runif(10000, min=0, max=101)),ncol=4)
-colnames(countData) <- paste0("sample", 1:4)
-rownames(countData) <- paste0("gene", 1:(10000/4))
-metadata = data.frame(samplesID = paste0("sample", 1:4),
+colnames(countData) <- paste0("sample", seq_len(ncol(countData)))
+rownames(countData) <- paste0("gene", seq_along(seq_len(10000/4)))
+metadata <- data.frame(samplesID = paste0("sample", seq_len(ncol(countData))),
                      condition = factor(c("A","A","B","B")))
 row.names(metadata) <- metadata$samplesID
 # Perform DGE
-DGEresults = DGE(expression = countData, metadata = metadata,
+DGEresults <- DGE(expression = countData, metadata = metadata,
                  Nreplica = 2,
                  design = "~condition",condition = "condition",
                  TEST = "A", CTRL = "B")

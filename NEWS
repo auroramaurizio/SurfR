@@ -21,3 +21,6 @@ Changes in version 0.99.6 (2023-09-25)
 
 Changes in version 0.99.7 (2023-09-26)
 + Addressed notes
+
+Changes in version 0.99.7 (2023-09-26)
++ Added BiocFileCache in Gene2SProtein

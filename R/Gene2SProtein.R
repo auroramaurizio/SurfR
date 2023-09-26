@@ -35,9 +35,11 @@
 #' @importFrom openxlsx read.xlsx write.xlsx
 #' @importFrom rio import
 #' @importFrom utils write.table
+#' @import BiocFileCache
 #' @seealso \code{\link{DGE}} for DGE analysis,
 #' \url{https://wlab.ethz.ch/surfaceome} for info on Surfy
 #' @export
+
 Gene2SProtein <- function(genes,
                           input_type = "gene_name",
                           output_tsv = FALSE,
@@ -55,16 +57,24 @@ Gene2SProtein <- function(genes,
 
   if (length(log)>0 & Surfy_version == "log") {
     ST <- read.xlsx(xlsxFile = paste0(".log/", log[length(log)]),
-                   startRow = 1)
+                    startRow = 1)
   } else {
     dir.create(".log/", recursive = TRUE, showWarnings = FALSE)
     surfaceome_table_url='https://wlab.ethz.ch/surfaceome/table_S3_surfaceome.xlsx'
 
 
-    ST <- import(file = surfaceome_table_url,
-                which = 1,
-                readxl = FALSE,
-                startRow = 2)
+    bfc <- BiocFileCache(ask = FALSE)
+    path <- bfcrpath(bfc, surfaceome_table_url)
+    ST <- import(file = path,
+                 which = 1,
+                 readxl = FALSE,
+                 startRow = 2)
+
+
+    #ST <- import(file = surfaceome_table_url,
+    #             which = 1,
+    #             readxl = FALSE,
+    #             startRow = 2)
     write.xlsx(ST, paste0(".log/","table_S3_surfaceome_",now,".xlsx"), overwrite = TRUE)
   }
 
@@ -99,18 +109,18 @@ Gene2SProtein <- function(genes,
             "Check gene alias alias and input type!")
     surface.proteins <- data.frame(matrix(nrow = 0, ncol = length(colnames(ST))))
     colnames(surface.proteins)  <- colnames(ST)
+  } else {
+    # -------- filter surface proteins and checks --------
+    surface.proteins <- proteins[proteins$Surfaceome.Label=='surface',]
+
+    if (dim(surface.proteins)[1] == 0) {
+
+      warning("No surface proteins were found among your list of genes")
     } else {
-      # -------- filter surface proteins and checks --------
-      surface.proteins <- proteins[proteins$Surfaceome.Label=='surface',]
 
-      if (dim(surface.proteins)[1] == 0) {
-
-        warning("No surface proteins were found among your list of genes")
-      } else {
-
-        message(dim(surface.proteins)[1], "out of", length(genes), "genes",
-                "have a matching surface protein")
-      }
+      message(dim(surface.proteins)[1], " out of ", length(genes), " genes ",
+              "have a matching surface protein")
+    }
 
   }
 
@@ -126,4 +136,3 @@ Gene2SProtein <- function(genes,
   openxlsx <- read.xlsx <- write.xlsx <- write.table <- rio <- import <- NULL
   return(surface.proteins)
 }
-

@@ -45,16 +45,16 @@ you might loose some match due to difference gene version IDs.
 
 \examples{
  # from gene name IDs to Surface proteins
- GeneNames = c("CIITA", "EPCAM", "DLK1", "CD24", "CDCP1", "LYVE1", "ABCD1", "VAMP1")
- SurfaceProteins_df = Gene2SProtein(GeneNames, input_type = "gene_name")
+ GeneNames <- c("CIITA", "EPCAM", "DLK1", "CD24", "CDCP1", "LYVE1", "ABCD1", "VAMP1")
+ SurfaceProteins_df <- Gene2SProtein(GeneNames, input_type = "gene_name")
 
  # from ensembl IDs to Surface proteins
- Ensembl = c("ENSG00000178343", "ENSG00000176895", "ENSG00000162419", "ENSG00000170776",
+ Ensembl <- c("ENSG00000178343", "ENSG00000176895", "ENSG00000162419", "ENSG00000170776",
              "ENSG00000092529", "ENSG00000135926", "ENSG00000152595", "ENSG00000121577",
              "ENSG00000186094", "ENSG00000126773", "ENSG00000198918", "ENSG00000167378",
              "ENSG00000095574", "ENSG00000140678", "ENSG00000262484", "ENSG00000133739",
              "ENSG00000172469", "ENSG00000112992", "ENSG00000148343", "ENSG00000138593")
- SurfaceProteins_df = Gene2SProtein(Ensembl, input_type = "ensembl",
+ SurfaceProteins_df <- Gene2SProtein(Ensembl, input_type = "ensembl",
                                    output_tsv = FALSE, Surfy_version = "new")
 }
 \seealso{

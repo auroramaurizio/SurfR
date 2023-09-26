@@ -38,7 +38,7 @@ Perform Meta-Analysis of RNA-Seq Data
 }
 \examples{
 # Deseq2 output samples
-DGE1 = data.frame(GeneID = c("DLK1", "EPCAM"),
+DGE1 <- data.frame(GeneID = c("DLK1", "EPCAM"),
                  Mean_CPM_T = c(5.92, 9.91),
                  Mean_CPM_C = c(0.04, 0.03),
                  log2FoldChange = c(10.22, 8.42),
@@ -47,7 +47,7 @@ DGE1 = data.frame(GeneID = c("DLK1", "EPCAM"),
                  pvalue = c(7.30135e-37, 4.37011e-70),
                  padj = c(1.49936e-35, 1.12976e-67),
                  row.names = c("DLK1", "EPCAM"))
-DGE2 = data.frame(GeneID = c("DLK1", "EPCAM"),
+DGE2 <- data.frame(GeneID = c("DLK1", "EPCAM"),
                  Mean_CPM_T = c(3.92, 8.91),
                  Mean_CPM_C = c(0.04, 0.03),
                  log2FoldChange = c(7.22, 5.81),
@@ -57,9 +57,9 @@ DGE2 = data.frame(GeneID = c("DLK1", "EPCAM"),
                  padj = c(1.49936e-35, 1.12976e-67),
                  row.names = c("DLK1", "EPCAM"))
 # input list
-ind_deg = list(DEG1_df = DGE1, DEG2_df = DGE2)
+ind_deg <- list(DEG1_df = DGE1, DEG2_df = DGE2)
 # perform meta-analysis
-comb_pval_df = metaRNAseq(ind_deg, test_statistic = "invnorm", BHth = 0.05, nrep = c(2,2))
+comb_pval_df <- metaRNAseq(ind_deg, test_statistic = "invnorm", BHth = 0.05, nrep = c(2,2))
 }
 \seealso{
 \code{\link{DGE}} for DGE analysis,

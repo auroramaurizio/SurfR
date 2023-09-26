@@ -44,8 +44,8 @@ df2 <- data.frame(GeneID  = c("MEST", "CDK1", "PCLAF", "BIRC5"),
                   log2FoldChange = c(5.78, 6.76, -7.78, -8.78),
                   padj = c(2.28e-143, 2.18e-115, 2.18e-45, 0.006),
                   row.names = c("MEST", "CDK1", "PCLAF", "BIRC5"))
-dfList = list(df1 = df1, df2 = df2)
-test = Enrichment(dfList, save.results = FALSE)
+dfList <- list(df1 = df1, df2 = df2)
+test <- Enrichment(dfList, save.results = FALSE)
 }
 \seealso{
 \url{https://maayanlab.cloud/Enrichr/} for additional information about enrichR.
