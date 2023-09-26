@@ -103,10 +103,10 @@ Gene2SProtein <- function(genes,
   # check size proteins data.frame
   if (dim(proteins)[1] == 0) {
 
-    warning("The input genes",
-            "do not have any match",
+    warning("The input genes ",
+            "do not have any match ",
             "in the surfaceome database. \n ",
-            "Check gene alias alias and input type!")
+            "Check gene alias alias and input type! ")
     surface.proteins <- data.frame(matrix(nrow = 0, ncol = length(colnames(ST))))
     colnames(surface.proteins)  <- colnames(ST)
   } else {
