@@ -41,7 +41,6 @@ DownloadArchS4 <- function(GSM, species, print_tsv = FALSE, filename = NULL) {
 
   # extract gene expression from compressed data
   expression <- h5read(matrixh5_url, "data/expression",
-                      #index=list(1:length(genes), sample_locations), s3 = TRUE)
                       index=list(seq_along(genes), sample_locations), s3 = TRUE)
   H5close()
 

@@ -24,9 +24,9 @@
 #' @examples
 #' # Simulation of bulk RNA data
 #' countData <- matrix(floor(runif(10000, min=0, max=101)),ncol=4)
-#' colnames(countData) <- paste0("sample", 1:4)
-#' rownames(countData) <- paste0("gene", 1:(10000/4))
-#' metadata = data.frame(samplesID = paste0("sample", 1:4),
+#' colnames(countData) <- paste0("sample", seq_len(ncol(countData)))
+#' rownames(countData) <- paste0("gene", seq_along(seq_len(10000/4)))
+#' metadata = data.frame(samplesID = paste0("sample", seq_len(ncol(countData))),
 #'                      condition = factor(c("A","A","B","B")),
 #'                      therapy = factor(c("T1","T2","T1","T2")))
 #' row.names(metadata) <- metadata$samplesID
@@ -82,7 +82,7 @@ plotPCA <- function(matrix,
   # sort by variance and select topN
   vary <- apply(matrix,1,var)
   vary_s <- sort(vary, decreasing = TRUE)
-  TOP_N <- names(vary_s[1:nTOP])
+  TOP_N <- names(vary_s[seq_len(nTOP)])
   mtx_TOP <- matrix[TOP_N,]
 
 
@@ -122,13 +122,14 @@ plotPCA <- function(matrix,
     #cols.use = scales::hue_pal()(length(x = levels(x = score$color)))
     cols.use = hue_pal()(length(x = levels(x = score$color)))
   } else if (length(cols.use) < length(x = levels(x = score$color))) {
-    stop(paste("you have",length(x = levels(x = score$color)), "factors and supplied only",length(cols.use),"color"))
+    stop("you have",length(x = levels(x = score$color)), "factors and supplied only",length(cols.use),"color")
+
   }
 
   if (is.null(x = shape.use)) {
-    shape.use = c(16:25, 1:15)
+    shape.use <- c(16:25, seq_len(15))
   } else if (length(shape.use) < length(x = levels(x = score$shape))) {
-    stop(paste("you have",length(x = levels(x = score$shape)), "factors and supplied only",length(shape.use),"shape"))
+    stop("you have",length(x = levels(x = score$shape)), "factors and supplied only",length(shape.use),"shape")
   }
 
 

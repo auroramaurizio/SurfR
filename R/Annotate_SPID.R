@@ -12,7 +12,6 @@
 #' @keywords internal
 .format_str <- function(string, ...) {
   args <- list(...)
-  #for (i in 1:length(args)) {
   for (i in seq_along(args)) {
     pattern <- paste("\\{", i, "}", sep="")
     replacement <- args[[i]]
@@ -157,7 +156,7 @@ Annotate_SPID <- function(DGE,
   #db = enrichR::listEnrichrDbs()
   db = listEnrichrDbs()
   if (!(enrich.database %in% db$libraryName)) {
-    stop(paste(enrich.database, "is not a valid enrichR geneset."))
+    stop(enrich.database, "is not a valid enrichR geneset.")
   }
   #annotation_table = hypeR::enrichr_download(enrich.database)
   annotation_table <- enrichr_download(enrich.database)

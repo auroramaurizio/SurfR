@@ -39,7 +39,6 @@ GEOmetadata <- function(GSE, GPL = "") {
 
     metadata <- as.data.frame(metadata_2_format[2:dim(metadata_2_format)[1],])
     metadata$GSE <- GSE
-    #metadata <- metadata[,c("GSE", colnames(metadata)[1:length(colnames(metadata))-1])]
     metadata <- metadata[, c("GSE", colnames(metadata)[seq_along(colnames(metadata)) - 1])]
     cnames <- c("GSE","title","GSM", "GPL")
 
@@ -55,10 +54,13 @@ GEOmetadata <- function(GSE, GPL = "") {
         name <- unique(item[!is.na(item)])
       } else {
         name <- "multi_characteristic"
-        warning(paste0(i,"th ",
-                      "characteristic column in ", GSE,
-                      " metadata presents multiple variables: ",
-                      paste(unique(item[!is.na(item)]), collapse = ", ")))
+
+        topaste = paste(unique(item[!is.na(item)]), collapse = ", ")
+        warning(i,"th ",
+                       "characteristic column in ", GSE,
+                       " metadata presents multiple variables: ",
+                       topaste)
+
       }
       # check for NA
       metadata[,i][is.na(metadata[,i])] <- paste(name, ": NA")

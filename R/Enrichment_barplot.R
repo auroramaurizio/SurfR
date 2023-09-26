@@ -65,7 +65,7 @@ Enrichment_barplot <- function(Enrich,
 
 
      if (length(setdiff(enrich.databases, names(enrich_list)))>0) {
-       warning(paste(setdiff(enrich.databases, names(enrich_list)), "not present in your Enrichment analysis."))
+       warning(setdiff(enrich.databases, names(enrich_list)), "not present in your Enrichment analysis.")
        enrich.databases <- intersect(enrich.databases, names(enrich_list))
      }
 
@@ -101,7 +101,6 @@ Enrichment_barplot <- function(Enrich,
      # N Top significant pathways
      ###############################################
 
-     #top_sig <- head(pathways.dataframe[1:num_term,], num_term)
      top_sig <- head(pathways.dataframe[seq_len(num_term), ], num_term)
 
 

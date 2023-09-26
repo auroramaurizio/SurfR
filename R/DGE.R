@@ -18,9 +18,9 @@
 #' @examples
 #' # Simulation of bulk RNA data
 #' countData <- matrix(floor(runif(10000, min=0, max=101)),ncol=4)
-#' colnames(countData) <- paste0("sample", 1:4)
-#' rownames(countData) <- paste0("gene", 1:(10000/4))
-#' metadata <- data.frame(samplesID = paste0("sample", 1:4),
+#' colnames(countData) <- paste0("sample", seq_len(ncol(countData)))
+#' rownames(countData) <- paste0("gene", seq_along(seq_len(10000/4)))
+#' metadata <- data.frame(samplesID = paste0("sample", seq_len(ncol(countData))),
 #'                      condition = factor(c("A","A","B","B")))
 #' row.names(metadata) <- metadata$samplesID
 #' # Perform DGE
@@ -50,11 +50,11 @@ DGE <- function(expression,
 
   # check the match between TEST CTRL and metadata
   if (length(c(CTRL, TEST) %in% metadata[,condition]) == 0) {
-    stop(paste0("In your metadata the column ",condition, "does not contain ",  CTRL, " and ", TEST,"."))
+    stop("In your metadata the column ",condition, "does not contain ",  CTRL, " and ", TEST,".")
   } else if (length(c(CTRL) %in% metadata[,condition]) == 0) {
-    stop(paste0("In your metadata the column ",condition, "does not contain ",  CTRL, "."))
+    stop("In your metadata the column ",condition, "does not contain ",  CTRL, ".")
   } else if (length(c(TEST) %in% metadata[,condition]) == 0) {
-    stop(paste0("In your metadata the column ",condition, "does not contain ",  TEST,"."))
+    stop("In your metadata the column ",condition, "does not contain ",  TEST,".")
   }
 
   if (!(setequal(row.names(metadata), colnames(expression)))) {

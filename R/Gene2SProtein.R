@@ -92,11 +92,11 @@ Gene2SProtein <- function(genes,
 
   # check size proteins data.frame
   if (dim(proteins)[1] == 0) {
-    text = paste("The input genes",
-                 "do not have any match",
-                 "in the surfaceome database. \n ",
-                 "Check gene alias alias and input type!")
-    warning(text)
+
+    warning("The input genes",
+            "do not have any match",
+            "in the surfaceome database. \n ",
+            "Check gene alias alias and input type!")
     surface.proteins <- data.frame(matrix(nrow = 0, ncol = length(colnames(ST))))
     colnames(surface.proteins)  <- colnames(ST)
     } else {
@@ -104,12 +104,12 @@ Gene2SProtein <- function(genes,
       surface.proteins <- proteins[proteins$Surfaceome.Label=='surface',]
 
       if (dim(surface.proteins)[1] == 0) {
-        text <- paste("No surface proteins were found among your list of genes")
-        warning(text)
+
+        warning("No surface proteins were found among your list of genes")
       } else {
-        text <- paste(dim(surface.proteins)[1], "out of", length(genes), "genes",
-                     "have a matching surface protein")
-        message(text)
+
+        message(dim(surface.proteins)[1], "out of", length(genes), "genes",
+                "have a matching surface protein")
       }
 
   }

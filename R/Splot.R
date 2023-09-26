@@ -35,8 +35,9 @@ Splot <- function(SurfaceProteins_df,
       cols.use = c(cols.use, "#CCCCCC")
     }
   } else if (length(cols.use) < length(x = unique(SurfaceProteins_df$v2plot))) {
-    stop(paste("you have",length(x = unique(SurfaceProteins_df$v2plot)), "unique elements and supplied only",length(cols.use),"color \n",
-               "Be carefull to NA value"))
+
+    stop("you have",length(x = unique(SurfaceProteins_df$v2plot)), "unique elements and supplied only",length(cols.use),"color \n",
+               "Be carefull to NA value")
   }
 
 

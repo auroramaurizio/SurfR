@@ -54,7 +54,7 @@ Enrichment <- function(dfList ,enrich.databases  = c("GO_Biological_Process_2021
   #db = enrichR::listEnrichrDbs()
   db <- listEnrichrDbs()
   if (length(setdiff(enrich.databases, db$libraryName))>0) {
-    warning(paste(setdiff(enrich.databases, db$libraryName), "is not an enrichR geneset and will be removed.\n"))
+    warning(setdiff(enrich.databases, db$libraryName), "is not an enrichR geneset and will be removed.\n")
     enrich.databases = intersect(enrich.databases, db$libraryName)
   }
 
@@ -80,7 +80,7 @@ Enrichment <- function(dfList ,enrich.databases  = c("GO_Biological_Process_2021
 
   neg_list <- rownames(signif[signif$log2FoldChange < logFC, ])
   if (length(neg_list)==0) {
-    warning(paste("There are no significantly downregulated genes in",i))
+    warning("There are no significantly downregulated genes in",i)
   } else {
     if (save.results) {
       dir.create('enrichR/', showWarnings=FALSE, recursive=TRUE)
@@ -99,7 +99,7 @@ Enrichment <- function(dfList ,enrich.databases  = c("GO_Biological_Process_2021
   pos_list  <- rownames(signif[signif$log2FoldChange > logFC, ])
 
   if (length(pos_list)==0) {
-    warning(paste("There are no significantly upregulated genes in",i))
+    warning("There are no significantly upregulated genes in",i)
   } else {
     if (save.results) {
       dir.create('enrichR/', showWarnings=FALSE, recursive=TRUE)
@@ -125,7 +125,6 @@ Enrichment <- function(dfList ,enrich.databases  = c("GO_Biological_Process_2021
       for (j in c("fdr_up","fdr_down")){
         filename <- paste("./enrichR/",i,j,".xlsx", sep="")
         if(!is.null(enrichr.list[[i]][[j]])) {
-          #openxlsx::write.xlsx(x = enrichr.list[[i]][[j]], file = filename)
           write.xlsx(x = enrichr.list[[i]][[j]], file = filename)
         }
       }}

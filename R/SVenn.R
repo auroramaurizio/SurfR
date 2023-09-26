@@ -33,8 +33,10 @@ SVenn <- function(S_list,cols.use=NULL,
   if (is.null(x = cols.use)) {
      cols.use <- hue_pal()(length(x = names(S_list)) )
   } else if (length(cols.use) < length(x = names(S_list))) {
-    stop(paste("you have",length(x = names(S_list)),
-               "unique elements and supplied only",length(cols.use),"color \n"))
+
+    stop("you have",length(x = names(S_list)),
+               "unique elements and supplied only",length(cols.use),"color \n")
+
   }
 
   suppressWarnings({

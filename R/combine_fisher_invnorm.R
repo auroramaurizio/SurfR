@@ -66,7 +66,7 @@ combine_fisher_invnorm <- function(ind_deg,
     stop("ind_deg is not a list. Please provide a list of at least two data.frames")
   }
   if(length(ind_deg) <2 ) {
-    stop(paste("ind_deg contains", length(ind_deg), "data.frame. Please provide a list of at least 2 data.frames"))
+    stop("ind_deg contains", length(ind_deg), "data.frame. Please provide a list of at least 2 data.frames")
   }
 
   common_genes <- Reduce(intersect, lapply(ind_deg, rownames))
@@ -78,7 +78,6 @@ combine_fisher_invnorm <- function(ind_deg,
   DE <- data.frame(genes=common_genes)
   FC <- data.frame(genes=common_genes)
 
-  #for (i in 1:length(ind_deg)) {
   for (i in seq_along(ind_deg)) {
     ind_deg[[i]] <- ind_deg [[i]][common_genes,]
     ind_deg[[i]][["binarypadj"]] <- ifelse(ind_deg[[i]][["padj"]]<=adjpval,1,0)
