@@ -68,7 +68,7 @@ The protein classification is based on a recently developed surfaceome predictor
 ```{r setup}
 library(SurfR)
 GeneNames <- c("CIITA", "EPCAM", "DLK1", "CD24", "CDCP1", "LYVE1", "ABCD1", "VAMP1")
-SurfaceProteins_df <- Gene2SProtein(GeneNames, input_type = "gene_name")
+SurfaceProteins_df <- Gene2SProtein(GeneNames, input_type = "gene_name", Surfy_version = "new")
 #The output dataframe contains several information retrieved from Surfy.
 colnames(SurfaceProteins_df)
 #These are the 5 surface protein coding genes detected by SurfR.

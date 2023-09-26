@@ -1,7 +1,7 @@
 Package: SurfR
 Type: Package
 Title: Surface Protein Prediction and Identification
-Version: 0.99.8
+Version: 0.99.9
 Authors@R: c(person("Aurora", "Maurizio", email="auroramaurizio1@gmail.com", role = c("aut","cre"), comment = c(ORCID = "0000-0002-7194-4637")),
            person("Anna Sofia", "Tascini", email="volpesofi@gmail.com", role = c("aut", "ctb"), comment = c(ORCID = "0000-0001-5731-5490")))
 Description: Identify Surface Protein coding genes from a list of candidates.
