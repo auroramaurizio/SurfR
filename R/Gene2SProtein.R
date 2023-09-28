@@ -33,7 +33,6 @@
 #' between \code{gene_name}, \code{ensembl}, \code{entrez} or \code{uniProt_name}. Note that
 #' you might loose some match due to difference gene version IDs.
 #' @importFrom openxlsx read.xlsx write.xlsx
-#' @importFrom rio import
 #' @importFrom utils write.table
 #' @import BiocFileCache
 #' @seealso \code{\link{DGE}} for DGE analysis,
@@ -65,17 +64,15 @@ Gene2SProtein <- function(genes,
 
     bfc <- BiocFileCache(ask = FALSE)
     path <- bfcrpath(bfc, surfaceome_table_url)
-    ST <- import(file = path,
-                 which = 1,
-                 readxl = FALSE,
-                 startRow = 2)
+
+    # fix the reading function
+    ST <- read.xlsx(xlsxFile = path,
+                    sheet = 1,
+                    startRow = 2)
 
 
-    #ST <- import(file = surfaceome_table_url,
-    #             which = 1,
-    #             readxl = FALSE,
-    #             startRow = 2)
     write.xlsx(ST, paste0(".log/","table_S3_surfaceome_",now,".xlsx"), overwrite = TRUE)
+    # -------------------------------------------------------------------------
   }
 
   # ---- input identification type ----
@@ -133,6 +130,6 @@ Gene2SProtein <- function(genes,
     write.table(surface.proteins, output_filename, quote = FALSE, sep = "\t")
   }
 
-  openxlsx <- read.xlsx <- write.xlsx <- write.table <- rio <- import <- NULL
+  openxlsx <- read.xlsx <- write.xlsx <- write.table <- NULL
   return(surface.proteins)
 }
