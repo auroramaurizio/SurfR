@@ -24,3 +24,9 @@ Changes in version 0.99.7 (2023-09-26)
 
 Changes in version 0.99.7 (2023-09-26)
 + Added BiocFileCache in Gene2SProtein
+
+Changes in version 0.99.12 (2023-09-26)
++ removed deprecated rio import
+
+Changes in version 0.99.13 (2023-09-26)
++ updated ind_deg.Rd file
