@@ -22,7 +22,7 @@ treatment development, and therapy response evaluation.
 ## What is SurfR
 
 The **SurfR** package aims to provide a streamlined end-to-end workflow for 
-identifying surfaceome markers from expression data using computational prediction.
+identifying surface protein coding genes from expression data using computational prediction.
 
 
 
@@ -59,14 +59,14 @@ identifying surfaceome markers from expression data using computational predicti
 ## Installation
 
 
-Developement package version can be installed from GitHub using devtools:
+Development package version can be installed from GitHub using devtools:
 ```
-devtools::install_github("auroramaurizio/SurfR.git")
+devtools::install_github("auroramaurizio/SurfR")
 ```
 
 
 ## Dependencies
-This package is supported for macOS, Windows and Linux. 
+This package is supported for macOS, and Linux (Windows not tested). 
 **SurfR** works with R v4.1 or greater.
 Dependencies are indicated in the DESCRIPTION file, and can be 
 automatically installed when installing the **SurfR** pacakge. 
@@ -80,7 +80,7 @@ Examples and use-cases are covered for each function.
 ## Documentation
 
 Instructions to run the main functions can be found consulting the vignette
- or by entering ?function name (e.g. ?Splot) in the console after loading the package.
+ or by entering ?FunctionName (e.g. ?Splot) in the console after loading the package.
 
 
 ## Authors
