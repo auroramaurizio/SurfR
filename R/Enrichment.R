@@ -30,7 +30,7 @@
 #' @export
 
 
-Enrichment <- function(dfList ,enrich.databases  = c("GO_Biological_Process_2021",
+Enrichment <- function(dfList, enrich.databases  = c("GO_Biological_Process_2021",
                                           "GO_Cellular_Component_2021",
                                           "GO_Molecular_Function_2021",
                                           "KEGG_2021_Human",
@@ -43,15 +43,12 @@ Enrichment <- function(dfList ,enrich.databases  = c("GO_Biological_Process_2021
                        p_adj = 0.05, logFC = 1,
                        save.results = FALSE) {
 
-  #import::here(enrichR)
-  #import::here(openxlsx)
 
   enrichr.list <- list()
   # -------------------------
   # enrichment Parameters
   # -------------------------
 
-  #db = enrichR::listEnrichrDbs()
   db <- listEnrichrDbs()
   if (length(setdiff(enrich.databases, db$libraryName))>0) {
     warning(setdiff(enrich.databases, db$libraryName), "is not an enrichR geneset and will be removed.\n")

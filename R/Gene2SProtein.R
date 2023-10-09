@@ -65,7 +65,7 @@ Gene2SProtein <- function(genes,
     bfc <- BiocFileCache(ask = FALSE)
     path <- bfcrpath(bfc, surfaceome_table_url)
 
-    # fix the reading function
+
     ST <- read.xlsx(xlsxFile = path,
                     sheet = 1,
                     startRow = 2)

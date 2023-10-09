@@ -99,7 +99,6 @@ metaRNAseq <- function(ind_deg,
   }
 
   if (test_statistic == "fishercomb") {
-    #fish_comb <- metaRNASeq::fishercomb(rawpval, BHth = BHth)
     fish_comb <- fishercomb(rawpval, BHth = BHth)
     fish_comb$DEname <- common_genes
     fish_comb$binaryadjpval <- ifelse(fish_comb$adjpval<=adjpval.t,1,0)
@@ -110,7 +109,6 @@ metaRNAseq <- function(ind_deg,
     }
     return(fish_comb)
   } else if (test_statistic == "invnorm"){
-    #inv_norm <- metaRNASeq::invnorm(rawpval, nrep = nrep, BHth = BHth)
     inv_norm <- invnorm(rawpval, nrep = nrep, BHth = BHth)
     inv_norm$DEname <- common_genes
     inv_norm$binaryadjpval <- ifelse(inv_norm$adjpval<=adjpval.t,1,0)

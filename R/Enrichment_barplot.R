@@ -48,9 +48,6 @@ Enrichment_barplot <- function(Enrich,
                                plot = FALSE) {
 
 
-     #import::here(stringr)
-     #import::here(ggplot2)
-
      enrichR.table <- data.frame()
 
      # check if Enrich contains enrich.databases
@@ -85,7 +82,6 @@ Enrichment_barplot <- function(Enrich,
      p <- enrichR.table[enrichR.table$Adjusted.P.value < p_adj,"Term"]
 
      if(length(p)>0) { # Discarding the not-significant results (to avoid errors)
-     #pathways.dataframe <- data.frame(Pathway=p, gene.ratio=sapply(p, fx), p.value=enrichR.table[p,]$P.value, p.value.adj=enrichR.table[p,]$Adjusted.P.value)
      pathways.dataframe <- data.frame(
        Pathway = p,
        gene.ratio = vapply(p, fx, FUN.VALUE = numeric(1)),
@@ -103,14 +99,12 @@ Enrichment_barplot <- function(Enrich,
 
      top_sig <- head(pathways.dataframe[seq_len(num_term), ], num_term)
 
-
      ###############################################
      # Significant pathway barplot
      ###############################################
 
      top_sig$Log10Adj.P.value <- -log10(top_sig$p.value.adj)
 
-     #remove the description in brackets (GO:0071346)
      top_sig$Pathway <- stringr::str_replace(top_sig$Pathway, "\\s*\\([^\\)]+\\)", " ")
 
      top_sig <- top_sig[order(top_sig$gene.ratio),]

@@ -136,14 +136,6 @@ enrichr_download <- function(genesets, db=c("Enrichr", "YeastEnrichr", "FlyEnric
 Annotate_SPID <- function(DGE,
                           enrich.database  = "WikiPathway_2021_Human",
                           output_tsv = FALSE) {
-  #import::here(enrichR)
-  #import::here(hypeR)
-  #import::here(assertr)
-  #import::here(tidyr)
-  #import::here(dplyr)
-  #import::here(magrittr,"%>%")
-
-  #enrichR::listEnrichrSites()
 
   if (is.null(dim(DGE))) {
     stop("DGE is empty")

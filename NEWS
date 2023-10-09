@@ -5,10 +5,10 @@ Changes in version 0.99.1 (2023-09-11)
 + Updated gitignore
 
 Changes in version 0.99.2 (2023-09-11)
-+ Removed Intro_to_SurfR.Rmd file and updated gitignore
++ Removed SurfR.Rproj file and updated gitignore
 
 Changes in version 0.99.3 (2023-09-11)
-+ Removed Intro_to_SurfR.Rmd file and updated gitignore
++ Removed SurfR.Rproj file and updated gitignore
 
 Changes in version 0.99.4 (2023-09-21)
 + Addressed notes
@@ -30,3 +30,6 @@ Changes in version 0.99.12 (2023-09-26)
 
 Changes in version 0.99.13 (2023-09-26)
 + updated ind_deg.Rd file
+
+Changes in version 0.99.15 (2023-10-09)
++ added README.md file

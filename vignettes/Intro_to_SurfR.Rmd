@@ -15,8 +15,7 @@ knitr::opts_chunk$set(
 ```
 ## Authors
 
-Aurora Maurizio (maurizio.aurora@hsr.it), Anna Sofia Tascini (tascini.annasofia@unisr.it), Marco Morelli (morelli.marco@hsr.it)
-
+Aurora Maurizio (auroramaurizio1@gmail.com), Anna Sofia Tascini (volpesofi@gmail.com), Marco Morelli (morelli.marco@hsr.it)
 
 
 # Introduction
@@ -44,18 +43,10 @@ Finally, **SurfR** includes functions to visualize DEG and enrichment results, a
 **SurfR** Package can be installed from GitHub using devtools:
 
 ```
-# install some bioconductor packages 
-if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-    
-BiocManager::install("BioinformaticsFMRP/TCGAbiolinksGUI.data")
-BiocManager::install("BioinformaticsFMRP/TCGAbiolinks")
 
-# install surfR
-# Note that this access token will last 1 month [till 12 July 2023] 
-devtools::install_git("https://srhpcgit01.ricerca.hsr.it/maurizio.aurora/surfr.git",   
-                      credentials = git2r::cred_user_pass(username = "maurizio.aurora", 
-                                                          password = "glpat-jhs4oqeFoZpVgFdyE7Dn"))
+# install.packages("devtools")
+devtools::install_github("auroramaurizio/SurfR", build_vignettes = TRUE)
+    
 ```
 
 # Quick Start
