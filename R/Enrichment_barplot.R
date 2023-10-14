@@ -48,84 +48,79 @@ Enrichment_barplot <- function(Enrich,
                                plot = FALSE) {
 
 
-     enrichR.table <- data.frame()
+  enrichR.table <- data.frame()
 
-     # check if Enrich contains enrich.databases
+  # check if Enrich contains enrich.databases
+
+  if (cond == "UP") {
+    enrich_list <- Enrich[["fdr_up"]]
+
+  } else if (cond == "DOWN") {
+    enrich_list <- Enrich[["fdr_down"]]
+  }
 
 
-     if (cond == "UP") {
-       enrich_list <- Enrich[["fdr_up"]]
+  if (length(setdiff(enrich.databases, names(enrich_list))) > 0) {
+    warning(setdiff(enrich.databases, names(enrich_list)), "not present in your Enrichment analysis.")
+    enrich.databases <- intersect(enrich.databases, names(enrich_list))
+  }
 
-     } else if (cond == "DOWN") {
-       enrich_list <- Enrich[["fdr_down"]]
-     }
+  if (length(enrich.databases) == 0) {
+    stop("Selected Enrich databases not present in your enrichment analysis.")
+  }
 
+  for (dat in enrich.databases) {
+    Table <- enrich_list[[dat]]
+    enrichR.table <- rbind(enrichR.table, Table)
+  }
 
-     if (length(setdiff(enrich.databases, names(enrich_list)))>0) {
-       warning(setdiff(enrich.databases, names(enrich_list)), "not present in your Enrichment analysis.")
-       enrich.databases <- intersect(enrich.databases, names(enrich_list))
-     }
+  row.names(enrichR.table) <- enrichR.table$Term
 
-     if (length(enrich.databases) == 0) {
-       stop("Selected Enrich databases not present in your enrichment analysis.")
-     }
+  fx <- function(x) eval(parse(text = enrichR.table[x, ]$Overlap))
 
-     for (dat in enrich.databases) {
-     Table <- enrich_list[[dat]]
-     enrichR.table <- rbind(enrichR.table, Table)
-     }
+  p <- enrichR.table[enrichR.table$Adjusted.P.value < p_adj, "Term"]
 
-     row.names(enrichR.table) <- enrichR.table$Term
+  if (length(p) > 0) { # Discarding the not-significant results (to avoid errors)
+    pathways.dataframe <- data.frame(
+      Pathway = p,
+      gene.ratio = vapply(p, fx, FUN.VALUE = numeric(1)),
+      p.value = enrichR.table[p, ]$P.value,
+      p.value.adj = enrichR.table[p, ]$Adjusted.P.value
+    )
+    # Formatting the dataframe for the plot
+    pathways.dataframe <- pathways.dataframe[order(pathways.dataframe$p.value.adj), ]
+  }
 
-     fx <- function(x) eval(parse(text=enrichR.table[x,]$Overlap))
+  ###############################################
+  # N Top significant pathways
+  ###############################################
 
-     p <- enrichR.table[enrichR.table$Adjusted.P.value < p_adj,"Term"]
+  top_sig <- head(pathways.dataframe[seq_len(num_term), ], num_term)
 
-     if(length(p)>0) { # Discarding the not-significant results (to avoid errors)
-     pathways.dataframe <- data.frame(
-       Pathway = p,
-       gene.ratio = vapply(p, fx, FUN.VALUE = numeric(1)),
-       p.value = enrichR.table[p, ]$P.value,
-       p.value.adj = enrichR.table[p, ]$Adjusted.P.value
-     )
-     # Formatting the dataframe for the plot
-     pathways.dataframe <- pathways.dataframe[order(pathways.dataframe$p.value.adj),]
-     pathways.dataframe$Pathway.num <- as.factor(dim(pathways.dataframe)[1]:1) # as.factor is somehow necessary to write the pathway names
-     }
+  ###############################################
+  # Significant pathway barplot
+  ###############################################
 
-     ###############################################
-     # N Top significant pathways
-     ###############################################
+  top_sig$Log10Adj.P.value <- -log10(top_sig$p.value.adj)
 
-     top_sig <- head(pathways.dataframe[seq_len(num_term), ], num_term)
+  top_sig$Pathway <- stringr::str_replace(top_sig$Pathway, "\\s*\\([^\\)]+\\)", " ")
 
-     ###############################################
-     # Significant pathway barplot
-     ###############################################
+  top_sig <- top_sig[order(top_sig$gene.ratio), ]
 
-     top_sig$Log10Adj.P.value <- -log10(top_sig$p.value.adj)
+  p_top_sig <- ggplot(top_sig, ggplot2::aes(x = Pathway, y = gene.ratio, fill = Log10Adj.P.value)) +
+    geom_bar(stat = "identity") +
+    scale_fill_gradient(low = "blue", high = "red",  name = "-Log10(p.adj.value)") +
+    scale_x_discrete(limits = top_sig$Pathway) +
+    labs(title = cond) +
+    coord_flip()
 
-     top_sig$Pathway <- stringr::str_replace(top_sig$Pathway, "\\s*\\([^\\)]+\\)", " ")
+  if (plot) {
+    pdf("Top_sig_Pathways_barplot.pdf", 10, 5)
+    p_top_sig
+    dev.off()
+  }
 
-     top_sig <- top_sig[order(top_sig$gene.ratio),]
-
-     p_top_sig <- ggplot(top_sig, ggplot2::aes(x=Pathway, y=gene.ratio, fill=Log10Adj.P.value)) +
-       geom_bar(stat="identity")+
-       scale_fill_gradient(low = "blue", high = "red",  name = "-Log10(p.adj.value)") +
-       scale_x_discrete(limits = top_sig$Pathway)+
-       labs(title = cond) +
-       coord_flip()
-
-     if (plot) {
-       pdf("Top_sig_Pathways_barplot.pdf", 10, 5)
-       p_top_sig
-       dev.off()
-     }
-
-     Pathway <- gene.ratio <- Log10Adj.P.value <- NULL
-     return(p_top_sig)
+  Pathway <- gene.ratio <- Log10Adj.P.value <- NULL
+  return(p_top_sig)
 
 }
-
-
-

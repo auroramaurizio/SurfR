@@ -58,8 +58,11 @@ The protein classification is based on a recently developed surfaceome predictor
 
 ```{r setup}
 library(SurfR)
-GeneNames <- c("CIITA", "EPCAM", "DLK1", "CD24", "CDCP1", "LYVE1", "ABCD1", "VAMP1")
-SurfaceProteins_df <- Gene2SProtein(GeneNames, input_type = "gene_name", Surfy_version = "new")
+GeneNames <- c("CIITA", "EPCAM", "DLK1", "CD24", 
+               "CDCP1", "LYVE1", "ABCD1", "VAMP1")
+SurfaceProteins_df <- Gene2SProtein(GeneNames, 
+                                    input_type = "gene_name", 
+                                    Surfy_version = "new")
 #The output dataframe contains several information retrieved from Surfy.
 colnames(SurfaceProteins_df)
 #These are the 5 surface protein coding genes detected by SurfR.
@@ -86,15 +89,24 @@ data("zhang.data.sub")
 zhang.counts <- zhang.data.sub$counts
 MYCN.status  <- zhang.data.sub$MYCN.status
 # Simulation of bulk RNA data
-sim.data.bulk <- SPsimSeq(n.sim = 1, s.data = zhang.counts,
-                          group = MYCN.status, n.genes = 1000, batch.config = 1,
-                          group.config = c(0.5, 0.5), tot.samples = ncol(zhang.counts),
-                          pDE = 0.2, lfc.thrld = 0.5, result.format = "list", return.details = TRUE)
+sim.data.bulk <- SPsimSeq(n.sim = 1, 
+                          s.data = zhang.counts,
+                          group = MYCN.status, 
+                          n.genes = 1000, 
+                          batch.config = 1,
+                          group.config = c(0.5, 0.5), 
+                          tot.samples = ncol(zhang.counts),
+                          pDE = 0.2, 
+                          lfc.thrld = 0.5, 
+                          result.format = "list",
+                          return.details = TRUE)
 
 sim.data.bulk1 <- sim.data.bulk$sim.data.list[[1]]
 
-countMatrix <- sim.data.bulk1$counts; row.names(countMatrix) <- row.names(zhang.counts)
-metadata <- sim.data.bulk1$colData; metadata$Group = as.factor(metadata$Group)
+countMatrix <- sim.data.bulk1$counts
+row.names(countMatrix) <- row.names(zhang.counts)
+metadata <- sim.data.bulk1$colData
+metadata$Group <- as.factor(metadata$Group)
 ```
 
 A fundamental task in the analysis of count data from RNA-seq is the detection of differentially expressed genes. For this task we rely on the package [DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html), starting from counts data. The count data are presented as a table which reports, for each sample, the number of sequence fragments that have been assigned to each gene. 
@@ -129,18 +141,20 @@ Surface protein-coding genes (SP).
 
 ```{r G2P zhang}
 # remove NA values
-df_zhang <- df_zhang[!is.na(df_zhang$padj),]
+df_zhang <- df_zhang[!is.na(df_zhang$padj), ]
 # all fdr
-fdr_GeneID <- df_zhang[df_zhang$padj < 0.05,"GeneID"]
-SP <- Gene2SProtein(genes = fdr_GeneID, input_type ="gene_name")
+fdr_GeneID <- df_zhang[df_zhang$padj < 0.05, "GeneID"]
+SP <- Gene2SProtein(genes = fdr_GeneID, input_type = "gene_name")
 
 # upregulated fdr
-fdrUP_GeneID <- df_zhang[df_zhang$padj < 0.05 & df_zhang$log2FoldChange > 0,"GeneID"]
-SPup <- Gene2SProtein(genes = fdrUP_GeneID, input_type ="gene_name")
+fdrUP_GeneID <- df_zhang[df_zhang$padj < 0.05 & df_zhang$log2FoldChange > 0,
+                         "GeneID"]
+SPup <- Gene2SProtein(genes = fdrUP_GeneID, input_type = "gene_name")
 
 # dowregulated fdr
-fdrDW_GeneID <- df_zhang[df_zhang$padj < 0.05 & df_zhang$log2FoldChange < 0,"GeneID"]
-SPdw <- Gene2SProtein(genes = fdrDW_GeneID, input_type ="gene_name")
+fdrDW_GeneID <- df_zhang[df_zhang$padj < 0.05 & df_zhang$log2FoldChange < 0,
+                         "GeneID"]
+SPdw <- Gene2SProtein(genes = fdrDW_GeneID, input_type = "gene_name")
 ```
 
 
@@ -172,23 +186,28 @@ library(stringr)
 # Download metadata from GEO
 mGSE121810 <- GEOmetadata(GSE = "GSE121810")
 # create new metadata column in order to remove unwanted special characters
-unwanted_character = " "
-fx = function(x) {str_split(string = x, pattern = unwanted_character)[[1]][1]}
+unwanted_character <- " "
+fx <- function(x) {
+  str_split(string = x, pattern = unwanted_character)[[1]][1]
+}
 mGSE121810$condition <- sapply(mGSE121810$therapy, fx)
 mGSE121810$condition <- as.factor(mGSE121810$condition)
 # Preview metadata
 head(mGSE121810)
 
 # only select 3 samples per condition to save time
-na_samples <- c("GSM3447013","GSM3447018", "GSM3447019")
-a_samples <- c("GSM3447023","GSM3447024", "GSM3447026")
-mGSE121810 <- mGSE121810[c(na_samples, a_samples),]
+na_samples <- c("GSM3447013", "GSM3447018", "GSM3447019")
+a_samples <- c("GSM3447023", "GSM3447024", "GSM3447026")
+mGSE121810 <- mGSE121810[c(na_samples, a_samples), ]
 
 # Download count matrix from ArchS4
-cGSE121810 <- DownloadArchS4(mGSE121810$GSM, species = "human", print_tsv = FALSE, filename = NULL)
+cGSE121810 <- DownloadArchS4(mGSE121810$GSM, 
+                             species = "human", 
+                             print_tsv = FALSE, 
+                             filename = NULL)
 
 # Preview count matrix
-head(cGSE121810[,])
+head(cGSE121810[, ])
 ```
 
 A fundamental objective in the analysis of RNA-seq counts data is the detection of differentially expressed genes. For this task we rely on the package DESeq2, starting from count data. Count data reports for each sample the number of sequence fragments that have been assigned to each gene.
@@ -221,16 +240,16 @@ Surface protein-coding genes (SP).
 
 ```{r GEO SP}
 # remove NA values
-df_GEO <- df_GEO[!is.na(df_GEO$padj),]
+df_GEO <- df_GEO[!is.na(df_GEO$padj), ]
 # Detect SP amoung differentially expressed genes
-fdr_GeneID <- df_GEO[df_GEO$padj < 0.1,"GeneID"]
-SP <- Gene2SProtein(genes = fdr_GeneID, input_type ="gene_name")
+fdr_GeneID <- df_GEO[df_GEO$padj < 0.1, "GeneID"]
+SP <- Gene2SProtein(genes = fdr_GeneID, input_type = "gene_name")
 
-fdrUP_GeneID <- df_GEO[df_GEO$padj < 0.1 & df_GEO$log2FoldChange > 0,"GeneID"]
-SPup <- Gene2SProtein(genes = fdrUP_GeneID, input_type ="gene_name")
+fdrUP_GeneID <- df_GEO[df_GEO$padj < 0.1 & df_GEO$log2FoldChange > 0, "GeneID"]
+SPup <- Gene2SProtein(genes = fdrUP_GeneID, input_type = "gene_name")
 
-fdrDW_GeneID <- df_GEO[df_GEO$padj < 0.1 & df_GEO$log2FoldChange < 0,"GeneID"]
-SPdw <- Gene2SProtein(genes = fdrDW_GeneID, input_type ="gene_name")
+fdrDW_GeneID <- df_GEO[df_GEO$padj < 0.1 & df_GEO$log2FoldChange < 0, "GeneID"]
+SPdw <- Gene2SProtein(genes = fdrDW_GeneID, input_type = "gene_name")
 
 ```
 
@@ -273,8 +292,10 @@ TCGA.THYM = TCGA_download(project = "TCGA-THYM", barcodes = barcodes2Download)
 # To save time only download 3 Tumor samples and 3 normal samples.
 # If barcodes are not specified TCGA_download function will download all the 
 # available samples in the TCGA study
-barcodes2Download <- c("TCGA-X7-A8D6-11A-22R-A42C-07", "TCGA-X7-A8D7-11A-11R-A42C-07",
-                      "TCGA-XM-A8RB-01A-11R-A42C-07", "TCGA-X7-A8M0-01A-11R-A42C-07")
+barcodes2Download <- c("TCGA-X7-A8D6-11A-22R-A42C-07", 
+                       "TCGA-X7-A8D7-11A-11R-A42C-07",
+                       "TCGA-XM-A8RB-01A-11R-A42C-07", 
+                       "TCGA-X7-A8M0-01A-11R-A42C-07")
 TCGA.THYM <- TCGA_download(project = "TCGA-THYM", barcodes = barcodes2Download)
 ```
 
@@ -283,7 +304,7 @@ cTCGA.THYM <- TCGA.THYM[[1]]
 mTCGA.THYM <- TCGA.THYM[[2]]
 table(mTCGA.THYM$shortLetterCode)
 
-mTCGA.THYM$shortLetterCode = as.factor(mTCGA.THYM$shortLetterCode)
+mTCGA.THYM$shortLetterCode <- as.factor(mTCGA.THYM$shortLetterCode)
 ```
 
 
@@ -319,16 +340,20 @@ Surface protein-coding genes (SP).
 ```{r TCGA SP}
 
 # remove NA values
-df_TCGA <- df_TCGA[!is.na(df_TCGA$padj),]
+df_TCGA <- df_TCGA[!is.na(df_TCGA$padj), ]
 
-fdr_GeneID <- df_TCGA[df_TCGA$padj < 0.05,"GeneID"]
-SP <- Gene2SProtein(genes = fdr_GeneID, input_type ="gene_name")
+fdr_GeneID <- df_TCGA[df_TCGA$padj < 0.05,
+                      "GeneID"]
 
-fdrUP_GeneID <- df_TCGA[df_TCGA$padj < 0.05 & df_TCGA$log2FoldChange > 0,"GeneID"]
-SPup <- Gene2SProtein(genes = fdrUP_GeneID, input_type ="gene_name")
+SP <- Gene2SProtein(genes = fdr_GeneID, input_type = "gene_name")
 
-fdrDW_GeneID <- df_TCGA[df_TCGA$padj < 0.05 & df_TCGA$log2FoldChange < 0,"GeneID"]
-SPdw <- Gene2SProtein(genes = fdrDW_GeneID, input_type ="gene_name")
+fdrUP_GeneID <- df_TCGA[df_TCGA$padj < 0.05 & df_TCGA$log2FoldChange > 0,
+                        "GeneID"]
+SPup <- Gene2SProtein(genes = fdrUP_GeneID, input_type = "gene_name")
+
+fdrDW_GeneID <- df_TCGA[df_TCGA$padj < 0.05 & df_TCGA$log2FoldChange < 0,
+                        "GeneID"]
+SPdw <- Gene2SProtein(genes = fdrDW_GeneID, input_type = "gene_name")
 ```
 
 
@@ -361,9 +386,12 @@ TCGA.BRCA = TCGA_download(project = "TCGA-BRCA", barcodes = barcodes2Download)
 # To save time only download 3 Tumor samples and 3 normal samples.
 # If barcodes are not specified TCGA_download function will download all the 
 # available samples in the TCGA study
-barcodes2Download <- c("TCGA-BH-A1FU-11A-23R-A14D-07", "TCGA-BH-A1FC-11A-32R-A13Q-07",
-                      "TCGA-BH-A0DO-11A-22R-A12D-07", "TCGA-B6-A0RH-01A-21R-A115-07",
-                      "TCGA-BH-A1FU-01A-11R-A14D-07", "TCGA-A1-A0SE-01A-11R-A084-07")
+barcodes2Download <- c("TCGA-BH-A1FU-11A-23R-A14D-07", 
+                       "TCGA-BH-A1FC-11A-32R-A13Q-07",
+                       "TCGA-BH-A0DO-11A-22R-A12D-07", 
+                       "TCGA-B6-A0RH-01A-21R-A115-07",
+                       "TCGA-BH-A1FU-01A-11R-A14D-07", 
+                       "TCGA-A1-A0SE-01A-11R-A084-07")
 TCGA.BRCA <- TCGA_download(project = "TCGA-BRCA", barcodes = barcodes2Download)
 ```
 
@@ -381,18 +409,18 @@ using the SurfR built-in functions **GEOmetadata** and **DownloadArchS4**.
 ```{r meta GEO_input}
 
 mGSE58135 <- GEOmetadata("GSE58135")
-mGSE58135 <- mGSE58135[mGSE58135$tissue != "Breast Cancer Cell Line",]
+mGSE58135 <- mGSE58135[mGSE58135$tissue != "Breast Cancer Cell Line", ]
 mGSE58135$condition <- "NT"
 mGSE58135$condition[mGSE58135$tissue %in% c("ER+ Breast Cancer Primary Tumor", 
                                             "Triple Negative Breast Cancer Primary Tumor")] <- "TP"
 
 # only select 3 samples per condition to save time
-TP_samples <- c("GSM1401694","GSM1401717", "GSM1401729")
-NT_samples <- c("GSM1401799","GSM1401813","GSM1401814")
-mGSE58135 <- mGSE58135[c(TP_samples, NT_samples),]
+TP_samples <- c("GSM1401694", "GSM1401717", "GSM1401729")
+NT_samples <- c("GSM1401799", "GSM1401813", "GSM1401814")
+mGSE58135 <- mGSE58135[c(TP_samples, NT_samples), ]
 
 cGSE58135 <- DownloadArchS4(mGSE58135$GSM, species = "human")
-cGSE58135 <- cGSE58135[,row.names(mGSE58135)]
+cGSE58135 <- cGSE58135[, row.names(mGSE58135)]
 
 table(mGSE58135$condition)
 ```
@@ -412,13 +440,13 @@ on the average expression in the two groups (see Mean_CPM_T and Mean_CPM_C colum
 
 # TCGA DGE
 df.TCGA <- DGE(expression = cTCGA.BRCA,
-           metadata = mTCGA.BRCA,
-           Nreplica = 3,
-           design = "~shortLetterCode",
-           condition = "shortLetterCode",
-           alpha = 0.05,
-           TEST = "TP", CTRL =  "NT",
-           output_tsv = FALSE)
+               metadata = mTCGA.BRCA,
+               Nreplica = 3,
+               design = "~shortLetterCode",
+               condition = "shortLetterCode",
+               alpha = 0.05,
+               TEST = "TP", CTRL =  "NT",
+               output_tsv = FALSE)
 head(df.TCGA)
 
 # GSE58135 DGE
@@ -453,17 +481,16 @@ The function automatically produces and saves as .pdf histograms of raw p-values
 ```{r}
 
 L_fishercomb <- metaRNAseq(ind_deg = list(TCGA.BRCA =  df.TCGA, GEO.GSE58135 = df.GSE58135),
-                          test_statistic = "fishercomb",
-                          BHth = 0.05,
-                          adjpval.t = 0.05)
+                           test_statistic = "fishercomb",
+                           BHth = 0.05,
+                           adjpval.t = 0.05)
 
 
 L_invnorm <- metaRNAseq(ind_deg = list(TCGA.BRCA =  df.TCGA, GEO.GSE58135 = df.GSE58135),
-                       test_statistic = "invnorm",
-                       BHth = 0.05,
-                       adjpval.t = 0.05,
-                       nrep = c(102, 56))
-
+                        test_statistic = "invnorm",
+                        BHth = 0.05,
+                        adjpval.t = 0.05,
+                        nrep = c(102, 56))
 ```
 
 Finally, we can summarize the results of the meta-analysis in a data.frame highlighting the statistical information for the common genes to all methods using the built-in SurfR function **combine_fisher_invnorm** and use the built-in SurfR **Gene2SProtein** function to identify Surface protein-coding genes (SP) among those.
@@ -480,13 +507,13 @@ metacomb <- combine_fisher_invnorm(ind_deg = list(TCGA.BRCA =  df.TCGA,
 
 
 metacomb_GeneID <- metacomb[metacomb$signFC != 0, "GeneID"]
-SP <- Gene2SProtein(genes = metacomb_GeneID, input_type ="gene_name")
+SP <- Gene2SProtein(genes = metacomb_GeneID, input_type = "gene_name")
 
 metacombUP_GeneID <- metacomb[metacomb$signFC == 1, "GeneID"]
-SPup <- Gene2SProtein(genes = metacombUP_GeneID, input_type ="gene_name")
+SPup <- Gene2SProtein(genes = metacombUP_GeneID, input_type = "gene_name")
 
 metacombDW_GeneID <- metacomb[metacomb$signFC == -1, "GeneID"]
-SPdw <- Gene2SProtein(genes = metacombDW_GeneID, input_type ="gene_name")
+SPdw <- Gene2SProtein(genes = metacombDW_GeneID, input_type = "gene_name")
 
 ```
 
@@ -508,17 +535,16 @@ library(enrichR)
 
 
 dfList <- list(GEO = df.GSE58135,
-              TCGA = df.TCGA)
+               TCGA = df.TCGA)
 
 # Enrichment analysis
 Enrich <- Enrichment(dfList, 
-                    enrich.databases = c("GO_Biological_Process_2021", 
-                                         "KEGG_2021_Human",
+                     enrich.databases = c("GO_Biological_Process_2021", 
+                                          "KEGG_2021_Human",
                                           "MSigDB_Hallmark_2020"),
-                    p_adj = 0.05, logFC = 1)
+                     p_adj = 0.05, logFC = 1)
 
 head(Enrich$GEO$fdr_up$GO_Biological_Process_2021)
-
 ```
 
 **SurfR** implements several visualization methods to help interpret enrichment results 
@@ -528,20 +554,24 @@ obtained through EnrichR using ggplot2, with the built-in function
 It depicts gene count ratio and enrichment scores (- Log10 adjusted p values) as bar height and color. Users can specify the number of terms (most significant) to display.
 
 ```{r, fig.width=7, fig.height=2.5}
+library(ggplot2)
+
+
 # barplot of the top 5 upregulated pathways
 Enrichment_barplot(Enrich$GEO, 
-                   enrich.databases <- c("GO_Biological_Process_2021","KEGG_2021_Human"), 
+                   enrich.databases <- c("GO_Biological_Process_2021",  
+                                         "KEGG_2021_Human"), 
                    p_adj = 0.05, 
                    num_term = 5, 
                    cond = "UP")
 
 # barplot of the top 5 downregulated pathways
 Enrichment_barplot(Enrich$GEO, 
-                   enrich.databases <- c("GO_Biological_Process_2021","KEGG_2021_Human"), 
+                   enrich.databases <- c("GO_Biological_Process_2021", 
+                                         "KEGG_2021_Human"), 
                    p_adj = 0.05, 
                    num_term = 5, 
                    cond = "DOWN")
-
 ```
 
 
@@ -564,9 +594,9 @@ The default grouping is the [Membranome Almen classification](https://doi.org/10
 
 ```{r, fig.height= 4.5, fig.width=7}
 # upregulated genes in GEO dataset
-fdrUP_GeneID <- df_GEO[df_GEO$padj < 0.05 & df_GEO$log2FoldChange > 0,"GeneID"]
+fdrUP_GeneID <- df_GEO[df_GEO$padj < 0.05 & df_GEO$log2FoldChange > 0, "GeneID"]
 # corresponding Surface Proteins
-SPup <- Gene2SProtein(genes = fdrUP_GeneID, input_type ="gene_name")
+SPup <- Gene2SProtein(genes = fdrUP_GeneID, input_type = "gene_name")
 # Barplot of Almen classification 
 Splot(SPup,
       group.by = "Membranome.Almen.main-class",
@@ -582,12 +612,15 @@ with the built-in SurfR function **SVenn**.
 
 ```{r, fig.height= 6, fig.width=7}
 library(edgeR)
+
+
 S_list <- list(SP_1 = c("EPCAM", "CD24",  "DLK1",  "CDCP1", "LYVE1"),
-              SP_2 = c("DLK1", "EPCAM", "EGFR", "UPK1A", "UPK2"))
-SurfR::SVenn(S_list,
-             cols.use= c("green", "blue"),
-             opacity = 0.5,
-             output_intersectionFile = FALSE)
+               SP_2 = c("DLK1", "EPCAM", "EGFR", "UPK1A", "UPK2"))
+
+SVenn(S_list,
+      cols.use = c("green", "blue"),
+      opacity = 0.5,
+      output_intersectionFile = FALSE)
 
 ```
 
@@ -602,10 +635,12 @@ with the built-in SurfR function **plotPCA**.
 
 ```{r, fig.height= 6, fig.width=7}
 library(edgeR)
-SurfR::plotPCA(matrix = cpm(cGSE121810), metadata = mGSE121810, 
-               dims = c(1,2),
-               color.by = "condition", shape.by = "therapy", 
-               label = FALSE, main = "PCA GSE121810")
+
+
+plotPCA(matrix = cpm(cGSE121810), metadata = mGSE121810,               
+        dims = c(1, 2),
+        color.by = "condition", shape.by = "therapy", 
+        label = FALSE, main = "PCA GSE121810")
 ```
 
 

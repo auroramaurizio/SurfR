@@ -46,7 +46,7 @@ Gene2SProtein <- function(genes,
                           Surfy_version = "log") {
 
   now <- Sys.Date()
-  log <- sort(list.files("log/", pattern = "*.xlsx"))
+  log_list <- sort(list.files(".log/", pattern = "*.xlsx"))
 
   # ---- surfy database versioning ----
 
@@ -54,12 +54,14 @@ Gene2SProtein <- function(genes,
     stop("The specified database version is not available. \n  Choose between log or new")
   }
 
-  if (length(log)>0 & Surfy_version == "log") {
-    ST <- read.xlsx(xlsxFile = paste0(".log/", log[length(log)]),
+  if (length(log_list) > 0 && Surfy_version == "log") {
+    #if several versions are present in .log/ directory, access the most recent
+    #log file based on the sorting order of the filenames.
+    ST <- read.xlsx(xlsxFile = paste0(".log/", log_list[length(log_list)]),
                     startRow = 1)
   } else {
     dir.create(".log/", recursive = TRUE, showWarnings = FALSE)
-    surfaceome_table_url='https://wlab.ethz.ch/surfaceome/table_S3_surfaceome.xlsx'
+    surfaceome_table_url <- "https://wlab.ethz.ch/surfaceome/table_S3_surfaceome.xlsx"
 
 
     bfc <- BiocFileCache(ask = FALSE)
@@ -71,7 +73,7 @@ Gene2SProtein <- function(genes,
                     startRow = 2)
 
 
-    write.xlsx(ST, paste0(".log/","table_S3_surfaceome_",now,".xlsx"), overwrite = TRUE)
+    write.xlsx(ST, paste0(".log/", "table_S3_surfaceome_", now, ".xlsx"), overwrite = TRUE)
     # -------------------------------------------------------------------------
   }
 
@@ -81,21 +83,24 @@ Gene2SProtein <- function(genes,
   if (!input_type %in% c("gene_name", "entrez", "ensembl", "uniProt_name")) {
     stop("The specified input type is not available. \n Choose between gene_name, entrez, ensembl or uniProt_name")
   }
-  type <- if(input_type == "gene_name"){"UniProt.gene"
-  } else if(input_type == "entrez"){"GeneID"
-  } else if(input_type == "ensembl"){"Ensembl.gene"
-  } else if (input_type == "uniProt_name"){"UniProt.name"}
+  type <- if (input_type == "gene_name") {
+                                          "UniProt.gene"} else if (input_type == "entrez") {
+    "GeneID"
+  } else if (input_type == "ensembl") {
+                                       "Ensembl.gene" } else if (input_type == "uniProt_name") {
+    "UniProt.name"
+  }
 
   # ---- filter out NA value from database ----
   # GeneID and UniProt.name
 
-  ST <- ST[!is.na(ST$Surfaceome.Label),]
-  ST <- ST[!is.na(ST$UniProt.name),]
-  ST <- ST[!is.na(ST[,type]),]
+  ST <- ST[!is.na(ST$Surfaceome.Label), ]
+  ST <- ST[!is.na(ST$UniProt.name), ]
+  ST <- ST[!is.na(ST[, type]), ]
   row.names(ST) <- ST$UniProt.name
 
   # ---- filter the database for the input genes and checks ----
-  proteins <- ST[ST[,type] %in% genes,]
+  proteins <- ST[ST[, type] %in% genes, ]
 
   # check size proteins data.frame
   if (dim(proteins)[1] == 0) {
@@ -104,11 +109,12 @@ Gene2SProtein <- function(genes,
             "do not have any match ",
             "in the surfaceome database. \n ",
             "Check gene alias alias and input type! ")
-    surface.proteins <- data.frame(matrix(nrow = 0, ncol = length(colnames(ST))))
+    surface.proteins <- data.frame(matrix(nrow = 0,
+                                          ncol = length(colnames(ST))))
     colnames(surface.proteins)  <- colnames(ST)
   } else {
     # -------- filter surface proteins and checks --------
-    surface.proteins <- proteins[proteins$Surfaceome.Label=='surface',]
+    surface.proteins <- proteins[proteins$Surfaceome.Label == "surface", ]
 
     if (dim(surface.proteins)[1] == 0) {
 
@@ -130,6 +136,6 @@ Gene2SProtein <- function(genes,
     write.table(surface.proteins, output_filename, quote = FALSE, sep = "\t")
   }
 
-  openxlsx <- read.xlsx <- write.xlsx <- write.table <- NULL
+  read.xlsx <- write.xlsx <- write.table <- NULL
   return(surface.proteins)
 }

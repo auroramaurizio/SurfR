@@ -49,12 +49,15 @@ DGE <- function(expression,
 
 
   # check the match between TEST CTRL and metadata
-  if (length(c(CTRL, TEST) %in% metadata[,condition]) == 0) {
-    stop("In your metadata the column ",condition, "does not contain ",  CTRL, " and ", TEST,".")
-  } else if (length(c(CTRL) %in% metadata[,condition]) == 0) {
-    stop("In your metadata the column ",condition, "does not contain ",  CTRL, ".")
-  } else if (length(c(TEST) %in% metadata[,condition]) == 0) {
-    stop("In your metadata the column ",condition, "does not contain ",  TEST,".")
+  if (length(c(CTRL, TEST) %in% metadata[, condition]) == 0) {
+    stop("In your metadata the column ", condition, "does not contain ",
+         CTRL, " and ", TEST, ".")
+  } else if (length(c(CTRL) %in% metadata[, condition]) == 0) {
+    stop("In your metadata the column ", condition, "does not contain ",
+         CTRL, ".")
+  } else if (length(c(TEST) %in% metadata[, condition]) == 0) {
+    stop("In your metadata the column ", condition, "does not contain ",
+         TEST, ".")
   }
 
   if (!(setequal(row.names(metadata), colnames(expression)))) {
@@ -69,7 +72,7 @@ DGE <- function(expression,
 
   min.samples <- Nreplica
   keep <- rowSums(cpm(counts(dds)) >= 1) >= min.samples
-  dds <- dds[keep,]
+  dds <- dds[keep, ]
   cpm <- cpm(counts(dds), log = FALSE)
   dga <- DESeq(object = dds,
                test = "Wald",
@@ -79,27 +82,28 @@ DGE <- function(expression,
 
 
   dgeResults <- results(dga,
-                      contrast = c(condition,TEST,CTRL),
-                      cooksCutoff          = Inf,
-                      independentFiltering = TRUE,
-                      alpha                = alpha,
-                      pAdjustMethod        = "BH")
+                        contrast = c(condition, TEST, CTRL),
+                        cooksCutoff          = Inf,
+                        independentFiltering = TRUE,
+                        alpha                = alpha,
+                        pAdjustMethod        = "BH")
 
-  dgeResults <- dgeResults[order(dgeResults$pvalue, decreasing = FALSE),]
+  dgeResults <- dgeResults[order(dgeResults$pvalue, decreasing = FALSE), ]
 
 
 
   dgeResults$Mean_CPM_C <- rowMeans(cpm[row.names(dgeResults),
-                                       row.names(metadata[metadata[,condition] ==CTRL,])])
+                                        row.names(metadata[metadata[, condition] == CTRL, ])])
   dgeResults$Mean_CPM_T <- rowMeans(cpm[row.names(dgeResults),
-                                       row.names(metadata[metadata[,condition] ==TEST,])])
+                                        row.names(metadata[metadata[, condition] == TEST, ])])
 
 
 
   dgeResults$GeneID <- row.names(dgeResults)
   dgeResults <- dgeResults[order(dgeResults$log2FoldChange, decreasing = TRUE),
-                          c('GeneID', 'Mean_CPM_T','Mean_CPM_C',
-                            'log2FoldChange','lfcSE','stat','pvalue','padj')]
+                           c("GeneID", "Mean_CPM_T", "Mean_CPM_C",
+                             "log2FoldChange", "lfcSE", "stat",
+                             "pvalue", "padj")]
 
   # -------- tsv --------
   if (output_tsv) {
@@ -107,7 +111,5 @@ DGE <- function(expression,
   }
 
 
-  return(dgeResults) }
-
-
-
+  return(dgeResults)
+}

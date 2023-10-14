@@ -48,11 +48,11 @@
 #' @importFrom ggplot2 ggsave
 #' @export
 metaRNAseq <- function(ind_deg,
-                 test_statistic = "fishercomb",
-                 BHth = 0.05,
-                 adjpval.t = 0.05,
-                 nrep = NULL,
-                 plot = FALSE) {
+                       test_statistic = "fishercomb",
+                       BHth = 0.05,
+                       adjpval.t = 0.05,
+                       nrep = NULL,
+                       plot = FALSE) {
 
 
   # Check if ind_deg is a list of at least two data.frame
@@ -60,7 +60,7 @@ metaRNAseq <- function(ind_deg,
   if (!is.list(ind_deg)) {
     stop("ind_deg is not a list. Please provide a list of at least two data.frames")
   }
-  if(length(ind_deg) <2 ) {
+  if (length(ind_deg) < 2) {
     stop("ind_deg contains", length(ind_deg), "data.frame. Please provide a list of at least two data.frames")
 
   }
@@ -71,7 +71,7 @@ metaRNAseq <- function(ind_deg,
   }
 
   # if test_statistic is invnorm check that nrep has the same number of elements than ind_deg
-  if (test_statistic == "invnorm" & length(ind_deg) != length(nrep)){
+  if (test_statistic == "invnorm" && length(ind_deg) != length(nrep)) {
     stop("nrep must have the same number of elements of ind_deg.")
   }
 
@@ -80,14 +80,14 @@ metaRNAseq <- function(ind_deg,
 
   for (i in seq_along(ind_deg)){
     if (!("pvalue" %in% colnames(ind_deg[[i]]))) {
-      stop("The DGE dataframe",names(ind_deg)[i]," must include a column named pvalue.")
+      stop("The DGE dataframe", names(ind_deg)[i], " must include a column named pvalue.")
 
     }
-    ind_deg[[i]] <- ind_deg[[i]][common_genes,]
+    ind_deg[[i]] <- ind_deg[[i]][common_genes, ]
     rawpval[[i]] <- ind_deg[[i]][["pvalue"]]
     if (plot) {
-      pdf(file = paste(names(ind_deg[i]),"_raw_pval_hist.pdf",sep ="", collapse = NULL))
-      hist(rawpval[[i]], breaks=100, col="grey", main= names(ind_deg[i]), xlab="Raw p-values")
+      pdf(file = paste(names(ind_deg[i]), "_raw_pval_hist.pdf", sep = "", collapse = NULL))
+      hist(rawpval[[i]], breaks = 100, col = "grey", main = names(ind_deg[i]), xlab = "Raw p-values")
       dev.off()
     }
   }
@@ -101,20 +101,22 @@ metaRNAseq <- function(ind_deg,
   if (test_statistic == "fishercomb") {
     fish_comb <- fishercomb(rawpval, BHth = BHth)
     fish_comb$DEname <- common_genes
-    fish_comb$binaryadjpval <- ifelse(fish_comb$adjpval<=adjpval.t,1,0)
+    fish_comb$binaryadjpval <- ifelse(fish_comb$adjpval <= adjpval.t, 1, 0)
     if (plot) {
-      pdf(file = paste("fishercomb_pval_hist.pdf",sep ="", collapse = NULL))
-      hist(fish_comb$rawpval, breaks=100, col="grey", main= names(ind_deg), xlab="Raw p-values")
+      pdf(file = paste("fishercomb_pval_hist.pdf", sep = "", collapse = NULL))
+      hist(fish_comb$rawpval, breaks = 100, col = "grey",
+           main = names(ind_deg), xlab = "Raw p-values")
       dev.off()
     }
     return(fish_comb)
-  } else if (test_statistic == "invnorm"){
+  } else if (test_statistic == "invnorm") {
     inv_norm <- invnorm(rawpval, nrep = nrep, BHth = BHth)
     inv_norm$DEname <- common_genes
-    inv_norm$binaryadjpval <- ifelse(inv_norm$adjpval<=adjpval.t,1,0)
+    inv_norm$binaryadjpval <- ifelse(inv_norm$adjpval <= adjpval.t, 1, 0)
     if (plot) {
-      pdf(file = paste("invnorm_pval_hist.pdf",sep ="", collapse = NULL))
-      hist(inv_norm$rawpval, breaks=100, col="grey", main= names(ind_deg), xlab="Raw p-values")
+      pdf(file = paste("invnorm_pval_hist.pdf", sep = "", collapse = NULL))
+      hist(inv_norm$rawpval, breaks = 100, col = "grey", main = names(ind_deg),
+           xlab = "Raw p-values")
       dev.off()
     }
     return(inv_norm)
@@ -122,6 +124,4 @@ metaRNAseq <- function(ind_deg,
     stop("The defined test_statistic could only be either fishercomb or invnorm.")
   }
 
-    }
-
-
+}

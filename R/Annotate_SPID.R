@@ -13,7 +13,7 @@
 .format_str <- function(string, ...) {
   args <- list(...)
   for (i in seq_along(args)) {
-    pattern <- paste("\\{", i, "}", sep="")
+    pattern <- paste("\\{", i, "}", sep = "")
     replacement <- args[[i]]
     string <- gsub(pattern, replacement, string)
   }
@@ -29,13 +29,14 @@
 #' @return A url
 #'
 #' @keywords internal
-enrichr_urls <- function(db=c("Enrichr", "YeastEnrichr", "FlyEnrichr", "WormEnrichr", "FishEnrichr")) {
+enrichr_urls <- function(db = c("Enrichr", "YeastEnrichr", "FlyEnrichr",
+                                "WormEnrichr", "FishEnrichr")) {
   switch(match.arg(db),
-         "Enrichr"      = "http://maayanlab.cloud/Enrichr/{1}",
-         "YeastEnrichr" = "http://maayanlab.cloud/YeastEnrichr/{1}",
-         "FlyEnrichr"   = "http://maayanlab.cloud/FlyEnrichr/{1}",
-         "WormEnrichr"  = "http://maayanlab.cloud/WormEnrichr/{1}",
-         "FishEnrichr"  = "http://maayanlab.cloud/FishEnrichr/{1}"
+    "Enrichr"      = "http://maayanlab.cloud/Enrichr/{1}",
+    "YeastEnrichr" = "http://maayanlab.cloud/YeastEnrichr/{1}",
+    "FlyEnrichr"   = "http://maayanlab.cloud/FlyEnrichr/{1}",
+    "WormEnrichr"  = "http://maayanlab.cloud/WormEnrichr/{1}",
+    "FishEnrichr"  = "http://maayanlab.cloud/FishEnrichr/{1}"
   )
 }
 
@@ -48,7 +49,9 @@ enrichr_urls <- function(db=c("Enrichr", "YeastEnrichr", "FlyEnrichr", "WormEnri
 #' @importFrom httr GET http_status
 #'
 #' @keywords internal
-enrichr_connect <- function(endpoint, db=c("Enrichr", "YeastEnrichr", "FlyEnrichr", "WormEnrichr", "FishEnrichr")) {
+enrichr_connect <- function(endpoint, db = c("Enrichr", "YeastEnrichr",
+                                             "FlyEnrichr", "WormEnrichr",
+                                             "FishEnrichr")) {
   url <- enrichr_urls(db)
   response <- httr::GET(.format_str(url, endpoint))
   if (!http_status(response)$category == "Success") {
@@ -71,24 +74,22 @@ enrichr_connect <- function(endpoint, db=c("Enrichr", "YeastEnrichr", "FlyEnrich
 #' @importFrom httr content
 #'
 #' @export
-enrichr_download <- function(genesets, db=c("Enrichr", "YeastEnrichr", "FlyEnrichr", "WormEnrichr", "FishEnrichr")) {
+enrichr_download <- function(genesets, db = c("Enrichr", "YeastEnrichr",
+                                              "FlyEnrichr", "WormEnrichr",
+                                              "FishEnrichr")) {
   response <- enrichr_connect(.format_str("geneSetLibrary?mode=text&libraryName={1}", genesets), db)
   data <- content(response, "text")
-  split <- strsplit(data, split="\n")[[1]]
-  #genesets <- sapply(split, function(x) strsplit(x, "\t")[[1]])
+  split <- strsplit(data, split = "\n")[[1]]
   for (i in seq_along(split)) {
     genesets[i] <- unlist(strsplit(split[[i]][1], "\t"))[1]
   }
   names(genesets) <- unlist(lapply(genesets, function(x) x[1]))
   lapply(genesets, function(x) {
-    genes <- x[3:length(x)]
+    genes <- x[seq_along(x) > 2]
     genes <- genes[genes != ""]
     unique(genes)
   })
 }
-
-
-
 
 
 
@@ -145,45 +146,38 @@ Annotate_SPID <- function(DGE,
     stop("You can select only one enrich.database at a time.")
   }
 
-  #db = enrichR::listEnrichrDbs()
-  db = listEnrichrDbs()
+  db <- listEnrichrDbs()
   if (!(enrich.database %in% db$libraryName)) {
     stop(enrich.database, "is not a valid enrichR geneset.")
   }
-  #annotation_table = hypeR::enrichr_download(enrich.database)
   annotation_table <- enrichr_download(enrich.database)
 
   # here gives a warning, but we can safely ignore it
-  suppressWarnings({annotation_table <- as.data.frame(do.call(rbind, annotation_table))})
+  suppressWarnings({
+                    annotation_table <- as.data.frame(do.call(rbind, annotation_table))})
 
-  colNames <- colnames(annotation_table) # could be any number of column names here
-  annotation_table['test'] <- col_concat(annotation_table, sep = " ")
-  annotation_table['GeneID'] <- trimws(annotation_table$test, which = c("both")) #remove whitespaces
+  annotation_table["test"] <- col_concat(annotation_table, sep = " ")
+  annotation_table["GeneID"] <- trimws(annotation_table$test, which = c("both"))
   annotation_table$term <- row.names(annotation_table)
-  annotation_table_sub <- annotation_table[,c("term","GeneID")]
+  annotation_table_sub <- annotation_table[, c("term", "GeneID")]
 
-  #exploded = unique(tidyr::separate_rows(annotation_table_sub, GeneID, sep = " ", convert = FALSE))
-  exploded <- unique(separate_rows(annotation_table_sub, GeneID, sep = " ", convert = FALSE))
-  #group by gene.. that is: one gene x row with associated all the descriptions (space separated)
+  exploded <- unique(separate_rows(annotation_table_sub,
+                                   GeneID, sep = " ", convert = FALSE))
   grouped  <-
     exploded %>%
-    #dplyr::group_by(GeneID) %>%
-    #dplyr::summarise(temp = toString(term)) %>%
-    #dplyr::ungroup()
     group_by(GeneID) %>%
     summarise(temp = toString(term)) %>%
     ungroup()
 
-  colnames(grouped) <- c("GeneID",enrich.database)
+  colnames(grouped) <- c("GeneID", enrich.database)
 
-  merged <- merge(DGE, grouped, by="GeneID", all.x = TRUE)
+  merged <- merge(DGE, grouped, by = "GeneID", all.x = TRUE)
 
 
   if (output_tsv) {
-    write.table(merged, paste(enrich.database, "_SP_annotation.tsv", sep ="_"), quote = FALSE, sep = "\t")
+    write.table(merged, paste(enrich.database, "_SP_annotation.tsv", sep = "_"),
+                quote = FALSE, sep = "\t")
   }
   GeneID <- term <- NULL
   return(merged)
 }
-
-

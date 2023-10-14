@@ -50,7 +50,7 @@
 plotPCA <- function(matrix,
                     metadata,
                     nTOP = 500,
-                    dims = c(1,2),
+                    dims = c(1, 2),
                     centering = TRUE,
                     scaling = TRUE,
                     color.by = NULL,
@@ -67,7 +67,7 @@ plotPCA <- function(matrix,
     stop("'dims' must be a two-length vector")
   }
 
-  matrix <- matrix[,match(row.names(metadata), colnames(matrix))]
+  matrix <- matrix[, match(row.names(metadata), colnames(matrix))]
   if (length(x = row.names(metadata)) != length(x = colnames(matrix))) {
     if (!all(row.names(metadata) == colnames(matrix))) {
       stop("matrix column and metadata rows don't match")
@@ -76,115 +76,121 @@ plotPCA <- function(matrix,
 
 
   # sort by variance and select topN
-  vary <- apply(matrix,1,var)
+  vary <- apply(matrix, 1, var)
   vary_s <- sort(vary, decreasing = TRUE)
   TOP_N <- names(vary_s[seq_len(nTOP)])
-  mtx_TOP <- matrix[TOP_N,]
+  mtx_TOP <- matrix[TOP_N, ]
 
 
   # pca with prcomp
-  pcx = dims[1]; pcy = dims[2]
-  centering = centering
-  scaling = scaling
+  pcx <- dims[1]
+  pcy <- dims[2]
+  centering <- centering
+  scaling <- scaling
 
   # PCA
-  pca = prcomp(t(mtx_TOP), center=centering, scale=scaling)
-  var = round(matrix(((pca$sdev^2)/(sum(pca$sdev^2))), ncol=1)*100,1)
-  score = as.data.frame(pca$x)
-  score
+  pca <- prcomp(t(mtx_TOP), center = centering, scale = scaling)
+  var <- round(matrix(((pca$sdev^2) / (sum(pca$sdev^2))), ncol = 1) * 100, 1)
+  score <- as.data.frame(pca$x)
 
   # plot paramters
-  xlab = paste("PC", pcx, " (",var[pcx],"%)", sep="")
-  ylab = paste("PC", pcy, " (",var[pcy],"%)", sep="")
-  cum = var[pcx]+var[pcy]
-  names = rownames(pca$x)
+  xlab <- paste("PC", pcx, " (", var[pcx], "%)", sep = "")
+  ylab <- paste("PC", pcy, " (", var[pcy], "%)", sep = "")
+  names <- rownames(pca$x)
 
   if (is.null(x = color.by)) {
-    color.by = colnames(metadata)[1]
+    color.by <- colnames(metadata)[1]
     warning("color.by option is NULL, colorig by first column of metadata")
   }
 
-  score$color = as.factor(metadata[, color.by])
+  score$color <- factor(metadata[, color.by])
 
   if (is.null(x = shape.by)) {
-    score$shape = ""
-    shape.by = "shape"
+    score$shape <- ""
+    shape.by <- "shape"
     warning("shape.by option is NULL. All points will have same shape")
   } else {
-    score$shape = as.factor(metadata[, shape.by])
+    score$shape <- factor(metadata[, shape.by])
   }
 
   if (is.null(x = cols.use)) {
-    cols.use = hue_pal()(length(x = levels(x = score$color)))
+    cols.use <- hue_pal()(length(x = levels(x = score$color)))
   } else if (length(cols.use) < length(x = levels(x = score$color))) {
-    stop("you have",length(x = levels(x = score$color)), "factors and supplied only",length(cols.use),"color")
+    stop("you have", length(x = levels(x = score$color)), "factors and supplied only", length(cols.use), "color")
 
   }
 
   if (is.null(x = shape.use)) {
     shape.use <- c(16:25, seq_len(15))
   } else if (length(shape.use) < length(x = levels(x = score$shape))) {
-    stop("you have",length(x = levels(x = score$shape)), "factors and supplied only",length(shape.use),"shape")
+    stop("you have", length(x = levels(x = score$shape)), "factors and supplied only", length(shape.use), "shape")
   }
 
 
   if (label) {
     if (is.null(x = new.label)) {
-      score$sampleNames = row.names(metadata)
+      score$sampleNames <- row.names(metadata)
     } else {
-      score$sampleNames = new.label
+      score$sampleNames <- new.label
     }
 
-    pca = ggplot(score, aes(score[,pcx], y=score[,pcy], color=color, shape = shape, label = sampleNames)) +
-      geom_label_repel(data= score, aes(x=score[,pcx], y=score[,pcy],
-                                        color=color, label = sampleNames),
+    pca <- ggplot(score, aes(score[, pcx], y = score[, pcy], color = color,
+                             shape = shape, label = sampleNames)) +
+      geom_label_repel(data = score, aes(x = score[, pcx], y = score[, pcy],
+                                         color = color, label = sampleNames),
                        size = 6,  box.padding = ggplot2::unit(1, "lines"),
                        point.padding = ggplot2::unit(0.1, "lines"),
-                       segment.color = 'grey50') +
-      geom_point(size= pt.size)+
+                       segment.color = "grey50") +
+      geom_point(size = pt.size) +
       xlab(xlab) +
       ylab(ylab) +
       coord_fixed() + ggtitle(main) +
       theme(plot.title = element_text(hjust = 0.5)) +
-      theme_bw(base_size = 16) + #+ theme(legend.position = "right") +
-      geom_hline(yintercept=0, linetype="dashed", color = "darkgrey") +
-      geom_vline(xintercept=0, linetype="dashed", color = "darkgrey") +
-      theme(plot.title = element_text(color="black", size=16, face="bold.italic"),
-            axis.text.x = element_text(angle = 0, face = "bold", color = "black", size=12, hjust =.5),
+      theme_bw(base_size = 16) +
+      geom_hline(yintercept = 0, linetype = "dashed", color = "darkgrey") +
+      geom_vline(xintercept = 0, linetype = "dashed", color = "darkgrey") +
+      theme(plot.title = element_text(color = "black", size = 16, face = "bold.italic"),
+            axis.text.x = element_text(angle = 0, face = "bold", color = "black", size = 12, hjust = .5),
             axis.title.x = element_text(face = "bold", color = "black", size = 14),
-            axis.text.y = element_text(angle = 0, face = "bold", color = "black", size=12),
+            axis.text.y = element_text(angle = 0, face = "bold", color = "black", size = 12),
             axis.title.y = element_text(face = "bold", color = "black", size = 14),
             legend.text = element_text(face = "bold", color = "black", size = 10),
-            legend.position="right",
-            panel.background = element_rect(fill = "white",colour = "black", size = 1, linetype = "solid")) +
-      scale_color_manual(values=cols.use, name = color.by) +
+            legend.position = "right",
+            panel.background = element_rect(fill = "white", colour = "black", size = 1, linetype = "solid")) +
+      scale_color_manual(values = cols.use, name = color.by) +
       scale_shape_manual(values = shape.use, name = shape.by)
   } else {
-    pca = ggplot(score, aes(score[,pcx], y=score[,pcy], color=color, shape = shape)) +
-      geom_point(size= pt.size)+
+    pca <- ggplot(score, aes(score[, pcx], y = score[, pcy], color = color, shape = shape)) +
+      geom_point(size = pt.size) +
       xlab(xlab) +
       ylab(ylab) +
       coord_fixed() + ggtitle(main) +
       theme(plot.title = element_text(hjust = 0.5)) +
-      theme_bw(base_size = 16) + #+ theme(legend.position = "right") +
-      geom_hline(yintercept=0, linetype="dashed", color = "darkgrey") +
-      geom_vline(xintercept=0, linetype="dashed", color = "darkgrey") +
-      theme(plot.title = element_text(color="black", size=16, face="bold.italic"),
-            axis.text.x = element_text(angle = 0, face = "bold", color = "black", size=12, hjust =.5),
-            axis.title.x = element_text(face = "bold", color = "black", size = 14),
-            axis.text.y = element_text(angle = 0, face = "bold", color = "black", size=12),
-            axis.title.y = element_text(face = "bold", color = "black", size = 14),
-            legend.text = element_text(face = "bold", color = "black", size = 10),
-            legend.position="right",
-            panel.background = element_rect(fill = "white",colour = "black", size = 1, linetype = "solid")) +
-      scale_color_manual(values=cols.use, name = color.by) +
+      theme_bw(base_size = 16) +
+      geom_hline(yintercept = 0, linetype = "dashed", color = "darkgrey") +
+      geom_vline(xintercept = 0, linetype = "dashed", color = "darkgrey") +
+      theme(plot.title = element_text(color = "black",
+                                      size = 16, face = "bold.italic"),
+            axis.text.x = element_text(angle = 0, face = "bold",
+                                       color = "black", size = 12, hjust = .5),
+            axis.title.x = element_text(face = "bold", color = "black",
+                                        size = 14),
+            axis.text.y = element_text(angle = 0, face = "bold",
+                                       color = "black", size = 12),
+            axis.title.y = element_text(face = "bold",
+                                        color = "black", size = 14),
+            legend.text = element_text(face = "bold",
+                                       color = "black", size = 10),
+            legend.position = "right",
+            panel.background = element_rect(fill = "white", colour = "black",
+                                            size = 1, linetype = "solid")) +
+      scale_color_manual(values = cols.use, name = color.by) +
       scale_shape_manual(values = shape.use, name = shape.by)
 
   }
 
 
 
-  ggplot2 <- ggrepel <- geom_label_repel <- stats <- prcomp <- hue_pal <- aes <- color <- shape <- sampleNames <- NULL
+  geom_label_repel <- prcomp <- hue_pal <- aes <- color <- shape <- sampleNames <- NULL
   return(pca)
 }
-

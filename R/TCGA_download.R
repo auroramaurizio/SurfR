@@ -23,60 +23,55 @@
 #' @family public-data functions
 #' @export
 TCGA_download <- function(project,
-                 whichcounts = "unstranded",
-                 save.matrix = FALSE,
-                 save.metadata = FALSE,
-                 barcodes = NULL) {
+                          whichcounts = "unstranded",
+                          save.matrix = FALSE,
+                          save.metadata = FALSE,
+                          barcodes = NULL) {
 
 
-      if (is.null(barcodes)) {
-         query <- GDCquery(project,
-                                         data.category= "Transcriptome Profiling",
-                                         data.type = "Gene Expression Quantification",
-                                         sample.type = c("Solid Tissue Normal","Primary Tumor"),
-                                         workflow.type="STAR - Counts")
-       } else {
-         query <- GDCquery(project,
-                                         data.category= "Transcriptome Profiling",
-                                         data.type = "Gene Expression Quantification",
-                                         sample.type = c("Solid Tissue Normal","Primary Tumor"),
-                                         workflow.type="STAR - Counts",
-                                         barcode = barcodes)
-       }
+  if (is.null(barcodes)) {
+    query <- GDCquery(project,
+                      data.category = "Transcriptome Profiling",
+                      data.type = "Gene Expression Quantification",
+                      sample.type = c("Solid Tissue Normal", "Primary Tumor"),
+                      workflow.type = "STAR - Counts")
+  } else {
+    query <- GDCquery(project,
+                      data.category = "Transcriptome Profiling",
+                      data.type = "Gene Expression Quantification",
+                      sample.type = c("Solid Tissue Normal", "Primary Tumor"),
+                      workflow.type = "STAR - Counts",
+                      barcode = barcodes)
+  }
 
 
-       tryCatch(GDCdownload(query, method = "client"), error = function(e)GDCdownload(query))
-       data <- GDCprepare(query, summarizedExperiment = TRUE)
+  tryCatch(GDCdownload(query, method = "client"),
+           error = function(e) GDCdownload(query))
+  data <- GDCprepare(query, summarizedExperiment = TRUE)
 
-       dir <- 'TCGA/'
+  dir <- "TCGA/"
 
-       # Save matrix
-       Matrix <- assay(data, whichcounts)
-       row.names(Matrix) <- data@rowRanges$gene_name
+  # Save matrix
+  Matrix <- assay(data, whichcounts)
+  row.names(Matrix) <- data@rowRanges$gene_name
 
-       # Save metadata
-       metadata <- as.data.frame(data@colData)
+  # Save metadata
+  metadata <- as.data.frame(data@colData)
 
-       if (save.matrix ) {
-         dir.create(dir, recursive = TRUE, showWarnings = FALSE)
-         write.table(Matrix, file=paste0(dir, project,"_expression.tsv"), sep="\t", quote=FALSE)
-       }
+  if (save.matrix) {
+    dir.create(dir, recursive = TRUE, showWarnings = FALSE)
+    write.table(Matrix, file = paste0(dir, project, "_expression.tsv"),
+                sep = "\t", quote = FALSE)
+  }
 
-       if (save.metadata ) {
-         dir.create(dir, recursive = TRUE, showWarnings = FALSE)
-         write.table(metadata, file=paste0(dir, project,"_metadata.tsv",sep=""),sep="\t",quote=FALSE)
-       }
+  if (save.metadata) {
+    dir.create(dir, recursive = TRUE, showWarnings = FALSE)
+    write.table(metadata, file = paste0(dir, project, "_metadata.tsv",
+                                             sep = ""),
+                     sep = "\t", quote = FALSE)
+  }
 
-       mat.met <- list(Matrix, metadata)
+  mat.met <- list(Matrix, metadata)
 
-       return(mat.met) }
-
-
-
-
-
-
-
-
-
-
+  return(mat.met)
+}

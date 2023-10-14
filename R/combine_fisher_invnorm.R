@@ -64,7 +64,7 @@ combine_fisher_invnorm <- function(ind_deg,
   if (!is.list(ind_deg)) {
     stop("ind_deg is not a list. Please provide a list of at least two data.frames")
   }
-  if(length(ind_deg) <2 ) {
+  if (length(ind_deg) < 2) {
     stop("ind_deg contains", length(ind_deg), "data.frame. Please provide a list of at least 2 data.frames")
   }
 
@@ -74,25 +74,25 @@ combine_fisher_invnorm <- function(ind_deg,
     stop(" your DGE data.frames do not have common genes")
   }
 
-  DE <- data.frame(genes=common_genes)
-  FC <- data.frame(genes=common_genes)
+  DE <- data.frame(genes = common_genes)
+  FC <- data.frame(genes = common_genes)
 
   for (i in seq_along(ind_deg)) {
-    ind_deg[[i]] <- ind_deg [[i]][common_genes,]
-    ind_deg[[i]][["binarypadj"]] <- ifelse(ind_deg[[i]][["padj"]]<=adjpval,1,0)
-    FC[[paste(names(ind_deg[i]), "log2FC", sep ="_")]] <- ind_deg[[i]][["log2FoldChange"]]
-    DE[[paste(names(ind_deg[i]), "binarypadj", sep ="_")]] <- ind_deg[[i]][["binarypadj"]]
+    ind_deg[[i]] <- ind_deg [[i]][common_genes, ]
+    ind_deg[[i]][["binarypadj"]] <- ifelse(ind_deg[[i]][["padj"]] <= adjpval, 1, 0)
+    FC[[paste(names(ind_deg[i]), "log2FC", sep = "_")]] <- ind_deg[[i]][["log2FoldChange"]]
+    DE[[paste(names(ind_deg[i]), "binarypadj", sep = "_")]] <- ind_deg[[i]][["binarypadj"]]
   }
 
-  FC <- FC[-c(1) ]
-  DE <- DE[-c(1) ]
+  FC <- FC[-c(1)]
+  DE <- DE[-c(1)]
 
-  signsFC <- mapply(FC, FUN=function(x) sign(x))
-  sumsigns <- apply(signsFC,1,sum)
-  commonsgnFC <- ifelse(abs(sumsigns)==dim(signsFC)[2], sign(sumsigns),0)
+  signsFC <- mapply(FC, FUN = function(x) sign(x))
+  sumsigns <- apply(signsFC, 1, sum)
+  commonsgnFC <- ifelse(abs(sumsigns) == dim(signsFC)[2], sign(sumsigns), 0)
   FC$signFC <- commonsgnFC
 
-  comb <- cbind(FC,DE)
+  comb <- cbind(FC, DE)
 
   comb$DE_fishercomb <- invnorm$binaryadjpval
   comb$DE_invnorm <- fishercomb$binaryadjpval
@@ -112,8 +112,3 @@ combine_fisher_invnorm <- function(ind_deg,
   return(comb)
 
 }
-
-
-
-
-

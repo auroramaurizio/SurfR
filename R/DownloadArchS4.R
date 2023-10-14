@@ -26,12 +26,15 @@
 DownloadArchS4 <- function(GSM, species, print_tsv = FALSE, filename = NULL) {
 
 
-  options(timeout=600)
-  matrixh5_url <- paste0('https://mssm-seq-matrix.s3.amazonaws.com/',species,'_matrix.h5')
+  options(timeout = 600)
+  matrixh5_url <- paste0("https://mssm-seq-matrix.s3.amazonaws.com/", species, "_matrix.h5")
 
-  series <- h5read(matrixh5_url,  name = "meta/Sample_series_id", s3 = TRUE)
-  samples <- h5read(matrixh5_url,  name = "meta/Sample_geo_accession", s3 = TRUE)
-  genes <- h5read(matrixh5_url,  name = "meta/genes", s3 = TRUE)
+  samples <- h5read(matrixh5_url,
+                    name = "meta/Sample_geo_accession",
+                    s3 = TRUE)
+  genes <- h5read(matrixh5_url,
+                  name = "meta/genes",
+                  s3 = TRUE)
 
 
   if (length(samples %in% GSM) == 0) {
@@ -41,7 +44,8 @@ DownloadArchS4 <- function(GSM, species, print_tsv = FALSE, filename = NULL) {
 
   # extract gene expression from compressed data
   expression <- h5read(matrixh5_url, "data/expression",
-                      index=list(seq_along(genes), sample_locations), s3 = TRUE)
+                       index = list(seq_along(genes),
+                                    sample_locations), s3 = TRUE)
   H5close()
 
   rownames(expression) <- genes
@@ -49,7 +53,7 @@ DownloadArchS4 <- function(GSM, species, print_tsv = FALSE, filename = NULL) {
 
   #-------- Print file --------
   if (print_tsv) {
-    write.table(expression, file=filename, sep="\t", quote=FALSE)
+    write.table(expression, file = filename, sep = "\t", quote = FALSE)
   }
 
   return(as.data.frame(expression))
