@@ -111,14 +111,15 @@ plotPCA <- function(matrix,
   if (is.null(x = cols.use)) {
     cols.use <- hue_pal()(length(x = levels(x = score$color)))
   } else if (length(cols.use) < length(x = levels(x = score$color))) {
-    stop("you have", length(x = levels(x = score$color)), "factors and supplied only", length(cols.use), "color")
-
+    stop("you have", length(x = levels(x = score$color)),
+         "factors and supplied only", length(cols.use), "color")
   }
 
   if (is.null(x = shape.use)) {
     shape.use <- c(16:25, seq_len(15))
   } else if (length(shape.use) < length(x = levels(x = score$shape))) {
-    stop("you have", length(x = levels(x = score$shape)), "factors and supplied only", length(shape.use), "shape")
+    stop("you have", length(x = levels(x = score$shape)),
+         "factors and supplied only", length(shape.use), "shape")
   }
 
   if (label) {
@@ -143,18 +144,26 @@ plotPCA <- function(matrix,
       theme_bw(base_size = 16) +
       geom_hline(yintercept = 0, linetype = "dashed", color = "darkgrey") +
       geom_vline(xintercept = 0, linetype = "dashed", color = "darkgrey") +
-      theme(plot.title = element_text(color = "black", size = 16, face = "bold.italic"),
-            axis.text.x = element_text(angle = 0, face = "bold", color = "black", size = 12, hjust = .5),
-            axis.title.x = element_text(face = "bold", color = "black", size = 14),
-            axis.text.y = element_text(angle = 0, face = "bold", color = "black", size = 12),
-            axis.title.y = element_text(face = "bold", color = "black", size = 14),
-            legend.text = element_text(face = "bold", color = "black", size = 10),
+      theme(plot.title = element_text(color = "black", size = 16,
+                                      face = "bold.italic"),
+            axis.text.x = element_text(angle = 0, face = "bold",
+                                       color = "black", size = 12, hjust = .5),
+            axis.title.x = element_text(face = "bold", color = "black",
+                                        size = 14),
+            axis.text.y = element_text(angle = 0, face = "bold",
+                                       color = "black", size = 12),
+            axis.title.y = element_text(face = "bold",
+                                        color = "black", size = 14),
+            legend.text = element_text(face = "bold",
+                                       color = "black", size = 10),
             legend.position = "right",
-            panel.background = element_rect(fill = "white", colour = "black", size = 1, linetype = "solid")) +
+            panel.background = element_rect(fill = "white", colour = "black",
+                                            size = 1, linetype = "solid")) +
       scale_color_manual(values = cols.use, name = color.by) +
       scale_shape_manual(values = shape.use, name = shape.by)
   } else {
-    pca <- ggplot(score, aes(score[, pcx], y = score[, pcy], color = color, shape = shape)) +
+    pca <- ggplot(score, aes(score[, pcx], y = score[, pcy],
+                             color = color, shape = shape)) +
       geom_point(size = pt.size) +
       xlab(xlab) +
       ylab(ylab) +

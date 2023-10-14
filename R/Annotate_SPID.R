@@ -23,8 +23,6 @@
 }
 
 
-
-
 #' Get url base for species-specific enrichr libraries  - function from hypeR
 #'
 #' @param db A species
@@ -65,7 +63,6 @@ enrichr_connect <- function(endpoint, db = c("Enrichr", "YeastEnrichr",
 }
 
 
-
 #' Download data from enrichr in the form of a named list - function from hypeR
 #'
 #' @param genesets A name corresponding to available genesets
@@ -96,7 +93,6 @@ enrichr_download <- function(genesets, db = c("Enrichr", "YeastEnrichr",
     unique(genes)
   })
 }
-
 
 
 #' Annotate_SPID

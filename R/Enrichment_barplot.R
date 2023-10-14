@@ -46,7 +46,6 @@ Enrichment_barplot <- function(Enrich,
                                p_adj = 0.05, num_term = 10, cond = "UP",
                                plot = FALSE) {
 
-
   enrichR.table <- data.frame()
 
   # check if Enrich contains enrich.databases

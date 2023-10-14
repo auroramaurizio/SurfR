@@ -43,7 +43,6 @@ Enrichment <- function(dfList, enrich.databases  = c("GO_Biological_Process_2021
                        p_adj = 0.05, logFC = 1,
                        save.results = FALSE) {
 
-
   enrichr.list <- list()
 
   # enrichment Parameters
