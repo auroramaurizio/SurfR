@@ -22,12 +22,13 @@
 #' file.remove("MANIFEST.txt")
 #' @family public-data functions
 #' @export
+
+
 TCGA_download <- function(project,
                           whichcounts = "unstranded",
                           save.matrix = FALSE,
                           save.metadata = FALSE,
                           barcodes = NULL) {
-
 
   if (is.null(barcodes)) {
     query <- GDCquery(project,
@@ -43,7 +44,6 @@ TCGA_download <- function(project,
                       workflow.type = "STAR - Counts",
                       barcode = barcodes)
   }
-
 
   tryCatch(GDCdownload(query, method = "client"),
            error = function(e) GDCdownload(query))

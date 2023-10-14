@@ -37,7 +37,6 @@
 #' @importFrom utils head
 #' @importFrom grDevices pdf dev.off
 #' @export
-#'
 
 
 Enrichment_barplot <- function(Enrich,
@@ -58,7 +57,6 @@ Enrichment_barplot <- function(Enrich,
   } else if (cond == "DOWN") {
     enrich_list <- Enrich[["fdr_down"]]
   }
-
 
   if (length(setdiff(enrich.databases, names(enrich_list))) > 0) {
     warning(setdiff(enrich.databases, names(enrich_list)), "not present in your Enrichment analysis.")
@@ -91,15 +89,11 @@ Enrichment_barplot <- function(Enrich,
     pathways.dataframe <- pathways.dataframe[order(pathways.dataframe$p.value.adj), ]
   }
 
-  ###############################################
   # N Top significant pathways
-  ###############################################
 
   top_sig <- head(pathways.dataframe[seq_len(num_term), ], num_term)
 
-  ###############################################
   # Significant pathway barplot
-  ###############################################
 
   top_sig$Log10Adj.P.value <- -log10(top_sig$p.value.adj)
 
@@ -121,6 +115,7 @@ Enrichment_barplot <- function(Enrich,
   }
 
   Pathway <- gene.ratio <- Log10Adj.P.value <- NULL
+
   return(p_top_sig)
 
 }

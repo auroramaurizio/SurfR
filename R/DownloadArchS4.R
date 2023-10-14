@@ -22,11 +22,12 @@
 #' @importFrom rhdf5 h5read H5close
 #' @importFrom utils write.table
 #' @export
-#'
+
+
 DownloadArchS4 <- function(GSM, species, print_tsv = FALSE, filename = NULL) {
 
-
   options(timeout = 600)
+
   matrixh5_url <- paste0("https://mssm-seq-matrix.s3.amazonaws.com/", species, "_matrix.h5")
 
   samples <- h5read(matrixh5_url,
@@ -35,7 +36,6 @@ DownloadArchS4 <- function(GSM, species, print_tsv = FALSE, filename = NULL) {
   genes <- h5read(matrixh5_url,
                   name = "meta/genes",
                   s3 = TRUE)
-
 
   if (length(samples %in% GSM) == 0) {
     stop("The defined GSM ids do not have any match in ArchS4 database. \n We suggest to contact ArchS4 curator to add them.")
@@ -49,9 +49,10 @@ DownloadArchS4 <- function(GSM, species, print_tsv = FALSE, filename = NULL) {
   H5close()
 
   rownames(expression) <- genes
+
   colnames(expression) <- samples[sample_locations]
 
-  #-------- Print file --------
+  # Print file
   if (print_tsv) {
     write.table(expression, file = filename, sep = "\t", quote = FALSE)
   }

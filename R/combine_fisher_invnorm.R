@@ -50,14 +50,13 @@
 #' @importFrom utils write.table
 #' @export
 
+
 combine_fisher_invnorm <- function(ind_deg,
                                    invnorm,
                                    fishercomb,
                                    adjpval = 0.05,
                                    output_tsv = TRUE,
                                    output_filename = "combine_fisher_invnorm.tsv") {
-
-
 
   # Check if ind_deg is a list of at least two data.frame
 
@@ -99,8 +98,6 @@ combine_fisher_invnorm <- function(ind_deg,
   comb$GeneID <- common_genes
 
   comb <- comb %>% relocate(GeneID)
-
-
 
   # -------- tsv --------
   if (output_tsv) {

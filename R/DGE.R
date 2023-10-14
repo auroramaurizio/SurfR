@@ -35,6 +35,7 @@
 #' @import SPsimSeq
 #' @export
 
+
 DGE <- function(expression,
                 metadata,
                 Nreplica,
@@ -46,7 +47,6 @@ DGE <- function(expression,
                 FC_filt = 0,
                 output_tsv = FALSE,
                 output_filename = "DEGs.tsv") {
-
 
   # check the match between TEST CTRL and metadata
   if (length(c(CTRL, TEST) %in% metadata[, condition]) == 0) {
@@ -80,7 +80,6 @@ DGE <- function(expression,
                betaPrior = FALSE,
                minReplicatesForReplace = Inf)
 
-
   dgeResults <- results(dga,
                         contrast = c(condition, TEST, CTRL),
                         cooksCutoff          = Inf,
@@ -90,14 +89,10 @@ DGE <- function(expression,
 
   dgeResults <- dgeResults[order(dgeResults$pvalue, decreasing = FALSE), ]
 
-
-
   dgeResults$Mean_CPM_C <- rowMeans(cpm[row.names(dgeResults),
                                         row.names(metadata[metadata[, condition] == CTRL, ])])
   dgeResults$Mean_CPM_T <- rowMeans(cpm[row.names(dgeResults),
                                         row.names(metadata[metadata[, condition] == TEST, ])])
-
-
 
   dgeResults$GeneID <- row.names(dgeResults)
   dgeResults <- dgeResults[order(dgeResults$log2FoldChange, decreasing = TRUE),
@@ -105,11 +100,11 @@ DGE <- function(expression,
                              "log2FoldChange", "lfcSE", "stat",
                              "pvalue", "padj")]
 
-  # -------- tsv --------
+  # tsv
+
   if (output_tsv) {
     write.table(dgeResults, output_filename, quote = FALSE, sep = "\t")
   }
-
 
   return(dgeResults)
 }

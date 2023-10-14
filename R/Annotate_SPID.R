@@ -10,6 +10,8 @@
 #' }
 #'
 #' @keywords internal
+
+
 .format_str <- function(string, ...) {
   args <- list(...)
   for (i in seq_along(args)) {
@@ -49,6 +51,8 @@ enrichr_urls <- function(db = c("Enrichr", "YeastEnrichr", "FlyEnrichr",
 #' @importFrom httr GET http_status
 #'
 #' @keywords internal
+
+
 enrichr_connect <- function(endpoint, db = c("Enrichr", "YeastEnrichr",
                                              "FlyEnrichr", "WormEnrichr",
                                              "FishEnrichr")) {
@@ -74,6 +78,8 @@ enrichr_connect <- function(endpoint, db = c("Enrichr", "YeastEnrichr",
 #' @importFrom httr content
 #'
 #' @export
+
+
 enrichr_download <- function(genesets, db = c("Enrichr", "YeastEnrichr",
                                               "FlyEnrichr", "WormEnrichr",
                                               "FishEnrichr")) {
@@ -129,9 +135,7 @@ enrichr_download <- function(genesets, db = c("Enrichr", "YeastEnrichr",
 #' @importFrom magrittr %>%
 #' @importFrom utils write.table
 #' @importFrom dplyr group_by summarise ungroup
-#'
 #' @export
-
 
 
 Annotate_SPID <- function(DGE,
@@ -172,7 +176,6 @@ Annotate_SPID <- function(DGE,
   colnames(grouped) <- c("GeneID", enrich.database)
 
   merged <- merge(DGE, grouped, by = "GeneID", all.x = TRUE)
-
 
   if (output_tsv) {
     write.table(merged, paste(enrich.database, "_SP_annotation.tsv", sep = "_"),

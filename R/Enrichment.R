@@ -45,11 +45,11 @@ Enrichment <- function(dfList, enrich.databases  = c("GO_Biological_Process_2021
 
 
   enrichr.list <- list()
-  # -------------------------
+
   # enrichment Parameters
-  # -------------------------
 
   db <- listEnrichrDbs()
+
   if (length(setdiff(enrich.databases, db$libraryName)) > 0) {
     warning(setdiff(enrich.databases, db$libraryName), "is not an enrichR geneset and will be removed.\n")
     enrich.databases <- intersect(enrich.databases, db$libraryName)
@@ -58,7 +58,6 @@ Enrichment <- function(dfList, enrich.databases  = c("GO_Biological_Process_2021
   if (length(enrich.databases) == 0) {
     stop("Please provide at least one valid enrich.database.")
   }
-
 
   for (i in names(dfList)) {
     df_obj <- dfList[[i]]
@@ -71,11 +70,12 @@ Enrichment <- function(dfList, enrich.databases  = c("GO_Biological_Process_2021
       stop("no significant genes found. Enrichment can't be performed.")
     }
 
-
     neg <- nrow(signif[signif$log2FoldChange < logFC, ])
+
     cat(i, neg, "negative fold change\n")
 
     neg_list <- rownames(signif[signif$log2FoldChange < logFC, ])
+
     if (length(neg_list) == 0) {
       warning("There are no significantly downregulated genes in", i)
   } else {
@@ -87,8 +87,6 @@ Enrichment <- function(dfList, enrich.databases  = c("GO_Biological_Process_2021
       }
 
     }
-
-
 
     pos  <- nrow(signif[signif$log2FoldChange > logFC, ])
     cat(i, pos, "positive fold change\n")
@@ -106,8 +104,6 @@ Enrichment <- function(dfList, enrich.databases  = c("GO_Biological_Process_2021
       }
 
     }
-
-
 
     enrichr.list[[i]] <- lapply(list(pos_list, neg_list), function(x) {
       enrichr(genes = x, databases = enrich.databases)
@@ -127,7 +123,6 @@ Enrichment <- function(dfList, enrich.databases  = c("GO_Biological_Process_2021
       }
     }
   }
-
 
   return(enrichr.list)
 }

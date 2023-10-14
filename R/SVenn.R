@@ -20,11 +20,11 @@
 #' @seealso \code{\link{Gene2SProtein}} for detection of Surface proteins from a list of genes.
 #' @export
 
+
 SVenn <- function(S_list, cols.use = NULL,
                   opacity = 0.5,
                   output_intersectionFile = TRUE,
                   filename = "intersection.xlsx") {
-
 
   if (length(S_list) > 7) {
     stop("This function can plot Venn diagram with up to 7 sets")
@@ -36,7 +36,6 @@ SVenn <- function(S_list, cols.use = NULL,
 
     stop("you have", length(x = names(S_list)),
          "unique elements and supplied only", length(cols.use), "color \n")
-
   }
 
   suppressWarnings({
@@ -49,8 +48,7 @@ SVenn <- function(S_list, cols.use = NULL,
          sncs = 1.5,
          ggplot = FALSE)
 
-
-    # ------ Table down pathway intersection --------
+    # Table down pathway intersection
     if (output_intersectionFile) {
       list_intersection <- attr(x = venn(S_list,
                                          intersections = TRUE,
@@ -71,6 +69,4 @@ SVenn <- function(S_list, cols.use = NULL,
       write.xlsx(df, filename, asTable = TRUE, overwrite = TRUE)
     }
   })
-
-
 }

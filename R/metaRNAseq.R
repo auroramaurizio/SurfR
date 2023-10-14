@@ -47,6 +47,8 @@
 #' @importFrom graphics hist
 #' @importFrom ggplot2 ggsave
 #' @export
+
+
 metaRNAseq <- function(ind_deg,
                        test_statistic = "fishercomb",
                        BHth = 0.05,
@@ -54,15 +56,12 @@ metaRNAseq <- function(ind_deg,
                        nrep = NULL,
                        plot = FALSE) {
 
-
   # Check if ind_deg is a list of at least two data.frame
-
   if (!is.list(ind_deg)) {
     stop("ind_deg is not a list. Please provide a list of at least two data.frames")
   }
   if (length(ind_deg) < 2) {
     stop("ind_deg contains", length(ind_deg), "data.frame. Please provide a list of at least two data.frames")
-
   }
 
   common_genes <- Reduce(intersect, lapply(ind_deg, rownames))

@@ -26,7 +26,6 @@ Splot <- function(SurfaceProteins_df,
 
   SurfaceProteins_df$v2plot <- SurfaceProteins_df[, group.by]
 
-
   if (is.null(x = cols.use)) {
     cols.use <- hue_pal()(length(x = levels(factor(SurfaceProteins_df$v2plot))))
     if (length(which(is.na(SurfaceProteins_df$v2plot)) > 0)) {
@@ -40,7 +39,6 @@ Splot <- function(SurfaceProteins_df,
          "unique elements and supplied only", length(cols.use), "color \n",
          "Be carefull to NA value")
   }
-
 
   plot <- ggplot(SurfaceProteins_df, aes(x = v2plot)) +
     geom_bar(color = "black", fill = cols.use) +
@@ -61,5 +59,6 @@ Splot <- function(SurfaceProteins_df,
     labs(x = group.by, y = "N", title = main)
 
   hue_pal <- aes <- v2plot <- NULL
+
   return(plot)
 }

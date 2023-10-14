@@ -43,8 +43,6 @@
 #' @importFrom stats prcomp
 #' @importFrom scales hue_pal
 #' @export
-#'
-#'
 
 
 plotPCA <- function(matrix,
@@ -62,7 +60,6 @@ plotPCA <- function(matrix,
                     label = FALSE,
                     new.label = NULL) {
 
-
   if (length(x = dims) != 2) {
     stop("'dims' must be a two-length vector")
   }
@@ -74,13 +71,11 @@ plotPCA <- function(matrix,
     }
   }
 
-
   # sort by variance and select topN
   vary <- apply(matrix, 1, var)
   vary_s <- sort(vary, decreasing = TRUE)
   TOP_N <- names(vary_s[seq_len(nTOP)])
   mtx_TOP <- matrix[TOP_N, ]
-
 
   # pca with prcomp
   pcx <- dims[1]
@@ -125,7 +120,6 @@ plotPCA <- function(matrix,
   } else if (length(shape.use) < length(x = levels(x = score$shape))) {
     stop("you have", length(x = levels(x = score$shape)), "factors and supplied only", length(shape.use), "shape")
   }
-
 
   if (label) {
     if (is.null(x = new.label)) {
@@ -189,8 +183,7 @@ plotPCA <- function(matrix,
 
   }
 
-
-
   geom_label_repel <- prcomp <- hue_pal <- aes <- color <- shape <- sampleNames <- NULL
+
   return(pca)
 }

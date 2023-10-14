@@ -20,6 +20,8 @@
 #' @family public-data functions
 #' @importFrom stringr str_remove_all str_sub str_replace_all str_split
 #' @export
+
+
 GEOmetadata <- function(GSE, GPL = "") {
 
   metafromfile <- function(file) {
@@ -61,8 +63,10 @@ GEOmetadata <- function(GSE, GPL = "") {
                 topaste)
 
       }
+
       # check for NA
       metadata[, i][is.na(metadata[, i])] <- paste(name, ": NA")
+
       metadata[, i]  <- unlist(lapply(str_split(metadata[, i],
                                                 pattern = ": "), `[[`, 2))
       cnames <- c(cnames, name)
@@ -76,18 +80,22 @@ GEOmetadata <- function(GSE, GPL = "") {
   }
 
   if (length(GPL) == 1 && GPL == "") {
+
     # only one sequencing platform
     file <- paste(GSE, "_series_matrix.txt.gz", sep = "")
+
     system(paste("wget https://ftp.ncbi.nlm.nih.gov/geo/series/",
                  str_sub(GSE, start = 1, end = -4), "nnn/",
                  GSE, "/matrix/", file, sep = ""))
 
     metadata <- metafromfile(file)
+
     file.remove(file)
 
   } else {
-    #multiple sequencing platforms
+    # multiple sequencing platforms
     metadata_i <- list()
+
     for (gpl in GPL) {
       file <- paste(GSE, "-", gpl, "_series_matrix.txt.gz", sep = "")
       system(paste("wget https://ftp.ncbi.nlm.nih.gov/geo/series/",
@@ -100,6 +108,7 @@ GEOmetadata <- function(GSE, GPL = "") {
   }
 
   str_remove_all <- str_sub <- str_split <- str_replace_all <- read.table <- NULL
+
   return(metadata)
 
 }

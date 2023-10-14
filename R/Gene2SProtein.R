@@ -39,6 +39,7 @@
 #' \url{https://wlab.ethz.ch/surfaceome} for info on Surfy
 #' @export
 
+
 Gene2SProtein <- function(genes,
                           input_type = "gene_name",
                           output_tsv = FALSE,
@@ -48,7 +49,7 @@ Gene2SProtein <- function(genes,
   now <- Sys.Date()
   log_list <- sort(list.files(".log/", pattern = "*.xlsx"))
 
-  # ---- surfy database versioning ----
+  # surfy database versioning
 
   if (!Surfy_version %in% c("log", "new")) {
     stop("The specified database version is not available. \n  Choose between log or new")
@@ -63,23 +64,20 @@ Gene2SProtein <- function(genes,
     dir.create(".log/", recursive = TRUE, showWarnings = FALSE)
     surfaceome_table_url <- "https://wlab.ethz.ch/surfaceome/table_S3_surfaceome.xlsx"
 
-
     bfc <- BiocFileCache(ask = FALSE)
-    path <- bfcrpath(bfc, surfaceome_table_url)
 
+    path <- bfcrpath(bfc, surfaceome_table_url)
 
     ST <- read.xlsx(xlsxFile = path,
                     sheet = 1,
                     startRow = 2)
 
-
     write.xlsx(ST, paste0(".log/", "table_S3_surfaceome_", now, ".xlsx"), overwrite = TRUE)
-    # -------------------------------------------------------------------------
   }
 
-  # ---- input identification type ----
+  # input identification type
 
-  ## check gene identification type
+  # check gene identification type
   if (!input_type %in% c("gene_name", "entrez", "ensembl", "uniProt_name")) {
     stop("The specified input type is not available. \n Choose between gene_name, entrez, ensembl or uniProt_name")
   }
@@ -99,7 +97,7 @@ Gene2SProtein <- function(genes,
   ST <- ST[!is.na(ST[, type]), ]
   row.names(ST) <- ST$UniProt.name
 
-  # ---- filter the database for the input genes and checks ----
+  # filter the database for the input genes and checks
   proteins <- ST[ST[, type] %in% genes, ]
 
   # check size proteins data.frame
@@ -113,7 +111,7 @@ Gene2SProtein <- function(genes,
                                           ncol = length(colnames(ST))))
     colnames(surface.proteins)  <- colnames(ST)
   } else {
-    # -------- filter surface proteins and checks --------
+    # filter surface proteins and checks
     surface.proteins <- proteins[proteins$Surfaceome.Label == "surface", ]
 
     if (dim(surface.proteins)[1] == 0) {
@@ -129,9 +127,10 @@ Gene2SProtein <- function(genes,
 
   # rename columns for label consistency
   surface.proteins$entrezID <- surface.proteins$GeneID
+
   surface.proteins$GeneID <- surface.proteins$UniProt.gene
 
-  # -------- tsv --------
+  # tsv
   if (output_tsv) {
     write.table(surface.proteins, output_filename, quote = FALSE, sep = "\t")
   }
