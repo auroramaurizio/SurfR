@@ -29,16 +29,12 @@
 #' @return A url
 #'
 #' @keywords internal
-enrichr_urls <- function(db = c("Enrichr", "YeastEnrichr", "FlyEnrichr",
-                                "WormEnrichr", "FishEnrichr")) {
+enrichr_urls <- function(db = c("Enrichr")) {
   switch(match.arg(db),
-    "Enrichr"      = "http://maayanlab.cloud/Enrichr/{1}",
-    "YeastEnrichr" = "http://maayanlab.cloud/YeastEnrichr/{1}",
-    "FlyEnrichr"   = "http://maayanlab.cloud/FlyEnrichr/{1}",
-    "WormEnrichr"  = "http://maayanlab.cloud/WormEnrichr/{1}",
-    "FishEnrichr"  = "http://maayanlab.cloud/FishEnrichr/{1}"
+         "Enrichr"      = "http://maayanlab.cloud/Enrichr/{1}"
   )
 }
+
 
 #' Connect to the enrichr web application  - function from hypeR
 #'
@@ -51,9 +47,7 @@ enrichr_urls <- function(db = c("Enrichr", "YeastEnrichr", "FlyEnrichr",
 #' @keywords internal
 
 
-enrichr_connect <- function(endpoint, db = c("Enrichr", "YeastEnrichr",
-                                             "FlyEnrichr", "WormEnrichr",
-                                             "FishEnrichr")) {
+enrichr_connect <- function(endpoint, db = c("Enrichr")) {
   url <- enrichr_urls(db)
   response <- httr::GET(.format_str(url, endpoint))
   if (!http_status(response)$category == "Success") {
@@ -77,18 +71,15 @@ enrichr_connect <- function(endpoint, db = c("Enrichr", "YeastEnrichr",
 #' @export
 
 
-enrichr_download <- function(genesets, db = c("Enrichr", "YeastEnrichr",
-                                              "FlyEnrichr", "WormEnrichr",
-                                              "FishEnrichr")) {
+enrichr_download <- function(genesets, db=c("Enrichr")) {
   response <- enrichr_connect(.format_str("geneSetLibrary?mode=text&libraryName={1}", genesets), db)
   data <- content(response, "text")
-  split <- strsplit(data, split = "\n")[[1]]
-  for (i in seq_along(split)) {
-    genesets[i] <- unlist(strsplit(split[[i]][1], "\t"))[1]
-  }
+  split <- strsplit(data, split="\n")[[1]]
+  genesets <- sapply(split, function(x) strsplit(x, "\t")[[1]])
+
   names(genesets) <- unlist(lapply(genesets, function(x) x[1]))
   lapply(genesets, function(x) {
-    genes <- x[seq_along(x) > 2]
+    genes <- x[3:length(x)]
     genes <- genes[genes != ""]
     unique(genes)
   })
@@ -153,6 +144,7 @@ Annotate_SPID <- function(DGE,
   annotation_table <- enrichr_download(enrich.database)
 
   annotation_table <- as.data.frame(do.call(rbind, annotation_table))
+
   annotation_table["test"] <- col_concat(annotation_table, sep = " ")
   annotation_table["GeneID"] <- trimws(annotation_table$test, which = c("both"))
   annotation_table$term <- row.names(annotation_table)
