@@ -76,10 +76,9 @@ enrichr_download <- function(genesets, db=c("Enrichr")) {
   data <- content(response, "text")
   split <- strsplit(data, split="\n")[[1]]
   genesets <- sapply(split, function(x) strsplit(x, "\t")[[1]])
-
   names(genesets) <- unlist(lapply(genesets, function(x) x[1]))
   lapply(genesets, function(x) {
-    genes <- x[3:length(x)]
+    genes <- x[seq_along(x)[-c(1, 2, 3)]]
     genes <- genes[genes != ""]
     unique(genes)
   })
@@ -143,7 +142,11 @@ Annotate_SPID <- function(DGE,
   }
   annotation_table <- enrichr_download(enrich.database)
 
-  annotation_table <- as.data.frame(do.call(rbind, annotation_table))
+  # here gives a warning, but we can safely ignore it.
+  # the warning says we are trying to combine dataframes with a different
+  # number of columns, we  know it. It is expected.
+  suppressWarnings({
+  annotation_table <- as.data.frame(do.call(rbind, annotation_table))})
 
   annotation_table["test"] <- col_concat(annotation_table, sep = " ")
   annotation_table["GeneID"] <- trimws(annotation_table$test, which = c("both"))
