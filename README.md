@@ -67,7 +67,7 @@ devtools::install_github("auroramaurizio/SurfR")
 
 ## Dependencies
 This package is supported for macOS, and Linux (Windows not tested). 
-**SurfR** works with R v4.1 or greater.
+**SurfR** works with R v4.1 or greater (tested also on 4.2 and 4.3).
 Dependencies are indicated in the DESCRIPTION file, and can be 
 automatically installed when installing the **SurfR** pacakge. 
 
