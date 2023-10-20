@@ -4,10 +4,7 @@
 \alias{enrichr_download}
 \title{Download data from enrichr in the form of a named list - function from hypeR}
 \usage{
-enrichr_download(
-  genesets,
-  db = c("Enrichr", "YeastEnrichr", "FlyEnrichr", "WormEnrichr", "FishEnrichr")
-)
+enrichr_download(genesets, db = c("Enrichr"))
 }
 \arguments{
 \item{genesets}{A name corresponding to available genesets}

@@ -4,9 +4,7 @@
 \alias{enrichr_urls}
 \title{Get url base for species-specific enrichr libraries  - function from hypeR}
 \usage{
-enrichr_urls(
-  db = c("Enrichr", "YeastEnrichr", "FlyEnrichr", "WormEnrichr", "FishEnrichr")
-)
+enrichr_urls(db = c("Enrichr"))
 }
 \arguments{
 \item{db}{A species}

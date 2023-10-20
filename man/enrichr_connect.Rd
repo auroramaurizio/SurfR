@@ -4,10 +4,7 @@
 \alias{enrichr_connect}
 \title{Connect to the enrichr web application  - function from hypeR}
 \usage{
-enrichr_connect(
-  endpoint,
-  db = c("Enrichr", "YeastEnrichr", "FlyEnrichr", "WormEnrichr", "FishEnrichr")
-)
+enrichr_connect(endpoint, db = c("Enrichr"))
 }
 \arguments{
 \item{endpoint}{The url endpoint to connect to}
