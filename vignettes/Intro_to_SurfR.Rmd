@@ -527,6 +527,8 @@ A general enrichment analysis allows to gain further insights about upregulated 
 To do so, we use the SurfR built-in function **Enrichment**,  based on the [enrichR](https://cran.r-project.org/web/packages/enrichR/vignettes/enrichR.html) cran package. 
 You have the option to indicate the specific database you wish to utilize among the available in enrichR. 
 The enrichR function `listEnrichrDbs()` allows you to navigate the options. 
+Sporadically, network connectivity issues may arise with EnrichR server. 
+If it happens, please, retry to run the function after a few minutes.
 
 
 

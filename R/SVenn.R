@@ -38,7 +38,6 @@ SVenn <- function(S_list, cols.use = NULL,
          "unique elements and supplied only", length(cols.use), "color \n")
   }
 
-  suppressWarnings({
 
     venn(S_list,
          opacity = opacity,
@@ -68,5 +67,4 @@ SVenn <- function(S_list, cols.use = NULL,
       }
       write.xlsx(df, filename, asTable = TRUE, overwrite = TRUE)
     }
-  })
 }

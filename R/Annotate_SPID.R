@@ -152,10 +152,7 @@ Annotate_SPID <- function(DGE,
   }
   annotation_table <- enrichr_download(enrich.database)
 
-  # here gives a warning, but we can safely ignore it
-  suppressWarnings({
-                    annotation_table <- as.data.frame(do.call(rbind, annotation_table))})
-
+  annotation_table <- as.data.frame(do.call(rbind, annotation_table))
   annotation_table["test"] <- col_concat(annotation_table, sep = " ")
   annotation_table["GeneID"] <- trimws(annotation_table$test, which = c("both"))
   annotation_table$term <- row.names(annotation_table)

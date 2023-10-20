@@ -63,7 +63,7 @@ Enrichment <- function(dfList, enrich.databases  = c("GO_Biological_Process_2021
     signif <- (df_obj[df_obj$padj <= p_adj, ])
     number_of_sig_genes  <- nrow(signif)
 
-    cat(i, number_of_sig_genes, "significant genes\n")
+    message(i, number_of_sig_genes, "significant genes\n")
 
     if (number_of_sig_genes == 0) {
       stop("no significant genes found. Enrichment can't be performed.")
@@ -71,7 +71,7 @@ Enrichment <- function(dfList, enrich.databases  = c("GO_Biological_Process_2021
 
     neg <- nrow(signif[signif$log2FoldChange < logFC, ])
 
-    cat(i, neg, "negative fold change\n")
+    message(i, neg, "negative fold change\n")
 
     neg_list <- rownames(signif[signif$log2FoldChange < logFC, ])
 
@@ -88,7 +88,7 @@ Enrichment <- function(dfList, enrich.databases  = c("GO_Biological_Process_2021
     }
 
     pos  <- nrow(signif[signif$log2FoldChange > logFC, ])
-    cat(i, pos, "positive fold change\n")
+    message(i, pos, "positive fold change\n")
 
     pos_list  <- rownames(signif[signif$log2FoldChange > logFC, ])
 
