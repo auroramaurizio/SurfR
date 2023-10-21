@@ -276,35 +276,24 @@ function **TCGA_download**. The shortLetterCode column of the metadata allows us
 to distinguish Primary Solid Tumor (TP) and normal (NT) samples.
 
 
-```
-library(SurfR)
-# Download TCGA data
-# To save time only download 3 Tumor samples and 3 normal samples.
-# If barcodes are not specified TCGA_download function will download all the 
-# available samples in the TCGA study
-barcodes2Download = c("TCGA-X7-A8D6-11A-22R-A42C-07", "TCGA-X7-A8D7-11A-11R-A42C-07",
-                      "TCGA-XM-A8RB-01A-11R-A42C-07", "TCGA-X7-A8M0-01A-11R-A42C-07")
-TCGA.THYM = TCGA_download(project = "TCGA-THYM", barcodes = barcodes2Download)
-```
-
 ```{r echo=FALSE, warning=FALSE, include=FALSE, message = FALSE}
 # Download TCGA data
 # To save time only download 3 Tumor samples and 3 normal samples.
 # If barcodes are not specified TCGA_download function will download all the 
 # available samples in the TCGA study
-barcodes2Download <- c("TCGA-X7-A8D6-11A-22R-A42C-07", 
-                       "TCGA-X7-A8D7-11A-11R-A42C-07",
-                       "TCGA-XM-A8RB-01A-11R-A42C-07", 
-                       "TCGA-X7-A8M0-01A-11R-A42C-07")
-TCGA.THYM <- TCGA_download(project = "TCGA-THYM", barcodes = barcodes2Download)
+#barcodes2Download <- c("TCGA-X7-A8D6-11A-22R-A42C-07", 
+#                       "TCGA-X7-A8D7-11A-11R-A42C-07",
+#                       "TCGA-XM-A8RB-01A-11R-A42C-07", 
+#                       "TCGA-X7-A8M0-01A-11R-A42C-07")
+#TCGA.THYM <- TCGA_download(project = "TCGA-THYM", barcodes = barcodes2Download)
 ```
 
 ```{r TCGA input}
-cTCGA.THYM <- TCGA.THYM[[1]]
-mTCGA.THYM <- TCGA.THYM[[2]]
-table(mTCGA.THYM$shortLetterCode)
+#cTCGA.THYM <- TCGA.THYM[[1]]
+#mTCGA.THYM <- TCGA.THYM[[2]]
+#table(mTCGA.THYM$shortLetterCode)
 
-mTCGA.THYM$shortLetterCode <- as.factor(mTCGA.THYM$shortLetterCode)
+#mTCGA.THYM$shortLetterCode <- as.factor(mTCGA.THYM$shortLetterCode)
 ```
 
 
@@ -316,16 +305,16 @@ analysis of the TCGA-THYM dataset.
 Good Differential Expressed surface protein are the ones which are strongly expressed in one condition and almost not expressed in the other. To help detecting those candidates, the output data.frame of the DGE function contains information on the average expression in the two group (see Mean_CPM_T and Mean_CPM_C columns).
 
 ```{r TCGA DGE}
-df_TCGA <- DGE(expression = cTCGA.THYM,
-               metadata = mTCGA.THYM,
-               Nreplica = 2,
-               design = "~shortLetterCode",
-               condition = "shortLetterCode",
-               alpha = 0.05,
-               TEST = "TP", CTRL =  "NT",
-               output_tsv = FALSE)
-
-head(df_TCGA)
+#df_TCGA <- DGE(expression = cTCGA.THYM,
+#               metadata = mTCGA.THYM,
+#               Nreplica = 2,
+#               design = "~shortLetterCode",
+#               condition = "shortLetterCode",
+#               alpha = 0.05,
+#               TEST = "TP", CTRL =  "NT",
+#               output_tsv = FALSE)
+#
+#head(df_TCGA)
 ```
 
 
@@ -340,20 +329,20 @@ Surface protein-coding genes (SP).
 ```{r TCGA SP}
 
 # remove NA values
-df_TCGA <- df_TCGA[!is.na(df_TCGA$padj), ]
+#df_TCGA <- df_TCGA[!is.na(df_TCGA$padj), ]
 
-fdr_GeneID <- df_TCGA[df_TCGA$padj < 0.05,
-                      "GeneID"]
+#fdr_GeneID <- df_TCGA[df_TCGA$padj < 0.05,
+#                      "GeneID"]
 
-SP <- Gene2SProtein(genes = fdr_GeneID, input_type = "gene_name")
+#SP <- Gene2SProtein(genes = fdr_GeneID, input_type = "gene_name")
 
-fdrUP_GeneID <- df_TCGA[df_TCGA$padj < 0.05 & df_TCGA$log2FoldChange > 0,
-                        "GeneID"]
-SPup <- Gene2SProtein(genes = fdrUP_GeneID, input_type = "gene_name")
+#fdrUP_GeneID <- df_TCGA[df_TCGA$padj < 0.05 & df_TCGA$log2FoldChange > 0,
+#                        "GeneID"]
+#SPup <- Gene2SProtein(genes = fdrUP_GeneID, input_type = "gene_name")
 
-fdrDW_GeneID <- df_TCGA[df_TCGA$padj < 0.05 & df_TCGA$log2FoldChange < 0,
-                        "GeneID"]
-SPdw <- Gene2SProtein(genes = fdrDW_GeneID, input_type = "gene_name")
+#fdrDW_GeneID <- df_TCGA[df_TCGA$padj < 0.05 & df_TCGA$log2FoldChange < 0,
+#                        "GeneID"]
+#SPdw <- Gene2SProtein(genes = fdrDW_GeneID, input_type = "gene_name")
 ```
 
 
@@ -369,17 +358,6 @@ package to combine data from multiple RNAseq experiments.
 Let’s suppose we want to integrate Breast cancer data from GEO and TCGA. 
 Breast Cancer datasets are downloaded from TCGA with the SurfR built-in function  **TCGA_download**.
 
-```
-library(SurfR)
-# Download TCGA data
-# To save time only download 3 Tumor samples and 3 normal samples.
-# If barcodes are not specified TCGA_download function will download all the 
-# available samples in the TCGA study
-barcodes2Download = c("TCGA-BH-A1FU-11A-23R-A14D-07", "TCGA-BH-A1FC-11A-32R-A13Q-07",
-                      "TCGA-BH-A0DO-11A-22R-A12D-07", "TCGA-B6-A0RH-01A-21R-A115-07",
-                      "TCGA-BH-A1FU-01A-11R-A14D-07", "TCGA-A1-A0SE-01A-11R-A084-07")
-TCGA.BRCA = TCGA_download(project = "TCGA-BRCA", barcodes = barcodes2Download)
-```
 
 ```{r echo=FALSE, warning=FALSE, include=FALSE, message = FALSE}
 # Download TCGA data
@@ -542,8 +520,7 @@ dfList <- list(GEO = df.GSE58135,
 # Enrichment analysis
 Enrich <- Enrichment(dfList, 
                      enrich.databases = c("GO_Biological_Process_2021", 
-                                          "KEGG_2021_Human",
-                                          "MSigDB_Hallmark_2020"),
+                                          "KEGG_2021_Human"),
                      p_adj = 0.05, logFC = 1)
 
 head(Enrich$GEO$fdr_up$GO_Biological_Process_2021)
@@ -636,7 +613,7 @@ with the built-in SurfR function **plotPCA**.
 
 
 ```{r, fig.height= 6, fig.width=7}
-library(edgeR)
+library(scales)
 
 
 plotPCA(matrix = cpm(cGSE121810), metadata = mGSE121810,               
