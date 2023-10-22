@@ -158,7 +158,7 @@ plotPCA <- function(matrix,
                                        color = "black", size = 10),
             legend.position = "right",
             panel.background = element_rect(fill = "white", colour = "black",
-                                            size = 1, linetype = "solid")) +
+                                            linewidth = 1, linetype = "solid")) +
       scale_color_manual(values = cols.use, name = color.by) +
       scale_shape_manual(values = shape.use, name = shape.by)
   } else {
@@ -186,7 +186,7 @@ plotPCA <- function(matrix,
                                        color = "black", size = 10),
             legend.position = "right",
             panel.background = element_rect(fill = "white", colour = "black",
-                                            size = 1, linetype = "solid")) +
+                                            linewidth = 1, linetype = "solid")) +
       scale_color_manual(values = cols.use, name = color.by) +
       scale_shape_manual(values = shape.use, name = shape.by)
 
