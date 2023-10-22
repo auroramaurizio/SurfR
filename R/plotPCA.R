@@ -31,7 +31,7 @@
 #'                      therapy = factor(c("T1","T2","T1","T2")))
 #' row.names(metadata) <- metadata$samplesID
 #' library(edgeR)
-#' plotPCA(matrix = cpm(countData),
+#' SurfR::plotPCA(matrix = cpm(countData),
 #'         metadata = metadata,
 #'         nTOP = 100,
 #'         dims = c(1,2),

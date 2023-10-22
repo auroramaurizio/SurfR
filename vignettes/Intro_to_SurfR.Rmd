@@ -613,10 +613,8 @@ with the built-in SurfR function **plotPCA**.
 
 
 ```{r, fig.height= 6, fig.width=7}
-library(scales)
 
-
-plotPCA(matrix = cpm(cGSE121810), metadata = mGSE121810,               
+SurfR::plotPCA(matrix = cpm(cGSE121810), metadata = mGSE121810,               
         dims = c(1, 2),
         color.by = "condition", shape.by = "therapy", 
         label = FALSE, main = "PCA GSE121810")
