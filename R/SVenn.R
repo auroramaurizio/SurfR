@@ -10,8 +10,8 @@
 #' @param filename Name of the output file with the intersections.
 #' @return venn plot of common genes.
 #' @examples
-#' S_list <- list(SP1 = c("EPCAM", "CD24",  "DLK1",  "CDCP1", "LYVE1"),
-#'               SP2 = c("DLK1", "EPCAM", "EGFR", "UPK1A", "UPK2"))
+#' S_list <- list(SP1 <- c("EPCAM", "CD24",  "DLK1",  "CDCP1", "LYVE1"),
+#'               SP2 <- c("DLK1", "EPCAM", "EGFR", "UPK1A", "UPK2"))
 #' SP <- SVenn(S_list, output_intersectionFile = FALSE)
 #' @family plot functions
 #' @importFrom venn venn

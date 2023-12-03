@@ -18,10 +18,10 @@
 #' @examples
 #' # Simulation of bulk RNA data
 #' countData <- matrix(floor(runif(10000, min=0, max=101)),ncol=4)
-#' colnames(countData) <- paste0("sample", seq_len(ncol(countData)))
-#' rownames(countData) <- paste0("gene", seq_along(seq_len(10000/4)))
-#' metadata <- data.frame(samplesID = paste0("sample", seq_len(ncol(countData))),
-#'                      condition = factor(c("A","A","B","B")))
+#' colnames(countData) <- paste("sample", seq_len(ncol(countData)), sep = "")
+#' rownames(countData) <- paste("gene", seq_along(seq_len(10000/4)), sep = "")
+#' metadata <- data.frame(samplesID = paste("sample", seq_len(ncol(countData)), sep = ""),
+#'                        condition = factor(c("A","A","B","B")))
 #' row.names(metadata) <- metadata$samplesID
 #' # Perform DGE
 #' DGEresults <- DGE(expression = countData, metadata = metadata,

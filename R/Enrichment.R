@@ -50,7 +50,7 @@ Enrichment <- function(dfList, enrich.databases  = c("GO_Biological_Process_2021
   db <- listEnrichrDbs()
 
   if (length(setdiff(enrich.databases, db$libraryName)) > 0) {
-    warning(setdiff(enrich.databases, db$libraryName), "is not an enrichR geneset and will be removed.\n")
+    warning(setdiff(enrich.databases, db$libraryName), " is not an enrichR geneset and will be removed.\n")
     enrich.databases <- intersect(enrich.databases, db$libraryName)
   }
 
@@ -63,7 +63,7 @@ Enrichment <- function(dfList, enrich.databases  = c("GO_Biological_Process_2021
     signif <- (df_obj[df_obj$padj <= p_adj, ])
     number_of_sig_genes  <- nrow(signif)
 
-    message(i, number_of_sig_genes, "significant genes\n")
+    message(i, " ", number_of_sig_genes, " significant genes\n")
 
     if (number_of_sig_genes == 0) {
       stop("no significant genes found. Enrichment can't be performed.")
@@ -71,12 +71,12 @@ Enrichment <- function(dfList, enrich.databases  = c("GO_Biological_Process_2021
 
     neg <- nrow(signif[signif$log2FoldChange < logFC, ])
 
-    message(i, neg, "negative fold change\n")
+    message(i, " ", neg, " negative fold change\n")
 
     neg_list <- rownames(signif[signif$log2FoldChange < logFC, ])
 
     if (length(neg_list) == 0) {
-      warning("There are no significantly downregulated genes in", i)
+      warning("There are no significantly downregulated genes in ", i)
   } else {
     if (save.results) {
       dir.create("enrichR/", showWarnings = FALSE, recursive = TRUE)
@@ -88,12 +88,12 @@ Enrichment <- function(dfList, enrich.databases  = c("GO_Biological_Process_2021
     }
 
     pos  <- nrow(signif[signif$log2FoldChange > logFC, ])
-    message(i, pos, "positive fold change\n")
+    message(i, " ", pos, " positive fold change\n")
 
     pos_list  <- rownames(signif[signif$log2FoldChange > logFC, ])
 
     if (length(pos_list) == 0) {
-      warning("There are no significantly upregulated genes in", i)
+      warning("There are no significantly upregulated genes in ", i)
     } else {
       if (save.results) {
       dir.create("enrichR/", showWarnings = FALSE, recursive = TRUE)

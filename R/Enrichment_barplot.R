@@ -58,7 +58,7 @@ Enrichment_barplot <- function(Enrich,
   }
 
   if (length(setdiff(enrich.databases, names(enrich_list))) > 0) {
-    warning(setdiff(enrich.databases, names(enrich_list)), "not present in your Enrichment analysis.")
+    warning(setdiff(enrich.databases, names(enrich_list)), " not present in your Enrichment analysis.")
     enrich.databases <- intersect(enrich.databases, names(enrich_list))
   }
 

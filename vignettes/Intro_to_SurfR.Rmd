@@ -40,14 +40,27 @@ Finally, **SurfR** includes functions to visualize DEG and enrichment results, a
 
 # Installation
 
-**SurfR** Package can be installed from GitHub using devtools:
+Install the package from *Bioconductor* or GitHub, ensuring correct
+*Bioconductor* dependencies.
 
+```{r install, eval = FALSE}
+if (!"BiocManager" %in% rownames(installed.packages()))
+    install.packages("BiocManager", repos = "https://cran.r-project.org")
 ```
 
+When the package is available on *Bioconductor*, use
+
+```{r install-Bioconductor, eval = FALSE}
+BiocManager::install("SurfR")
+```
+
+Use the pre-release or devel version from GitHub using devtools with
+
+```
 # install.packages("devtools")
 devtools::install_github("auroramaurizio/SurfR", build_vignettes = TRUE)
-    
 ```
+
 
 # Quick Start
 
