@@ -63,14 +63,14 @@ Plot PCA highlighting one or two data features
 \examples{
 # Simulation of bulk RNA data
 countData <- matrix(floor(runif(10000, min=0, max=101)),ncol=4)
-colnames(countData) <- paste0("sample", seq_len(ncol(countData)))
-rownames(countData) <- paste0("gene", seq_along(seq_len(10000/4)))
-metadata = data.frame(samplesID = paste0("sample", seq_len(ncol(countData))),
+colnames(countData) <- paste("sample", seq_len(ncol(countData)), sep = "")
+rownames(countData) <- paste("gene", seq_along(seq_len(10000/4)), sep = "")
+metadata <- data.frame(samplesID = paste("sample", seq_len(ncol(countData)), sep = ""),
                      condition = factor(c("A","A","B","B")),
                      therapy = factor(c("T1","T2","T1","T2")))
 row.names(metadata) <- metadata$samplesID
 library(edgeR)
-plotPCA(matrix = cpm(countData),
+SurfR::plotPCA(matrix = cpm(countData),
         metadata = metadata,
         nTOP = 100,
         dims = c(1,2),

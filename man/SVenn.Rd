@@ -31,8 +31,8 @@ venn plot of common genes.
 Venn diagram of common surface proteins overexpressed among up to 7 different studies
 }
 \examples{
-S_list <- list(SP1 = c("EPCAM", "CD24",  "DLK1",  "CDCP1", "LYVE1"),
-              SP2 = c("DLK1", "EPCAM", "EGFR", "UPK1A", "UPK2"))
+S_list <- list(SP1 <- c("EPCAM", "CD24",  "DLK1",  "CDCP1", "LYVE1"),
+              SP2 <- c("DLK1", "EPCAM", "EGFR", "UPK1A", "UPK2"))
 SP <- SVenn(S_list, output_intersectionFile = FALSE)
 }
 \seealso{
