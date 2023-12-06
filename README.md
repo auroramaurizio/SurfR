@@ -58,6 +58,19 @@ identifying surface protein coding genes from expression data using computationa
 
 ## Installation
 
+To install this package, start R (version "4.3") and enter:.
+
+```{r install, eval = FALSE}
+
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+```
+
+When the package is available on *Bioconductor*, use
+
+```{r install-Bioconductor, eval = FALSE}
+BiocManager::install("SurfR")
+```
 
 Development package version can be installed from GitHub using devtools:
 ```
