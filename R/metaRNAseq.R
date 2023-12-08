@@ -61,7 +61,7 @@ metaRNAseq <- function(ind_deg,
     stop("ind_deg is not a list. Please provide a list of at least two data.frames")
   }
   if (length(ind_deg) < 2) {
-    stop("ind_deg contains", length(ind_deg), "data.frame. Please provide a list of at least two data.frames")
+    stop("ind_deg contains ", length(ind_deg), " data.frame. Please provide a list of at least two data.frames")
   }
 
   common_genes <- Reduce(intersect, lapply(ind_deg, rownames))
@@ -79,7 +79,7 @@ metaRNAseq <- function(ind_deg,
 
   for (i in seq_along(ind_deg)){
     if (!("pvalue" %in% colnames(ind_deg[[i]]))) {
-      stop("The DGE dataframe", names(ind_deg)[i], " must include a column named pvalue.")
+      stop("The DGE dataframe ", names(ind_deg)[i], " must include a column named pvalue.")
 
     }
     ind_deg[[i]] <- ind_deg[[i]][common_genes, ]

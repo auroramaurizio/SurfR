@@ -138,7 +138,7 @@ Annotate_SPID <- function(DGE,
 
   db <- listEnrichrDbs()
   if (!(enrich.database %in% db$libraryName)) {
-    stop(enrich.database, "is not a valid enrichR geneset.")
+    stop(enrich.database, " is not a valid enrichR geneset.")
   }
   annotation_table <- enrichr_download(enrich.database)
 

@@ -50,13 +50,13 @@ DGE <- function(expression,
 
   # check the match between TEST CTRL and metadata
   if (length(c(CTRL, TEST) %in% metadata[, condition]) == 0) {
-    stop("In your metadata the column ", condition, "does not contain ",
+    stop("In your metadata the column ", condition, " does not contain ",
          CTRL, " and ", TEST, ".")
   } else if (length(c(CTRL) %in% metadata[, condition]) == 0) {
-    stop("In your metadata the column ", condition, "does not contain ",
+    stop("In your metadata the column ", condition, " does not contain ",
          CTRL, ".")
   } else if (length(c(TEST) %in% metadata[, condition]) == 0) {
-    stop("In your metadata the column ", condition, "does not contain ",
+    stop("In your metadata the column ", condition, " does not contain ",
          TEST, ".")
   }
 

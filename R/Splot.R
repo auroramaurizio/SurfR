@@ -35,9 +35,9 @@ Splot <- function(SurfaceProteins_df,
     }
   } else if (length(cols.use) < length(x = unique(SurfaceProteins_df$v2plot))) {
 
-    stop("you have", length(x = unique(SurfaceProteins_df$v2plot)),
-         "unique elements and supplied only", length(cols.use), "color \n",
-         "Be carefull to NA value")
+    stop("you have ", length(x = unique(SurfaceProteins_df$v2plot)),
+         " unique elements and supplied only ", length(cols.use), " color \n",
+         " Be carefull to NA value")
   }
 
   plot <- ggplot(SurfaceProteins_df, aes(x = v2plot)) +
@@ -54,7 +54,7 @@ Splot <- function(SurfaceProteins_df,
           legend.position = "top",
           panel.background = element_rect(fill = "white",
                                           colour = "black",
-                                          size = 1,
+                                          linewidth = 1,
                                           linetype = "solid")) +
     labs(x = group.by, y = "N", title = main)
 

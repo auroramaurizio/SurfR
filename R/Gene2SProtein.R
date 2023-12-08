@@ -79,7 +79,7 @@ Gene2SProtein <- function(genes,
 
   # check gene identification type
   if (!input_type %in% c("gene_name", "entrez", "ensembl", "uniProt_name")) {
-    stop("The specified input type is not available. \n Choose between gene_name, entrez, ensembl or uniProt_name")
+    stop("The specified input type is not available. \n Choose between gene_name, entrez, ensembl or uniProt_name.")
   }
   type <- if (input_type == "gene_name") {
                                           "UniProt.gene"} else if (input_type == "entrez") {

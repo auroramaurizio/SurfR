@@ -111,15 +111,15 @@ plotPCA <- function(matrix,
   if (is.null(x = cols.use)) {
     cols.use <- hue_pal()(length(x = levels(x = score$color)))
   } else if (length(cols.use) < length(x = levels(x = score$color))) {
-    stop("you have", length(x = levels(x = score$color)),
-         "factors and supplied only", length(cols.use), "color")
+    stop("you have ", length(x = levels(x = score$color)),
+         " factors and supplied only ", length(cols.use), "color")
   }
 
   if (is.null(x = shape.use)) {
     shape.use <- c(16:25, seq_len(15))
   } else if (length(shape.use) < length(x = levels(x = score$shape))) {
-    stop("you have", length(x = levels(x = score$shape)),
-         "factors and supplied only", length(shape.use), "shape")
+    stop("you have ", length(x = levels(x = score$shape)),
+         " factors and supplied only ", length(shape.use), "shape")
   }
 
   if (label) {

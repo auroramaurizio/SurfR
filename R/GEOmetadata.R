@@ -19,6 +19,8 @@
 #' \url{https://www.ncbi.nlm.nih.gov/geo} for info on GEO repository
 #' @family public-data functions
 #' @importFrom stringr str_remove_all str_sub str_replace_all str_split
+#' @importFrom utils read.table
+#' @import BiocFileCache
 #' @export
 
 
@@ -79,18 +81,20 @@ GEOmetadata <- function(GSE, GPL = "") {
     return(metadata)
   }
 
+  bfc <- BiocFileCache(ask = FALSE)
+
   if (length(GPL) == 1 && GPL == "") {
 
     # only one sequencing platform
     file <- paste(GSE, "_series_matrix.txt.gz", sep = "")
 
-    system(paste("wget https://ftp.ncbi.nlm.nih.gov/geo/series/",
-                 str_sub(GSE, start = 1, end = -4), "nnn/",
-                 GSE, "/matrix/", file, sep = ""))
+    url <- paste("https://ftp.ncbi.nlm.nih.gov/geo/series/",
+                            str_sub(GSE, start = 1, end = -4), "nnn/",
+                            GSE, "/matrix/", file, sep = "")
 
-    metadata <- metafromfile(file)
+    path <- bfcrpath(bfc, url)
 
-    file.remove(file)
+    metadata <- metafromfile(path)
 
   } else {
     # multiple sequencing platforms
@@ -98,17 +102,18 @@ GEOmetadata <- function(GSE, GPL = "") {
 
     for (gpl in GPL) {
       file <- paste(GSE, "-", gpl, "_series_matrix.txt.gz", sep = "")
-      system(paste("wget https://ftp.ncbi.nlm.nih.gov/geo/series/",
-                   str_sub(GSE, start = 1, end = -4), "nnn/",
-                   GSE, "/matrix/", file, sep = ""))
-      metadata_i[[gpl]] <-  metafromfile(file)
-      file.remove(file)
-    }
-    metadata <- Reduce(f = rbind, metadata_i)
+
+      # File not in cache, download it
+      url <- paste("https://ftp.ncbi.nlm.nih.gov/geo/series/",
+                              str_sub(GSE, start = 1, end = -4), "nnn/",
+                              GSE, "/matrix/", file, sep = "")
+
+      path <- bfcrpath(bfc, url)
+      metadata_i[[gpl]] <- metafromfile(path)
+      }
+  metadata <- Reduce(f = rbind, metadata_i)
   }
 
   str_remove_all <- str_sub <- str_split <- str_replace_all <- read.table <- NULL
-
   return(metadata)
-
 }

@@ -61,16 +61,16 @@ combine_fisher_invnorm <- function(ind_deg,
   # Check if ind_deg is a list of at least two data.frame
 
   if (!is.list(ind_deg)) {
-    stop("ind_deg is not a list. Please provide a list of at least two data.frames")
+    stop("ind_deg is not a list. Please provide a list of at least two data.frames.")
   }
   if (length(ind_deg) < 2) {
-    stop("ind_deg contains", length(ind_deg), "data.frame. Please provide a list of at least 2 data.frames")
+    stop("ind_deg contains ", length(ind_deg), " data.frame. Please provide a list of at least 2 data.frames.")
   }
 
   common_genes <- Reduce(intersect, lapply(ind_deg, rownames))
   # check if common_genes is empty
   if (length(common_genes) == 0) {
-    stop(" your DGE data.frames do not have common genes")
+    stop("your DGE data.frames do not have common genes.")
   }
 
   DE <- data.frame(genes = common_genes)
