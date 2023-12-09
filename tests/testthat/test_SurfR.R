@@ -12,6 +12,13 @@ test_that("Gene2SProtein -package core function- tests", {
   expect_warning(Gene2SProtein(c("InventedGene"), output_tsv = FALSE))
 })
 
+test_that("Enrichment_barplot", {
+  dbs <- c("GO_Cellular_Component_2021")
+  expect_no_error(Enrichment_barplot(enrichedList,
+                                     enrich.databases = dbs,
+                                     p_adj = 0.1, num_term = 2, cond = "UP"))
+})
+
 test_that("metaRNAseq", {
   # 1: if test_statistic is invnorm check that ind_deg and nrep and have the
   # same number of elements
@@ -129,13 +136,6 @@ test_that("Enrichment", {
                          save.results = FALSE)
   expect_equal(length(colnames(enriched$DEG2_df$fdr_up$GO_Cellular_Component_2021)), 9)
 
-})
-
-test_that("Enrichment_barplot", {
-  dbs <- c("GO_Cellular_Component_2021")
-  expect_no_error(Enrichment_barplot(enrichedList,
-                     enrich.databases = dbs,
-                     p_adj = 0.1, num_term = 2, cond = "UP"))
 })
 
 test_that("plotPCA", {
