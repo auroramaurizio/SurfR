@@ -5,7 +5,7 @@
 A list of dataframes.
 }
 \description{
-  Input list for metaRNAseq function (ind_deg) made of 2 different small Deseq2
+  Input list for metaRNAseq function made of 2 different small Deseq2
    output samples dataframes for testing purposes: DEG1_df and DEG2_df.
 }
 \usage{

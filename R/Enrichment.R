@@ -24,7 +24,7 @@
 #' test <- Enrichment(dfList, save.results = FALSE)
 #' @family functional-annotation functions
 #' @seealso \url{https://maayanlab.cloud/Enrichr/} for additional information about enrichR.
-#' @importFrom enrichR listEnrichrDbs enrichr
+#' @importFrom enrichR listEnrichrDbs enrichr setEnrichrSite
 #' @importFrom openxlsx write.xlsx
 #' @importFrom utils write.table
 #' @export
@@ -43,11 +43,18 @@ Enrichment <- function(dfList, enrich.databases  = c("GO_Biological_Process_2021
                        p_adj = 0.05, logFC = 1,
                        save.results = FALSE) {
 
+
+  websiteLive <- getOption("enrichR.live")
+
+  if (websiteLive) {
+    setEnrichrSite("Enrichr") # Human genes
+    db <- listEnrichrDbs()
+  } else {
+    stop("enrichR website can not be reached at the moment. Please,
+          check your internet connection and retry later.")
+  }
+
   enrichr.list <- list()
-
-  # enrichment Parameters
-
-  db <- listEnrichrDbs()
 
   if (length(setdiff(enrich.databases, db$libraryName)) > 0) {
     warning(setdiff(enrich.databases, db$libraryName), " is not an enrichR geneset and will be removed.\n")

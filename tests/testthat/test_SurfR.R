@@ -1,6 +1,7 @@
 data(ind_deg)
 data(countData)
 data(metadata)
+data(enrichedList)
 
 test_that("Gene2SProtein -package core function- tests", {
   # 1: Check the output for a specific SP gene
@@ -38,8 +39,15 @@ test_that("metaRNAseq", {
 })
 
 test_that("Annotate_SPID", {
-  # 1: Check the output for specific surface protein genes
-  expect_no_error(Annotate_SPID(ind_deg$DEG2_df, "WikiPathway_2023_Human"))
+  skip_if_not_connected <- function() {
+    websiteLive <- getOption("enrichR.live")
+    if (!websiteLive) {
+      skip("Enrichr website is not reachable. Skipping test.")
+    }
+  }
+  skip_if_not_connected()
+  # 1: Check the output is produced
+  expect_equal(ncol(Annotate_SPID(ind_deg$DEG2_df, "WikiPathway_2023_Human")), 9)
 })
 
 test_that("combine_fisher_invnorm", {
@@ -107,7 +115,15 @@ GBM_list_s1 <- TCGA_download(project="TCGA-GBM",
 expect_equal(colnames(GBM_list_s1[[1]]), "TCGA-06-0878-01A-01R-1849-01")
 })
 
+
 test_that("Enrichment", {
+  skip_if_not_connected <- function() {
+    websiteLive <- getOption("enrichR.live")
+    if (!websiteLive) {
+      skip("Enrichr website is not reachable. Skipping test.")
+    }
+  }
+  skip_if_not_connected()
   enriched <- Enrichment(ind_deg,
                          enrich.databases  = c("GO_Cellular_Component_2021"),
                          save.results = FALSE)
@@ -116,12 +132,8 @@ test_that("Enrichment", {
 })
 
 test_that("Enrichment_barplot", {
-  enriched <- Enrichment(ind_deg,
-                         enrich.databases  = c("GO_Cellular_Component_2021"),
-                         save.results = FALSE)
-  dfList <- enriched$DEG2_df
   dbs <- c("GO_Cellular_Component_2021")
-  expect_no_error(Enrichment_barplot(dfList,
+  expect_no_error(Enrichment_barplot(enrichedList,
                      enrich.databases = dbs,
                      p_adj = 0.1, num_term = 2, cond = "UP"))
 })

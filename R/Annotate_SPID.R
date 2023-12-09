@@ -115,7 +115,7 @@ enrichr_download <- function(genesets, db=c("Enrichr")) {
 #' @family functional-annotation functions
 #' @seealso \code{\link{DGE}} function for DGE,
 #' and \code{\link{Gene2SProtein}} function for Gene2SProtein analysis
-#' @importFrom enrichR listEnrichrDbs
+#' @importFrom enrichR listEnrichrDbs enrichr setEnrichrSite
 #' @importFrom assertr col_concat
 #' @importFrom tidyr separate_rows
 #' @importFrom magrittr %>%
@@ -136,7 +136,17 @@ Annotate_SPID <- function(DGE,
     stop("You can select only one enrich.database at a time.")
   }
 
-  db <- listEnrichrDbs()
+
+  websiteLive <- getOption("enrichR.live")
+
+  if (websiteLive) {
+    setEnrichrSite("Enrichr") # Human genes
+    db <- listEnrichrDbs()
+  } else {
+    stop("enrichR website can not be reached at the moment. Please,
+          check your internet connection and retry later.")
+  }
+
   if (!(enrich.database %in% db$libraryName)) {
     stop(enrich.database, " is not a valid enrichR geneset.")
   }
