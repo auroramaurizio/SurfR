@@ -128,7 +128,7 @@ Annotate_SPID <- function(DGE,
                           enrich.database  = "WikiPathway_2021_Human",
                           output_tsv = FALSE) {
 
-  websiteLive <- getOption("enrichR.live", default = FALSE)
+  websiteLive <- getOption("enrichR.live")
 
   if (websiteLive) {
     setEnrichrSite("Enrichr") # Human genes
