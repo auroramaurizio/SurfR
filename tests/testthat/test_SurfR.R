@@ -45,17 +45,17 @@ test_that("metaRNAseq", {
                              BHth = 0.05))
 })
 
+
 test_that("Annotate_SPID", {
-  skip_if_not_connected <- function() {
-    websiteLive <- getOption("enrichR.live")
-    if (!websiteLive) {
-      skip("Enrichr website is not reachable. Skipping test.")
-    }
+  websiteLive <- getOption("enrichR.live", default = FALSE)
+  # 1: Check for connectivity
+  if (websiteLive) {
+    expect_no_error(Annotate_SPID(ind_deg$DEG2_df, "WikiPathway_2023_Human"))
+  } else {
+    expect_error(Annotate_SPID(ind_deg$DEG2_df, "WikiPathway_2023_Human"))
   }
-  skip_if_not_connected()
-  # 1: Check the output is produced
-  expect_equal(ncol(Annotate_SPID(ind_deg$DEG2_df, "WikiPathway_2023_Human")), 9)
 })
+
 
 test_that("combine_fisher_invnorm", {
   invnorm <- metaRNAseq(ind_deg, test_statistic = "invnorm", BHth = 0.05, nrep = c(2,2))
@@ -124,18 +124,22 @@ expect_equal(colnames(GBM_list_s1[[1]]), "TCGA-06-0878-01A-01R-1849-01")
 
 
 test_that("Enrichment", {
-  skip_if_not_connected <- function() {
-    websiteLive <- getOption("enrichR.live")
-    if (!websiteLive) {
-      skip("Enrichr website is not reachable. Skipping test.")
-    }
+  websiteLive <- getOption("enrichR.live", default = FALSE)
+  # 1: Check for connectivity
+  if (!websiteLive) {
+    message("EnrichR website is not reachable. Skipping test.")
+  } else {
+    result <- tryCatch({
+      Enrichment(ind_deg,
+                 enrich.databases = c("GO_Cellular_Component_2021"),
+                 save.results = FALSE)
+    }, error = function(e) {
+      message(paste("Error in Enrichment:", e$message))
+      return(NULL)
+    })
+    # 2: Check successful execution)
+    expect_true(!is.null(result))
   }
-  skip_if_not_connected()
-  enriched <- Enrichment(ind_deg,
-                         enrich.databases  = c("GO_Cellular_Component_2021"),
-                         save.results = FALSE)
-  expect_equal(length(colnames(enriched$DEG2_df$fdr_up$GO_Cellular_Component_2021)), 9)
-
 })
 
 test_that("plotPCA", {

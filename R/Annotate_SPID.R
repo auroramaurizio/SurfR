@@ -128,16 +128,7 @@ Annotate_SPID <- function(DGE,
                           enrich.database  = "WikiPathway_2021_Human",
                           output_tsv = FALSE) {
 
-  if (is.null(dim(DGE))) {
-    stop("DGE is empty")
-  }
-
-  if (length(enrich.database) != 1) {
-    stop("You can select only one enrich.database at a time.")
-  }
-
-
-  websiteLive <- getOption("enrichR.live")
+  websiteLive <- getOption("enrichR.live", default = FALSE)
 
   if (websiteLive) {
     setEnrichrSite("Enrichr") # Human genes
@@ -147,9 +138,18 @@ Annotate_SPID <- function(DGE,
           check your internet connection and retry later.")
   }
 
+  if (is.null(dim(DGE))) {
+    stop("DGE is empty")
+  }
+
+  if (length(enrich.database) != 1) {
+    stop("You can select only one enrich.database at a time.")
+  }
+
   if (!(enrich.database %in% db$libraryName)) {
     stop(enrich.database, " is not a valid enrichR geneset.")
   }
+
   annotation_table <- enrichr_download(enrich.database)
 
   # here gives a warning, but we can safely ignore it.

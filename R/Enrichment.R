@@ -44,7 +44,7 @@ Enrichment <- function(dfList, enrich.databases  = c("GO_Biological_Process_2021
                        save.results = FALSE) {
 
 
-  websiteLive <- getOption("enrichR.live")
+  websiteLive <- getOption("enrichR.live", default = FALSE)
 
   if (websiteLive) {
     setEnrichrSite("Enrichr") # Human genes
