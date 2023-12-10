@@ -45,7 +45,6 @@ test_that("metaRNAseq", {
                              BHth = 0.05))
 })
 
-
 test_that("Annotate_SPID", {
   websiteLive <- getOption("enrichR.live", default = FALSE)
   # 1: Check for connectivity
@@ -55,7 +54,6 @@ test_that("Annotate_SPID", {
     expect_error(Annotate_SPID(ind_deg$DEG2_df, "WikiPathway_2023_Human"))
   }
 })
-
 
 test_that("combine_fisher_invnorm", {
   invnorm <- metaRNAseq(ind_deg, test_statistic = "invnorm", BHth = 0.05, nrep = c(2,2))
@@ -81,11 +79,6 @@ test_that("GEOmetadata", {
   GSE <- "GSE121810"
   meta <- GEOmetadata(GSE)
   expect_equal(unique(meta$GSE), "GSE121810")
-})
-
-test_that("Annotate_SPID", {
-  # 1: Check the output for specific surface protein genes
-  expect_no_error(Annotate_SPID(ind_deg$DEG2_df, "WikiPathway_2023_Human"))
 })
 
 test_that("SVenn", {
