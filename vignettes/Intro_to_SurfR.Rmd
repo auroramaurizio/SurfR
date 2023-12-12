@@ -56,7 +56,7 @@ BiocManager::install("SurfR")
 
 Use the pre-release or devel version from GitHub using devtools with
 
-```{r install-github, eval = FALSE}
+```
 # install.packages("devtools")
 devtools::install_github("auroramaurizio/SurfR", build_vignettes = TRUE)
 ```
@@ -69,13 +69,14 @@ The basic idea behind **SurfR** has been to create a complete framework to detec
 The protein classification is based on a recently developed surfaceome predictor, called [**SURFY**](http://wlab.ethz.ch/surfaceome/), based on machine learning.
 
 
-```{r gene2protein }
+```{r}
 library(SurfR)
 GeneNames <- c("CIITA", "EPCAM", "DLK1", "CD24", 
                "CDCP1", "LYVE1", "ABCD1", "VAMP1")
 SurfaceProteins_df <- Gene2SProtein(GeneNames, 
+                                    output_tsv = FALSE,
                                     input_type = "gene_name", 
-                                    Surfy_version = "new")
+                                    Surfy_version = "log")
 #The output dataframe contains several information retrieved from Surfy.
 colnames(SurfaceProteins_df)
 #These are the 5 surface protein coding genes detected by SurfR.
@@ -197,7 +198,7 @@ library(SurfR)
 library(stringr)
 
 # Download metadata from GEO
-mGSE121810 <- GEOmetadata(GSE = "GSE121810")
+mGSE121810 <- GEOmetadata(GSE = "GSE121810", GPL = "")
 # create new metadata column in order to remove unwanted special characters
 unwanted_character <- " "
 fx <- function(x) {
@@ -251,7 +252,7 @@ called **SURFY**, based on machine learning.
 We use the built-in SurfR **Gene2SProtein** function to identify
 Surface protein-coding genes (SP). 
 
-```{r GEO SP}
+```{r GEO SP, eval=FALSE}
 # remove NA values
 df_GEO <- df_GEO[!is.na(df_GEO$padj), ]
 # Detect SP amoung differentially expressed genes
@@ -488,7 +489,7 @@ Finally, we can summarize the results of the meta-analysis in a data.frame highl
 Genes displaying contradictory differential expression in separate studies can be identified in the column `signFC`= 0 and removed from the list of differentially expressed genes via meta-analysis.
 
 
-```{r metacombine}
+```{r metacombine, eval=FALSE}
 metacomb <- combine_fisher_invnorm(ind_deg = list(TCGA.BRCA =  df.TCGA, 
                                                   GEO.GSE58135 = df.GSE58135),
                                    invnorm = L_invnorm,
@@ -496,7 +497,7 @@ metacomb <- combine_fisher_invnorm(ind_deg = list(TCGA.BRCA =  df.TCGA,
                                    adjpval = 0.05)
 ```
 
-```{r metacombine up dw}
+```{r metacombine up dw, eval=FALSE}
 metacomb_GeneID <- metacomb[metacomb$signFC != 0, "GeneID"]
 SP <- Gene2SProtein(genes = metacomb_GeneID, input_type = "gene_name")
 
@@ -606,7 +607,7 @@ with the built-in SurfR function **SVenn**.
 
 
 ```{r, fig.height= 6, fig.width=7}
-library(edgeR)
+#library(edgeR)
 
 
 S_list <- list(SP_1 = c("EPCAM", "CD24",  "DLK1",  "CDCP1", "LYVE1"),

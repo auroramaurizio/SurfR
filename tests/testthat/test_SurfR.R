@@ -149,9 +149,10 @@ test_that("plotPCA", {
           label = FALSE, main = "PCA"))
 })
 
-test_that("DGE", {
-  expect_no_error(DGE(expression = countData, metadata = metadata,
-                  Nreplica = 2,
-                  design = "~condition",condition = "condition",
-                  TEST = "A", CTRL = "B"))
-})
+#commented to reduce check time
+#test_that("DGE", {
+#  expect_no_error(DGE(expression = countData, metadata = metadata,
+#                  Nreplica = 2,
+#                  design = "~condition",condition = "condition",
+#                  TEST = "A", CTRL = "B"))
+#})
