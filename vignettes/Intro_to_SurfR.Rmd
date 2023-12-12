@@ -56,7 +56,7 @@ BiocManager::install("SurfR")
 
 Use the pre-release or devel version from GitHub using devtools with
 
-```
+```{r install-github, eval = FALSE}
 # install.packages("devtools")
 devtools::install_github("auroramaurizio/SurfR", build_vignettes = TRUE)
 ```
@@ -69,7 +69,7 @@ The basic idea behind **SurfR** has been to create a complete framework to detec
 The protein classification is based on a recently developed surfaceome predictor, called [**SURFY**](http://wlab.ethz.ch/surfaceome/), based on machine learning.
 
 
-```{r setup}
+```{r gene2protein }
 library(SurfR)
 GeneNames <- c("CIITA", "EPCAM", "DLK1", "CD24", 
                "CDCP1", "LYVE1", "ABCD1", "VAMP1")
@@ -192,7 +192,7 @@ The count matrix is downloaded from [ArchS4](https://maayanlab.cloud/archs4/)
 with the SurfR built-in function **DownloadArchS4**,
 to ensure handling not normalize data.
 
-```{r GEO input, eval=FALSE}
+```{r GEO input}
 library(SurfR)
 library(stringr)
 
@@ -229,7 +229,7 @@ Here, we use the built-in SurfR **DGE** function, to perform the differential ex
 
 Good Differential Expressed surface protein are the ones which are strongly expressed in one condition and almost not expressed in the other. To help detecting the best candidates, the output data.frame of the DGE function contains information on the average expression in the two group (see Mean_CPM_T and Mean_CPM_C columns).
 
-```{r GEO dge, eval=FALSE}
+```{r GEO dge}
 # Perform DGE
 df_GEO <- DGE(expression = cGSE121810,
               metadata = mGSE121810,
@@ -251,7 +251,7 @@ called **SURFY**, based on machine learning.
 We use the built-in SurfR **Gene2SProtein** function to identify
 Surface protein-coding genes (SP). 
 
-```{r GEO SP, eval=FALSE}
+```{r GEO SP}
 # remove NA values
 df_GEO <- df_GEO[!is.na(df_GEO$padj), ]
 # Detect SP amoung differentially expressed genes
@@ -273,7 +273,7 @@ SPdw <- Gene2SProtein(genes = fdrDW_GeneID, input_type = "gene_name")
 Note that to use this function you need to install the developmental version of
 [TCGAbiolinks](https://github.com/BioinformaticsFMRP/TCGAbiolinks).
 
-```
+```{r TCGA install, eval=FALSE}
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
@@ -289,7 +289,7 @@ function **TCGA_download**. The shortLetterCode column of the metadata allows us
 to distinguish Primary Solid Tumor (TP) and normal (NT) samples.
 
 
-```{r echo=FALSE, warning=FALSE, include=FALSE, message = FALSE , eval=FALSE}
+```{r echo=FALSE, warning=FALSE, include=FALSE, message = FALSE, eval=FALSE}
 # Download TCGA data
 # To save time only download 3 Tumor samples and 3 normal samples.
 # If barcodes are not specified TCGA_download function will download all the 
@@ -299,9 +299,7 @@ barcodes2Download <- c("TCGA-X7-A8D6-11A-22R-A42C-07",
                        "TCGA-XM-A8RB-01A-11R-A42C-07", 
                        "TCGA-X7-A8M0-01A-11R-A42C-07")
 TCGA.THYM <- TCGA_download(project = "TCGA-THYM", barcodes = barcodes2Download)
-```
 
-```{r TCGA input, eval=FALSE}
 cTCGA.THYM <- TCGA.THYM[[1]]
 mTCGA.THYM <- TCGA.THYM[[2]]
 table(mTCGA.THYM$shortLetterCode)
@@ -427,7 +425,7 @@ expressed in one condition and almost not expressed in the other. The output dat
 on the average expression in the two groups (see Mean_CPM_T and Mean_CPM_C columns), to help in the detection of the best candidates.
 
 
-```{r meta DGE}
+```{r meta DGE TCGA}
 
 # TCGA DGE
 df.TCGA <- DGE(expression = cTCGA.BRCA,
@@ -439,7 +437,9 @@ df.TCGA <- DGE(expression = cTCGA.BRCA,
                TEST = "TP", CTRL =  "NT",
                output_tsv = FALSE)
 head(df.TCGA)
+```
 
+```{r meta DGE GEO}
 # GSE58135 DGE
 df.GSE58135 <- DGE(expression = cGSE58135,
                    metadata = mGSE58135,
@@ -450,8 +450,6 @@ df.GSE58135 <- DGE(expression = cGSE58135,
                    TEST = "TP", CTRL =  "NT",
                    output_tsv = FALSE)
 head(df.GSE58135)
-
-
 ```
 
 Here we provide a function based on **metaRNASeq** bioconductor package to implement 
@@ -469,14 +467,15 @@ or the inverse normal combination technique (`invnorm`);
 The function automatically produces and saves as .pdf histograms of raw p-values for each of the individual differential analyses performed using the independent filtering from DESeq2 package. You can also examine the p-value distribution after p.value combination.
 
 
-```{r}
+```{r meta fishercomb}
 
 L_fishercomb <- metaRNAseq(ind_deg = list(TCGA.BRCA =  df.TCGA, GEO.GSE58135 = df.GSE58135),
                            test_statistic = "fishercomb",
                            BHth = 0.05,
                            adjpval.t = 0.05)
+```
 
-
+```{r meta invnorm}
 L_invnorm <- metaRNAseq(ind_deg = list(TCGA.BRCA =  df.TCGA, GEO.GSE58135 = df.GSE58135),
                         test_statistic = "invnorm",
                         BHth = 0.05,
@@ -489,14 +488,15 @@ Finally, we can summarize the results of the meta-analysis in a data.frame highl
 Genes displaying contradictory differential expression in separate studies can be identified in the column `signFC`= 0 and removed from the list of differentially expressed genes via meta-analysis.
 
 
-```{r}
+```{r metacombine}
 metacomb <- combine_fisher_invnorm(ind_deg = list(TCGA.BRCA =  df.TCGA, 
                                                   GEO.GSE58135 = df.GSE58135),
                                    invnorm = L_invnorm,
                                    fishercomb = L_fishercomb,
                                    adjpval = 0.05)
+```
 
-
+```{r metacombine up dw}
 metacomb_GeneID <- metacomb[metacomb$signFC != 0, "GeneID"]
 SP <- Gene2SProtein(genes = metacomb_GeneID, input_type = "gene_name")
 
@@ -523,7 +523,7 @@ If it happens, please, retry to run the function after a few minutes.
 
 
 
-```{r}
+```{r enrich}
 library(enrichR)
 
 
@@ -548,7 +548,6 @@ It depicts gene count ratio and enrichment scores (- Log10 adjusted p values) as
 ```{r, fig.width=7, fig.height=2.5}
 library(ggplot2)
 
-
 # barplot of the top 5 upregulated pathways
 Enrichment_barplot(Enrich$GEO, 
                    enrich.databases <- c("GO_Biological_Process_2021",  
@@ -556,6 +555,10 @@ Enrichment_barplot(Enrich$GEO,
                    p_adj = 0.05, 
                    num_term = 5, 
                    cond = "UP")
+```
+
+```{r, fig.width=7, fig.height=2.5}
+library(ggplot2)
 
 # barplot of the top 5 downregulated pathways
 Enrichment_barplot(Enrich$GEO, 
@@ -584,7 +587,7 @@ Utilizing the SurfR function **Splot** you can create barplots to visualize the 
 the dataframe produced by the **Gene2SProtein** function.
 The default grouping is the [Membranome Almen classification](https://doi.org/10.1186/1741-7007-7-50). 
 
-```{r, fig.height= 4.5, fig.width=7, eval=FALSE}
+```{r, fig.height= 4.5, fig.width=7}
 # upregulated genes in GEO dataset
 fdrUP_GeneID <- df_GEO[df_GEO$padj < 0.05 & df_GEO$log2FoldChange > 0, "GeneID"]
 # corresponding Surface Proteins
@@ -625,7 +628,7 @@ You can perform PCA and visualize the result with a customizable plot
 with the built-in SurfR function **plotPCA**.
 
 
-```{r, fig.height= 6, fig.width=7, eval=FALSE}
+```{r, fig.height= 6, fig.width=7}
 
 SurfR::plotPCA(matrix = cpm(cGSE121810), metadata = mGSE121810,               
         dims = c(1, 2),

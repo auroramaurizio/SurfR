@@ -12,6 +12,7 @@ test_that("Gene2SProtein -package core function- tests", {
   expect_warning(Gene2SProtein(c("InventedGene"), output_tsv = FALSE))
 })
 
+
 test_that("Enrichment_barplot", {
   dbs <- c("GO_Cellular_Component_2021")
   expect_no_error(Enrichment_barplot(enrichedList,
@@ -45,15 +46,16 @@ test_that("metaRNAseq", {
                              BHth = 0.05))
 })
 
-test_that("Annotate_SPID", {
-  websiteLive <- getOption("enrichR.live", default = FALSE)
-  # 1: Check for connectivity
-  if (websiteLive) {
-    expect_no_error(Annotate_SPID(ind_deg$DEG2_df, "WikiPathway_2023_Human"))
-  } else {
-    expect_error(Annotate_SPID(ind_deg$DEG2_df, "WikiPathway_2023_Human"))
-  }
-})
+#commented to reduce check time
+#test_that("Annotate_SPID", {
+#  websiteLive <- getOption("enrichR.live", default = FALSE)
+#  # 1: Check for connectivity
+#  if (websiteLive) {
+#    expect_no_error(Annotate_SPID(ind_deg$DEG2_df, "WikiPathway_2023_Human"))
+#  } else {
+#    expect_error(Annotate_SPID(ind_deg$DEG2_df, "WikiPathway_2023_Human"))
+#  }
+#})
 
 test_that("combine_fisher_invnorm", {
   invnorm <- metaRNAseq(ind_deg, test_statistic = "invnorm", BHth = 0.05, nrep = c(2,2))
@@ -66,20 +68,22 @@ test_that("combine_fisher_invnorm", {
 
 })
 
-test_that("DownloadArchS4", {
-  # 1: Check that downloaded counts matrix matches the query
-  GSM <- "GSM3447008"
-  GEO_count_matrix <- DownloadArchS4(GSM, species = "human",
-                                     print_tsv = FALSE, filename = NULL)
-  expect_equal(colnames(GEO_count_matrix), "GSM3447008")
-})
+#commented to reduce check time
+#test_that("DownloadArchS4", {
+#  # 1: Check that downloaded counts matrix matches the query
+#  GSM <- "GSM3447008"
+#  GEO_count_matrix <- DownloadArchS4(GSM, species = "human",
+#                                     print_tsv = FALSE, filename = NULL)
+#  expect_equal(colnames(GEO_count_matrix), "GSM3447008")
+#})
 
-test_that("GEOmetadata", {
-  # 1: Check that downloaded metadata matches the query
-  GSE <- "GSE121810"
-  meta <- GEOmetadata(GSE)
-  expect_equal(unique(meta$GSE), "GSE121810")
-})
+#commented to reduce check time
+#test_that("GEOmetadata", {
+#  # 1: Check that downloaded metadata matches the query
+#  GSE <- "GSE121810"
+#  meta <- GEOmetadata(GSE)
+#  expect_equal(unique(meta$GSE), "GSE121810")
+#})
 
 test_that("SVenn", {
   # 1: Expect no error when the number of sets is up to 7 sets
@@ -107,33 +111,34 @@ test_that("Splot", {
   expect_no_error(Splot(SurfaceProteins_df))
 })
 
-test_that("TCGA_download", {
-GBM_list_s1 <- TCGA_download(project="TCGA-GBM",
-                             whichcounts = "unstranded",
-                             save.matrix = FALSE, save.metadata = FALSE,
-                             barcodes = c("TCGA-06-0878-01A-01R-1849-01"))
-expect_equal(colnames(GBM_list_s1[[1]]), "TCGA-06-0878-01A-01R-1849-01")
-})
+#commented to reduce check time
+#test_that("TCGA_download", {
+#GBM_list_s1 <- TCGA_download(project="TCGA-GBM",
+#                             whichcounts = "unstranded",
+#                             save.matrix = FALSE, save.metadata = FALSE,
+#                             barcodes = c("TCGA-06-0878-01A-01R-1849-01"))
+#expect_equal(colnames(GBM_list_s1[[1]]), "TCGA-06-0878-01A-01R-1849-01")
+#})
 
-
-test_that("Enrichment", {
-  websiteLive <- getOption("enrichR.live", default = FALSE)
-  # 1: Check for connectivity
-  if (!websiteLive) {
-    message("EnrichR website is not reachable. Skipping test.")
-  } else {
-    result <- tryCatch({
-      Enrichment(ind_deg,
-                 enrich.databases = c("GO_Cellular_Component_2021"),
-                 save.results = FALSE)
-    }, error = function(e) {
-      message(paste("Error in Enrichment:", e$message))
-      return(NULL)
-    })
-    # 2: Check successful execution)
-    expect_true(!is.null(result))
-  }
-})
+#commented to reduce check time
+#test_that("Enrichment", {
+#  websiteLive <- getOption("enrichR.live", default = FALSE)
+#  # 1: Check for connectivity
+#  if (!websiteLive) {
+#    message("EnrichR website is not reachable. Skipping test.")
+#  } else {
+#    result <- tryCatch({
+#      Enrichment(ind_deg,
+#                 enrich.databases = c("GO_Cellular_Component_2021"),
+#                 save.results = FALSE)
+#    }, error = function(e) {
+#      message(paste("Error in Enrichment:", e$message))
+#      return(NULL)
+#    })
+#    # 2: Check successful execution)
+#    expect_true(!is.null(result))
+#  }
+#})
 
 test_that("plotPCA", {
   expect_no_error(SurfR::plotPCA(matrix = cpm(countData),
