@@ -40,7 +40,7 @@
 #' @family meta-analysis functions
 #' @seealso \code{\link{DGE}} for DGE analysis,
 #' and \url{https://cran.r-project.org/web/packages/metaRNASeq/vignettes/metaRNASeq.pdf}
-#' for metaRNASeq package info
+#' for metaRNASeq package info.
 #' @importFrom metaRNASeq fishercomb invnorm
 #' @importFrom gridExtra marrangeGrob
 #' @importFrom grDevices pdf dev.off

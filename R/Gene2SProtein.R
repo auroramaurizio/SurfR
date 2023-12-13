@@ -2,7 +2,7 @@
 #'
 #' Detect Surface Proteins from a vector of genes.
 #' The surface proteins are identified according to the in silico human surfaceome database,
-#' proposed by Bernd Wollscheid group and available at \url{https://wlab.ethz.ch/surfaceome}
+#' available at \url{https://wlab.ethz.ch/surfaceome}.
 #'
 #' @param genes A vector of genes.
 #' @param input_type The gene identification type:
@@ -31,7 +31,7 @@
 #' @section Warning:
 #' The surfy database is interrogated using the gene identification type of your preference
 #' between \code{gene_name}, \code{ensembl}, \code{entrez} or \code{uniProt_name}. Note that
-#' you might loose some match due to difference gene version IDs.
+#' you might loose some matches due to different gene version IDs.
 #' @importFrom openxlsx read.xlsx write.xlsx
 #' @importFrom utils write.table
 #' @import BiocFileCache

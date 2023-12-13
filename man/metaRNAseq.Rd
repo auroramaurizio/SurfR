@@ -64,7 +64,7 @@ comb_pval_df <- metaRNAseq(ind_deg, test_statistic = "invnorm", BHth = 0.05, nre
 \seealso{
 \code{\link{DGE}} for DGE analysis,
 and \url{https://cran.r-project.org/web/packages/metaRNASeq/vignettes/metaRNASeq.pdf}
-for metaRNASeq package info
+for metaRNASeq package info.
 
 Other meta-analysis functions: 
 \code{\link{combine_fisher_invnorm}()}

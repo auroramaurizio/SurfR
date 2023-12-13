@@ -45,7 +45,8 @@ df2 <- data.frame(GeneID  = c("MEST", "CDK1", "PCLAF", "BIRC5"),
                   padj = c(2.28e-143, 2.18e-115, 2.18e-45, 0.006),
                   row.names = c("MEST", "CDK1", "PCLAF", "BIRC5"))
 dfList <- list(df1 = df1, df2 = df2)
-test <- Enrichment(dfList, save.results = FALSE)
+test <- Enrichment(dfList, enrich.databases = c("GO_Cellular_Component_2021"),
+                   save.results = FALSE)
 }
 \seealso{
 \url{https://maayanlab.cloud/Enrichr/} for additional information about enrichR.

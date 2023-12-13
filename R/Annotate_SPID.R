@@ -87,9 +87,9 @@ enrichr_download <- function(genesets, db=c("Enrichr")) {
 
 #' Annotate_SPID
 #'
-#' Annotate Surface Protein Coding genes according to EnrichR Libraries
+#' Annotate Surface Protein Coding genes according to EnrichR libraries
 #'
-#' @param DGE Data.frame containing annotated DEG list, as the output of DGE or Gene2SProtein function.
+#' @param DGE Data.frame containing annotated DEG list, as the output of DGE or Gene2SProtein functions.
 #' @param enrich.database String containing the EnrichR databases you would like to consult. Default: WikiPathway_2021_Human.
 #' @param output_tsv Logical. If \code{TRUE}, outputs a tsv file with the results. By default, FALSE.
 #' @return A dataframe with surface protein coding \code{DEGs} annotation.
@@ -107,11 +107,11 @@ enrichr_download <- function(genesets, db=c("Enrichr")) {
 #' annotated_DGE = Annotate_SPID(DGE, "WikiPathway_2021_Human")
 #'
 #' # Output of Gene2SProtein function
-#' GeneNames = c("CIITA", "EPCAM", "DLK1", "CD24", "TOP2A")
+#' GeneNames = c("CIITA", "EPCAM", "DLK1", "CD24")
 #' SurfaceProteins_df = Gene2SProtein(GeneNames, input_type = "gene_name")
 #' annotated_SP = Annotate_SPID(SurfaceProteins_df, "GO_Biological_Process_2021")
 #' @section Warning:
-#' Be sure that enrich.database exist.
+#' Be sure that enrich.database exists.
 #' @family functional-annotation functions
 #' @seealso \code{\link{DGE}} function for DGE,
 #' and \code{\link{Gene2SProtein}} function for Gene2SProtein analysis

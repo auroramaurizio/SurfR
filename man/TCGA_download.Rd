@@ -13,9 +13,9 @@ TCGA_download(
 )
 }
 \arguments{
-\item{project, }{Character. A valid project from TCGAbiolinks:::getGDCprojects()$project_id)]}
+\item{project, }{Character. A valid project from TCGAbiolinks:::getGDCprojects()$project_id}
 
-\item{whichcounts}{Character. Counts data form to use. Choose from: unstranded, stranded_first,stranded_second. By default, unstranded.}
+\item{whichcounts}{Character. Counts data to use. Choose from: unstranded, stranded_first,stranded_second. By default, unstranded.}
 
 \item{save.matrix}{Logical. If \code{TRUE}, outputs a tsv file with the Matrix. By default, FALSE.}
 
@@ -27,7 +27,7 @@ TCGA_download(
 A list containing the Matrix and the metadata.
 }
 \description{
-Downloads count matrix data from TCGA_download
+Downloads count matrix data from TCGA
 }
 \examples{
 GBM_list_s1 <- TCGA_download(project="TCGA-GBM",

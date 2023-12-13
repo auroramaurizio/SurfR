@@ -1,9 +1,9 @@
 #' TCGA_download function
 #'
-#' Downloads count matrix data from TCGA_download
+#' Downloads count matrix data from TCGA
 #'
-#' @param project, Character. A valid project from TCGAbiolinks:::getGDCprojects()$project_id)]
-#' @param whichcounts Character. Counts data form to use. Choose from: unstranded, stranded_first,stranded_second. By default, unstranded.
+#' @param project, Character. A valid project from TCGAbiolinks:::getGDCprojects()$project_id
+#' @param whichcounts Character. Counts data to use. Choose from: unstranded, stranded_first,stranded_second. By default, unstranded.
 #' @param barcodes Character. A vector with names of the barcodes you want to download. If NULL (default) it downloads all the available barcodes in the project.
 #' @param save.matrix Logical. If \code{TRUE}, outputs a tsv file with the Matrix. By default, FALSE.
 #' @param save.metadata Logical. If \code{TRUE}, outputs a tsv file with the metadata. By default, FALSE.

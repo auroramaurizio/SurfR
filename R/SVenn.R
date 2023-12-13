@@ -5,7 +5,7 @@
 #' @param S_list A list of a maximum of 7 surface protein sets detected in different studies.
 #' @param cols.use Vector of colors, each color corresponds to a study.
 #' By default, ggplot assigns colors.
-#' @param opacity Degree of opacity for the color(s) specified with cols.use (less opacity, more transparency).
+#' @param opacity Degree of opacity for the colors specified with cols.use (less opacity, more transparency).
 #' @param output_intersectionFile logical. If TRUE (default) write an xlsx output of protein in the intersections.
 #' @param filename Name of the output file with the intersections.
 #' @return venn plot of common genes.

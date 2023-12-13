@@ -11,7 +11,7 @@ Annotate_SPID(
 )
 }
 \arguments{
-\item{DGE}{Data.frame containing annotated DEG list, as the output of DGE or Gene2SProtein function.}
+\item{DGE}{Data.frame containing annotated DEG list, as the output of DGE or Gene2SProtein functions.}
 
 \item{enrich.database}{String containing the EnrichR databases you would like to consult. Default: WikiPathway_2021_Human.}
 
@@ -21,11 +21,11 @@ Annotate_SPID(
 A dataframe with surface protein coding \code{DEGs} annotation.
 }
 \description{
-Annotate Surface Protein Coding genes according to EnrichR Libraries
+Annotate Surface Protein Coding genes according to EnrichR libraries
 }
 \section{Warning}{
 
-Be sure that enrich.database exist.
+Be sure that enrich.database exists.
 }
 
 \examples{
@@ -42,7 +42,7 @@ library(enrichR)
 annotated_DGE = Annotate_SPID(DGE, "WikiPathway_2021_Human")
 
 # Output of Gene2SProtein function
-GeneNames = c("CIITA", "EPCAM", "DLK1", "CD24", "TOP2A")
+GeneNames = c("CIITA", "EPCAM", "DLK1", "CD24")
 SurfaceProteins_df = Gene2SProtein(GeneNames, input_type = "gene_name")
 annotated_SP = Annotate_SPID(SurfaceProteins_df, "GO_Biological_Process_2021")
 }

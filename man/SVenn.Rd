@@ -18,7 +18,7 @@ SVenn(
 \item{cols.use}{Vector of colors, each color corresponds to a study.
 By default, ggplot assigns colors.}
 
-\item{opacity}{Degree of opacity for the color(s) specified with cols.use (less opacity, more transparency).}
+\item{opacity}{Degree of opacity for the colors specified with cols.use (less opacity, more transparency).}
 
 \item{output_intersectionFile}{logical. If TRUE (default) write an xlsx output of protein in the intersections.}
 
