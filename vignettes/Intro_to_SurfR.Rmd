@@ -503,12 +503,12 @@ metacomb_GeneID <- metacomb[metacomb$signFC != 0, "GeneID"]
 SP <- Gene2SProtein(genes = metacomb_GeneID, input_type = "gene_name")
 ```
 
-```{r metacombine}
+```{r metacombine up}
 metacombUP_GeneID <- metacomb[metacomb$signFC == 1, "GeneID"]
 SPup <- Gene2SProtein(genes = metacombUP_GeneID, input_type = "gene_name")
 ```
 
-```{r metacombine}
+```{r metacombine dw}
 metacombDW_GeneID <- metacomb[metacomb$signFC == -1, "GeneID"]
 SPdw <- Gene2SProtein(genes = metacombDW_GeneID, input_type = "gene_name")
 
