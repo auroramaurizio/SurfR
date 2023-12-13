@@ -141,14 +141,15 @@ test_that("Splot", {
 #  }
 #})
 
-test_that("plotPCA", {
-  expect_no_error(SurfR::plotPCA(matrix = cpm(countData),
-          metadata = metadata,
-          nTOP = 100,
-          dims = c(1,2),
-          color.by = "condition", shape.by = "therapy",
-          label = FALSE, main = "PCA"))
-})
+#commented to reduce check time
+#test_that("plotPCA", {
+#  expect_no_error(SurfR::plotPCA(matrix = cpm(countData),
+#          metadata = metadata,
+#          nTOP = 100,
+#          dims = c(1,2),
+#          color.by = "condition", shape.by = "therapy",
+#          label = FALSE, main = "PCA"))
+#})
 
 #commented to reduce check time
 #test_that("DGE", {

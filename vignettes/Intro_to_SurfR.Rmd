@@ -71,8 +71,7 @@ The protein classification is based on a recently developed surfaceome predictor
 
 ```{r gene2protein }
 library(SurfR)
-GeneNames <- c("CIITA", "EPCAM", "DLK1", "CD24", 
-               "CDCP1", "LYVE1", "ABCD1", "VAMP1")
+GeneNames <- c("CIITA", "EPCAM", "CD24", "CDCP1", "LYVE1")
 SurfaceProteins_df <- Gene2SProtein(GeneNames, 
                                     input_type = "gene_name", 
                                     output_tsv = FALSE,
@@ -243,6 +242,9 @@ df_GEO <- DGE(expression = cGSE121810,
               TEST = "neoadjuvant", CTRL =  "adjuvant",
               output_tsv = FALSE)
 
+# remove NA values
+df_GEO <- df_GEO[!is.na(df_GEO$padj), ]
+
 head(df_GEO)
 ```
 
@@ -254,11 +256,10 @@ called **SURFY**, based on machine learning.
 We use the built-in SurfR **Gene2SProtein** function to identify
 Surface protein-coding genes (SP). 
 
-```{r GEO SP}
-# remove NA values
-df_GEO <- df_GEO[!is.na(df_GEO$padj), ]
+```{r GEO SP, eval=FALSE}
 # Detect SP amoung differentially expressed genes
 fdr_GeneID <- df_GEO[df_GEO$padj < 0.1, "GeneID"]
+
 SP <- Gene2SProtein(genes = fdr_GeneID, input_type = "gene_name")
 
 fdrUP_GeneID <- df_GEO[df_GEO$padj < 0.1 & df_GEO$log2FoldChange > 0, "GeneID"]
@@ -561,10 +562,6 @@ Enrichment_barplot(Enrich$GEO,
                    p_adj = 0.05, 
                    num_term = 5, 
                    cond = "UP")
-```
-
-```{r, fig.width=7, fig.height=2.5, eval=FALSE}
-library(ggplot2)
 
 # barplot of the top 5 downregulated pathways
 Enrichment_barplot(Enrich$GEO, 
