@@ -56,7 +56,7 @@ BiocManager::install("SurfR")
 
 Use the pre-release or devel version from GitHub using devtools with
 
-```
+```{r install-github, eval = FALSE}
 # install.packages("devtools")
 devtools::install_github("auroramaurizio/SurfR", build_vignettes = TRUE)
 ```
@@ -69,14 +69,14 @@ The basic idea behind **SurfR** has been to create a complete framework to detec
 The protein classification is based on a recently developed surfaceome predictor, called [**SURFY**](http://wlab.ethz.ch/surfaceome/), based on machine learning.
 
 
-```{r}
+```{r gene2protein }
 library(SurfR)
 GeneNames <- c("CIITA", "EPCAM", "DLK1", "CD24", 
                "CDCP1", "LYVE1", "ABCD1", "VAMP1")
 SurfaceProteins_df <- Gene2SProtein(GeneNames, 
-                                    output_tsv = FALSE,
                                     input_type = "gene_name", 
-                                    Surfy_version = "log")
+                                    output_tsv = FALSE,
+                                    Surfy_version = "new")
 #The output dataframe contains several information retrieved from Surfy.
 colnames(SurfaceProteins_df)
 #These are the 5 surface protein coding genes detected by SurfR.
@@ -193,12 +193,12 @@ The count matrix is downloaded from [ArchS4](https://maayanlab.cloud/archs4/)
 with the SurfR built-in function **DownloadArchS4**,
 to ensure handling not normalize data.
 
-```{r GEO input}
+```{r GEO input meta}
 library(SurfR)
 library(stringr)
 
 # Download metadata from GEO
-mGSE121810 <- GEOmetadata(GSE = "GSE121810", GPL = "")
+mGSE121810 <- GEOmetadata(GSE = "GSE121810")
 # create new metadata column in order to remove unwanted special characters
 unwanted_character <- " "
 fx <- function(x) {
@@ -208,7 +208,9 @@ mGSE121810$condition <- sapply(mGSE121810$therapy, fx)
 mGSE121810$condition <- as.factor(mGSE121810$condition)
 # Preview metadata
 head(mGSE121810)
+```
 
+```{r GEO input download}
 # only select 3 samples per condition to save time
 na_samples <- c("GSM3447013", "GSM3447018", "GSM3447019")
 a_samples <- c("GSM3447023", "GSM3447024", "GSM3447026")
@@ -489,7 +491,7 @@ Finally, we can summarize the results of the meta-analysis in a data.frame highl
 Genes displaying contradictory differential expression in separate studies can be identified in the column `signFC`= 0 and removed from the list of differentially expressed genes via meta-analysis.
 
 
-```{r metacombine, eval=FALSE}
+```{r metacombine}
 metacomb <- combine_fisher_invnorm(ind_deg = list(TCGA.BRCA =  df.TCGA, 
                                                   GEO.GSE58135 = df.GSE58135),
                                    invnorm = L_invnorm,
@@ -497,13 +499,17 @@ metacomb <- combine_fisher_invnorm(ind_deg = list(TCGA.BRCA =  df.TCGA,
                                    adjpval = 0.05)
 ```
 
-```{r metacombine up dw, eval=FALSE}
+```{r metacombine up dw}
 metacomb_GeneID <- metacomb[metacomb$signFC != 0, "GeneID"]
 SP <- Gene2SProtein(genes = metacomb_GeneID, input_type = "gene_name")
+```
 
+```{r metacombine up }
 metacombUP_GeneID <- metacomb[metacomb$signFC == 1, "GeneID"]
 SPup <- Gene2SProtein(genes = metacombUP_GeneID, input_type = "gene_name")
+```
 
+```{r metacombine dw}
 metacombDW_GeneID <- metacomb[metacomb$signFC == -1, "GeneID"]
 SPdw <- Gene2SProtein(genes = metacombDW_GeneID, input_type = "gene_name")
 
@@ -558,7 +564,7 @@ Enrichment_barplot(Enrich$GEO,
                    cond = "UP")
 ```
 
-```{r, fig.width=7, fig.height=2.5}
+```{r, fig.width=7, fig.height=2.5, eval=FALSE}
 library(ggplot2)
 
 # barplot of the top 5 downregulated pathways
@@ -607,7 +613,7 @@ with the built-in SurfR function **SVenn**.
 
 
 ```{r, fig.height= 6, fig.width=7}
-#library(edgeR)
+library(edgeR)
 
 
 S_list <- list(SP_1 = c("EPCAM", "CD24",  "DLK1",  "CDCP1", "LYVE1"),
