@@ -254,7 +254,7 @@ called **SURFY**, based on machine learning.
 We use the built-in SurfR **Gene2SProtein** function to identify
 Surface protein-coding genes (SP). 
 
-```{r GEO SP, eval=FALSE}
+```{r GEO SP}
 # remove NA values
 df_GEO <- df_GEO[!is.na(df_GEO$padj), ]
 # Detect SP amoung differentially expressed genes
@@ -497,19 +497,18 @@ metacomb <- combine_fisher_invnorm(ind_deg = list(TCGA.BRCA =  df.TCGA,
                                    invnorm = L_invnorm,
                                    fishercomb = L_fishercomb,
                                    adjpval = 0.05)
-```
 
-```{r metacombine up dw}
+
 metacomb_GeneID <- metacomb[metacomb$signFC != 0, "GeneID"]
 SP <- Gene2SProtein(genes = metacomb_GeneID, input_type = "gene_name")
 ```
 
-```{r metacombine up }
+```{r metacombine}
 metacombUP_GeneID <- metacomb[metacomb$signFC == 1, "GeneID"]
 SPup <- Gene2SProtein(genes = metacombUP_GeneID, input_type = "gene_name")
 ```
 
-```{r metacombine dw}
+```{r metacombine}
 metacombDW_GeneID <- metacomb[metacomb$signFC == -1, "GeneID"]
 SPdw <- Gene2SProtein(genes = metacombDW_GeneID, input_type = "gene_name")
 
@@ -530,7 +529,7 @@ If it happens, please, retry to run the function after a few minutes.
 
 
 
-```{r enrich}
+```{r enrich, eval=FALSE}
 library(enrichR)
 
 
@@ -552,7 +551,7 @@ obtained through EnrichR using ggplot2, with the built-in function
 
 It depicts gene count ratio and enrichment scores (- Log10 adjusted p values) as bar height and color. Users can specify the number of terms (most significant) to display.
 
-```{r, fig.width=7, fig.height=2.5}
+```{r, fig.width=7, fig.height=2.5, eval=FALSE}
 library(ggplot2)
 
 # barplot of the top 5 upregulated pathways
@@ -581,7 +580,7 @@ Moreover, we can annotate our list of genes with cross-database identifiers and 
 taking advantage of one of the 35 gene-set libraries present in the Enrichr database, 
 using the SurfR built-in function **Annotate_SPID**. 
 
-```{r}
+```{r anno spid, eval=FALSE}
 annotated <- Annotate_SPID(df.GSE58135, "WikiPathway_2021_Human") 
 head(annotated, 10)
 ```
@@ -613,8 +612,6 @@ with the built-in SurfR function **SVenn**.
 
 
 ```{r, fig.height= 6, fig.width=7}
-library(edgeR)
-
 
 S_list <- list(SP_1 = c("EPCAM", "CD24",  "DLK1",  "CDCP1", "LYVE1"),
                SP_2 = c("DLK1", "EPCAM", "EGFR", "UPK1A", "UPK2"))
@@ -637,7 +634,7 @@ with the built-in SurfR function **plotPCA**.
 
 ```{r, fig.height= 6, fig.width=7}
 
-SurfR::plotPCA(matrix = cpm(cGSE121810), metadata = mGSE121810,               
+SurfR::plotPCA(matrix = edgeR::cpm(cGSE121810), metadata = mGSE121810,               
         dims = c(1, 2),
         color.by = "condition", shape.by = "therapy", 
         label = FALSE, main = "PCA GSE121810")

@@ -57,16 +57,17 @@ test_that("metaRNAseq", {
 #  }
 #})
 
-test_that("combine_fisher_invnorm", {
-  invnorm <- metaRNAseq(ind_deg, test_statistic = "invnorm", BHth = 0.05, nrep = c(2,2))
-  fishercomb <- metaRNAseq(ind_deg, test_statistic = "fishercomb", BHth = 0.05)
-  # 1: Check the output on toy data
-  expect_no_error(combine_fisher_invnorm(ind_deg,
-                                         invnorm, fishercomb,
-                                         adjpval = 0.05,
-                                         output_tsv = FALSE))
-
-})
+#commented to reduce check time
+#test_that("combine_fisher_invnorm", {
+#  invnorm <- metaRNAseq(ind_deg, test_statistic = "invnorm", BHth = 0.05, nrep = c(2,2))
+#  fishercomb <- metaRNAseq(ind_deg, test_statistic = "fishercomb", BHth = 0.05)
+#  # 1: Check the output on toy data
+#  expect_no_error(combine_fisher_invnorm(ind_deg,
+#                                         invnorm, fishercomb,
+#                                         adjpval = 0.05,
+#                                         output_tsv = FALSE))
+#
+#})
 
 #commented to reduce check time
 #test_that("DownloadArchS4", {
