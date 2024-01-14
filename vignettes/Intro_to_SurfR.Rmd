@@ -1,6 +1,10 @@
 ---
 title: "Introduction to SurfR"
-output: rmarkdown::html_vignette
+author: "Aurora Maurizio, Anna Sofia Tascini, and Marco Jacopo Morelli"
+output:
+  BiocStyle::html_document:
+    toc_float: true
+bibliography: references.bib
 vignette: >
   %\VignetteIndexEntry{Introduction to SurfR}
   %\VignetteEngine{knitr::rmarkdown}
@@ -13,10 +17,6 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
-## Authors
-
-Aurora Maurizio (auroramaurizio1@gmail.com), Anna Sofia Tascini (volpesofi@gmail.com), Marco Morelli (morelli.marco@hsr.it)
-
 
 # Introduction
 
@@ -66,11 +66,12 @@ devtools::install_github("auroramaurizio/SurfR", build_vignettes = TRUE)
 
 The basic idea behind **SurfR** has been to create a complete framework to detect surface protein coding genes within your data, or within public datasets. This framework facilitates the simultaneous analysis and comparison of multiple studies, easily revealing functional consensus and differences among distinct conditions. To begin, let’s ask **SurfR** to detect surface protein coding genes among a vector of input genes. Gene ID can be provided as  `gene_name`, `ensembl`, `entrez` or `uniProt_name`.
 
-The protein classification is based on a recently developed surfaceome predictor, called [**SURFY**](http://wlab.ethz.ch/surfaceome/), based on machine learning.
+The protein classification is based on a recently developed surfaceome predictor, called [**SURFY**](http://wlab.ethz.ch/surfaceome/) [@bausch-fluck_silico_2018], based on machine learning.
 
 
 ```{r gene2protein }
 library(SurfR)
+
 GeneNames <- c("CIITA", "EPCAM", "CD24", "CDCP1", "LYVE1")
 SurfaceProteins_df <- Gene2SProtein(GeneNames, 
                                     input_type = "gene_name", 
@@ -90,8 +91,9 @@ SurfaceProteins_df$UniProt.gene
 
 Although **SurfR** provides many functions to retrieve public data you can always start from your own dataset.
 
-Here we are going to simulate a small bulkRNA dataset with the R package [SPsimSeq](https://doi.org/10.1093/bioinformatics/btaa105) 
-starting from a subset of Zhang RNA-seq data (Zhang et al. 2015), adding 20% of Differentially Expressed genes  (`pDE = 0.2`).
+Here we are going to simulate a small bulkRNA dataset with the R package [SPsimSeq](https://doi.org/10.1093/bioinformatics/btaa105) [@assefa_spsimseq_2020]
+starting from a subset of Zhang RNA-seq data [@zhang_targeting_2015], 
+adding 20% of Differentially Expressed genes  (`pDE = 0.2`).
 
 You can than decide to stick to it or combine it with other datasets (public or private).
 
@@ -101,6 +103,7 @@ library(SPsimSeq)
 data("zhang.data.sub")
 zhang.counts <- zhang.data.sub$counts
 MYCN.status  <- zhang.data.sub$MYCN.status
+
 # Simulation of bulk RNA data
 sim.data.bulk <- SPsimSeq(n.sim = 1, 
                           s.data = zhang.counts,
@@ -122,7 +125,7 @@ metadata <- sim.data.bulk1$colData
 metadata$Group <- as.factor(metadata$Group)
 ```
 
-A fundamental task in the analysis of count data from RNA-seq is the detection of differentially expressed genes. For this task we rely on the package [DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html), starting from counts data. The count data are presented as a table which reports, for each sample, the number of sequence fragments that have been assigned to each gene. 
+A fundamental task in the analysis of count data from RNA-seq is the detection of differentially expressed genes. For this task we rely on the package [DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html) [@love_moderated_2014], starting from counts data. The count data are presented as a table which reports, for each sample, the number of sequence fragments that have been assigned to each gene. 
 
 We use the built-in SurfR **DGE** function, 
 to perform the differential expression analysis of the simulated dataset.
@@ -155,6 +158,7 @@ Surface protein-coding genes (SP).
 ```{r G2P zhang, eval=FALSE}
 # remove NA values
 df_zhang <- df_zhang[!is.na(df_zhang$padj), ]
+
 # all fdr
 fdr_GeneID <- df_zhang[df_zhang$padj < 0.05, "GeneID"]
 SP <- Gene2SProtein(genes = fdr_GeneID, input_type = "gene_name")
@@ -176,11 +180,11 @@ SPdw <- Gene2SProtein(genes = fdrDW_GeneID, input_type = "gene_name")
 
 ### Dowload from GEO (Gene Expression Omnibus)
 
-[GEO](https://www.ncbi.nlm.nih.gov/geo/) is a public functional genomics data repository containing high throughput gene expression data and hybridization arrays. 
+[GEO](https://www.ncbi.nlm.nih.gov/geo/) [@edgar_gene_2002] is a public functional genomics data repository containing high throughput gene expression data and hybridization arrays. 
 We provide a handy interface to download experiments and curated gene expression profiles.
 
 Here we are going to reanalyze the [Cloughesy et al.](https://doi.org/10.1038/s41591-018-0337-7) 
-public dataset of recurrent glioblastoma patients undergoing two different treatments: 
+[@cloughesy_neoadjuvant_2019] public dataset of recurrent glioblastoma patients undergoing two different treatments: 
 neoadjuvant pembrolizumab or adjuvant pembrolizumab.. 
 
 This study is available under the GEO accession series [GSE121810](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE121810).
@@ -189,7 +193,7 @@ The metadata is downloaded with SurfR built-in function **GEOmetadata**.
 Note that this study has been sequenced with only one sequencing platform. If this is not the case, you have to download separately all the metadata specifying the GPL series numbers, and then merge them.
 
 The count matrix is downloaded from [ArchS4](https://maayanlab.cloud/archs4/)
-with the SurfR built-in function **DownloadArchS4**,
+[@lachmann_massive_2018] with the SurfR built-in function **DownloadArchS4**,
 to ensure handling not normalize data.
 
 ```{r GEO input meta_counts, eval=FALSE}
@@ -198,6 +202,7 @@ library(stringr)
 
 # Download metadata from GEO
 mGSE121810 <- GEOmetadata(GSE = "GSE121810")
+
 # create new metadata column in order to remove unwanted special characters
 unwanted_character <- " "
 fx <- function(x) {
@@ -205,6 +210,7 @@ fx <- function(x) {
 }
 mGSE121810$condition <- sapply(mGSE121810$therapy, fx)
 mGSE121810$condition <- as.factor(mGSE121810$condition)
+
 # Preview metadata
 head(mGSE121810)
 
@@ -271,9 +277,10 @@ SPdw <- Gene2SProtein(genes = fdrDW_GeneID, input_type = "gene_name")
 
 ### Download from TCGA (The Cancer Genome Atlas Program)
 
-[TCGA](https://tcga-data.nci.nih.gov/tcga/) contains data for thousands of tumor samples across more than 20 types of cancer. Navigating through all of the files manually is impossible. Therefore we provide a function based on TCGAbiolinks that automates and streamlines the retrieval of public TCGA transcriptomics data. 
+[TCGA](https://tcga-data.nci.nih.gov/tcga/) [@the_cancer_genome_atlas_research_network_cancer_2013] contains data for thousands of tumor samples across more than 20 types of cancer. 
+Navigating through all of the files manually is impossible. Therefore we provide a function based on TCGAbiolinks that automates and streamlines the retrieval of public TCGA transcriptomics data. 
 Note that to use this function you need to install the developmental version of
-[TCGAbiolinks](https://github.com/BioinformaticsFMRP/TCGAbiolinks).
+[TCGAbiolinks](https://github.com/BioinformaticsFMRP/TCGAbiolinks) [@mounir_new_2019] [@colaprico_tcgabiolinks_2016].
 
 ```{r TCGA install, eval=FALSE}
 if (!requireNamespace("BiocManager", quietly = TRUE))
@@ -340,7 +347,6 @@ We use the built-in SurfR **Gene2SProtein** function to identify
 Surface protein-coding genes (SP).
 
 ```{r TCGA SP, eval=FALSE}
-
 # remove NA values
 df_TCGA <- df_TCGA[!is.na(df_TCGA$padj), ]
 
@@ -366,7 +372,7 @@ Analyzing data arising from several experiments studying the same question is a
 way to obtain more robust results, increasing the detection power of differentially expressed genes.
 
 In SurfR we provide a set of functions based on [MetaRNASeq](https://cran.r-project.org/web/packages/metaRNASeq/vignettes/metaRNASeq.pdf) 
-package to combine data from multiple RNAseq experiments.
+[@rau_differential_2014] package to combine data from multiple RNAseq experiments.
 
 Let’s suppose we want to integrate Breast cancer data from GEO and TCGA. 
 Breast Cancer datasets are downloaded from TCGA with the SurfR built-in function  **TCGA_download**.
@@ -390,15 +396,15 @@ TCGA.BRCA <- TCGA_download(project = "TCGA-BRCA", barcodes = barcodes2Download)
 cTCGA.BRCA <- TCGA.BRCA[[1]]
 mTCGA.BRCA <- TCGA.BRCA[[2]]
 table(mTCGA.BRCA$shortLetterCode)
+
 ```
 
-In GEO, we want to analyze data from [Varley et al., 2014](https://doi.org/10.1007/s10549-014-3019-2) 
-which includes samples of ER+ breast cancer, Triple Negative Breast cancer, adjacent tissues, and normal 
-breast. These datasets can be retrieved from the GEO series [GSE58135](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE58135), 
+In GEO, we want to analyze [Varley](https://doi.org/10.1007/s10549-014-3019-2) data 
+[@varley_recurrent_2014], which includes samples of ER+ breast cancer, Triple Negative Breast cancer, 
+adjacent tissues, and normal breast. These datasets can be retrieved from the GEO series [GSE58135](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE58135), 
 using the SurfR built-in functions **GEOmetadata** and **DownloadArchS4**.
 
 ```{r meta GEO_input metadata}
-
 mGSE58135 <- GEOmetadata("GSE58135")
 mGSE58135 <- mGSE58135[mGSE58135$tissue != "Breast Cancer Cell Line", ]
 mGSE58135$condition <- "NT"
@@ -416,6 +422,7 @@ cGSE58135 <- DownloadArchS4(mGSE58135$GSM, species = "human")
 cGSE58135 <- cGSE58135[, row.names(mGSE58135)]
 
 table(mGSE58135$condition)
+
 ```
 
 The first step in the analysis is to detect differentially expressed genes for each count data, separately. 
@@ -430,7 +437,6 @@ on the average expression in the two groups (see Mean_CPM_T and Mean_CPM_C colum
 
 
 ```{r meta DGE TCGA}
-
 # TCGA DGE
 df.TCGA <- DGE(expression = cTCGA.BRCA,
                metadata = mTCGA.BRCA,
@@ -522,7 +528,7 @@ After identifying the subset of genes enriched in our specific condition of inte
 a range of analyses becomes useful to move beyond a mere gene list.
 
 A general enrichment analysis allows to gain further insights about upregulated or downregulated DEGs. 
-To do so, we use the SurfR built-in function **Enrichment**,  based on the [enrichR](https://cran.r-project.org/web/packages/enrichR/vignettes/enrichR.html) cran package. 
+To do so, we use the SurfR built-in function **Enrichment**,  based on the [enrichR](https://cran.r-project.org/web/packages/enrichR/vignettes/enrichR.html) cran package [@kuleshov_enrichr_2016]. 
 You have the option to indicate the specific database you wish to utilize among the available in enrichR. 
 The enrichR function `listEnrichrDbs()` allows you to navigate the options. 
 Sporadically, network connectivity issues may arise with EnrichR server. 
@@ -532,7 +538,6 @@ If it happens, please, retry to run the function after a few minutes.
 
 ```{r enrich, eval=FALSE}
 library(enrichR)
-
 
 dfList <- list(GEO = df.GSE58135,
                TCGA = df.TCGA)
@@ -638,8 +643,10 @@ SurfR::plotPCA(matrix = edgeR::cpm(cGSE58135), metadata = mGSE58135,
 ```
 
 
-## SessionInfo
+# SessionInfo
 
 ```{r}
 sessionInfo()
 ```
+
+# References
