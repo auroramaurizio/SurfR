@@ -61,6 +61,7 @@ Use the pre-release or devel version from GitHub using devtools with
 devtools::install_github("auroramaurizio/SurfR", build_vignettes = TRUE)
 ```
 
+If facing issues during installing and running, try downgrading dplyr to v2.3.4
 
 # Quick Start
 
@@ -298,7 +299,7 @@ function **TCGA_download**. The shortLetterCode column of the metadata allows us
 to distinguish Primary Solid Tumor (TP) and normal (NT) samples.
 
 
-```{r echo=FALSE, warning=FALSE, include=FALSE, message = FALSE, eval=FALSE}
+```{r echo=FALSE, warning=FALSE, message = FALSE, eval=FALSE}
 # Download TCGA data
 # To save time only download 3 Tumor samples and 3 normal samples.
 # If barcodes are not specified TCGA_download function will download all the 
@@ -378,7 +379,7 @@ Let’s suppose we want to integrate Breast cancer data from GEO and TCGA.
 Breast Cancer datasets are downloaded from TCGA with the SurfR built-in function  **TCGA_download**.
 
 
-```{r echo=FALSE, warning=FALSE, include=FALSE, message = FALSE}
+```{r echo=FALSE, warning=FALSE, message = FALSE, eval=FALSE}
 # Download TCGA data
 # To save time only download 3 Tumor samples and 3 normal samples.
 # If barcodes are not specified TCGA_download function will download all the 
@@ -392,7 +393,7 @@ barcodes2Download <- c("TCGA-BH-A1FU-11A-23R-A14D-07",
 TCGA.BRCA <- TCGA_download(project = "TCGA-BRCA", barcodes = barcodes2Download)
 ```
 
-```{r meta TCGA_input}
+```{r meta TCGA_input, eval=FALSE}
 cTCGA.BRCA <- TCGA.BRCA[[1]]
 mTCGA.BRCA <- TCGA.BRCA[[2]]
 table(mTCGA.BRCA$shortLetterCode)
@@ -436,7 +437,7 @@ expressed in one condition and almost not expressed in the other. The output dat
 on the average expression in the two groups (see Mean_CPM_T and Mean_CPM_C columns), to help in the detection of the best candidates.
 
 
-```{r meta DGE TCGA}
+```{r meta DGE TCGA, eval=FALSE}
 # TCGA DGE
 df.TCGA <- DGE(expression = cTCGA.BRCA,
                metadata = mTCGA.BRCA,
@@ -477,7 +478,7 @@ or the inverse normal combination technique (`invnorm`);
 The function automatically produces and saves as .pdf histograms of raw p-values for each of the individual differential analyses performed using the independent filtering from DESeq2 package. You can also examine the p-value distribution after p.value combination.
 
 
-```{r meta fishercomb}
+```{r meta fishercomb, eval=FALSE}
 
 L_fishercomb <- metaRNAseq(ind_deg = list(TCGA.BRCA =  df.TCGA, GEO.GSE58135 = df.GSE58135),
                            test_statistic = "fishercomb",
@@ -485,7 +486,7 @@ L_fishercomb <- metaRNAseq(ind_deg = list(TCGA.BRCA =  df.TCGA, GEO.GSE58135 = d
                            adjpval.t = 0.05)
 ```
 
-```{r meta invnorm}
+```{r meta invnorm, eval=FALSE}
 L_invnorm <- metaRNAseq(ind_deg = list(TCGA.BRCA =  df.TCGA, GEO.GSE58135 = df.GSE58135),
                         test_statistic = "invnorm",
                         BHth = 0.05,
@@ -498,7 +499,7 @@ Finally, we can summarize the results of the meta-analysis in a data.frame highl
 Genes displaying contradictory differential expression in separate studies can be identified in the column `signFC`= 0 and removed from the list of differentially expressed genes via meta-analysis.
 
 
-```{r metacombine}
+```{r metacombine, eval=FALSE}
 metacomb <- combine_fisher_invnorm(ind_deg = list(TCGA.BRCA =  df.TCGA, 
                                                   GEO.GSE58135 = df.GSE58135),
                                    invnorm = L_invnorm,
@@ -510,12 +511,12 @@ metacomb_GeneID <- metacomb[metacomb$signFC != 0, "GeneID"]
 SP <- Gene2SProtein(genes = metacomb_GeneID, input_type = "gene_name")
 ```
 
-```{r metacombine up}
+```{r metacombine up, eval=FALSE}
 metacombUP_GeneID <- metacomb[metacomb$signFC == 1, "GeneID"]
 SPup <- Gene2SProtein(genes = metacombUP_GeneID, input_type = "gene_name")
 ```
 
-```{r metacombine dw}
+```{r metacombine dw, eval=FALSE}
 metacombDW_GeneID <- metacomb[metacomb$signFC == -1, "GeneID"]
 SPdw <- Gene2SProtein(genes = metacombDW_GeneID, input_type = "gene_name")
 
