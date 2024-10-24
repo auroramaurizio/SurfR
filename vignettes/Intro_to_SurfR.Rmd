@@ -61,7 +61,8 @@ Use the pre-release or devel version from GitHub using devtools with
 devtools::install_github("auroramaurizio/SurfR", build_vignettes = TRUE)
 ```
 
-If facing issues during installing and running, try downgrading dplyr to v2.3.4
+If you encounter issues during installation or execution, try downgrading dplyr to version 2.3.4.
+
 
 # Quick Start
 

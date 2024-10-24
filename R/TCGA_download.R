@@ -13,13 +13,13 @@
 #' @importFrom utils write.table
 #' @import biomaRt
 #' @examples
-#' GBM_list_s1 <- TCGA_download(project="TCGA-GBM",
-#'                              whichcounts = "unstranded",
-#'                              save.matrix = FALSE, save.metadata = FALSE,
-#'                              barcodes = c("TCGA-06-0878-01A-01R-1849-01"))
+#' #GBM_list_s1 <- TCGA_download(project="TCGA-GBM",
+#' #                             whichcounts = "unstranded",
+#' #                             save.matrix = FALSE, save.metadata = FALSE,
+#' #                             barcodes = c("TCGA-06-0878-01A-01R-1849-01"))
 #' # remove downloaded data from TCGA
-#' unlink('GDCdata', recursive = TRUE, force = TRUE)
-#' file.remove("MANIFEST.txt")
+#' #unlink('GDCdata', recursive = TRUE, force = TRUE)
+#' #file.remove("MANIFEST.txt")
 #' @family public-data functions
 #' @export
 
