@@ -300,7 +300,7 @@ function **TCGA_download**. The shortLetterCode column of the metadata allows us
 to distinguish Primary Solid Tumor (TP) and normal (NT) samples.
 
 
-```{r TCGA Download, warning=FALSE, message = FALSE, eval=FALSE}
+```{r TCGA THYM Download, warning=FALSE, message = FALSE, eval=FALSE}
 # Download TCGA data
 # To save time only download 3 Tumor samples and 3 normal samples.
 # If barcodes are not specified TCGA_download function will download all the 
@@ -380,7 +380,7 @@ Let’s suppose we want to integrate Breast cancer data from GEO and TCGA.
 Breast Cancer datasets are downloaded from TCGA with the SurfR built-in function  **TCGA_download**.
 
 
-```{r TCGA Download, warning=FALSE, message = FALSE, eval=FALSE}
+```{r TCGA BRCA Download, warning=FALSE, message = FALSE, eval=FALSE}
 # Download TCGA data
 # To save time only download 3 Tumor samples and 3 normal samples.
 # If barcodes are not specified TCGA_download function will download all the 
