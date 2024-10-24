@@ -11,24 +11,24 @@
 #' @param plot Logical. If TRUE save plot as pdf.
 #' @return bar plot of significant pathways.
 #' @examples
-#' dbs <- c("GO_Biological_Process_2021")
-#' dfList <- list()
-#' if (requireNamespace("enrichR", quietly = TRUE)) {
-#'     up_genes <- c("RUNX1", "DLK1", "TOP2A", "EPCAM", "GATA1", "KDR")
-#'     dfList[["fdr_up"]] <- enrichR::enrichr(up_genes, dbs)
-#'     dw_genes <- c("CD275", "COL1A1", "COL1A2","LUM", "SOX9")
-#'     dfList[["fdr_down"]] <- enrichR::enrichr(dw_genes, dbs)
-#'     # Plot upregulated genes
-#'     Enrichment_barplot(dfList,
-#'                        enrich.databases = dbs,
-#'                        p_adj = 0.01, num_term = 5, cond = "UP")
-#'     # Plot downregulated genes
-#'     #Enrichment_barplot(dfList,
-#'     #                   enrich.databases = dbs,
-#'     #                   p_adj = 0.01, num_term = 5, cond = "DOWN")
-#' } else {
-#'     print("example requires enrichR package")
-#' }
+#' #dbs <- c("GO_Biological_Process_2021")
+#' #dfList <- list()
+#' #if (requireNamespace("enrichR", quietly = TRUE)) {
+#' #    up_genes <- c("RUNX1", "DLK1", "TOP2A", "EPCAM", "GATA1", "KDR")
+#' #    dfList[["fdr_up"]] <- enrichR::enrichr(up_genes, dbs)
+#' #    dw_genes <- c("CD275", "COL1A1", "COL1A2","LUM", "SOX9")
+#' #    dfList[["fdr_down"]] <- enrichR::enrichr(dw_genes, dbs)
+#' #    # Plot upregulated genes
+#' #    Enrichment_barplot(dfList,
+#' #                       enrich.databases = dbs,
+#' #                       p_adj = 0.01, num_term = 5, cond = "UP")
+#' #    # Plot downregulated genes
+#' #    #Enrichment_barplot(dfList,
+#' #    #                   enrich.databases = dbs,
+#' #    #                   p_adj = 0.01, num_term = 5, cond = "DOWN")
+#' #} else {
+#' #    print("example requires enrichR package")
+#' #}
 #' @family functional-annotation functions
 #' @family plot functions
 #' @import knitr
