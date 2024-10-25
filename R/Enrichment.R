@@ -10,6 +10,7 @@
 #' @return A list of enrichment tables for upregulated and downregulated genes
 #' in the different enrichr databases
 #' @examples
+#' \dontrun{
 #' df1 <- data.frame(GeneID  = c("MEST", "CDK1", "PCLAF", "BIRC5"),
 #'                   baseMean = c(13490.22, 10490.23, 8888.33, 750.33),
 #'                   log2FoldChange = c(5.78, 6.76, -7.78, -8.78),
@@ -22,7 +23,7 @@
 #'                   row.names = c("MEST", "CDK1", "PCLAF", "BIRC5"))
 #' dfList <- list(df1 = df1, df2 = df2)
 #' test <- Enrichment(dfList, enrich.databases = c("GO_Cellular_Component_2021"),
-#'                    save.results = FALSE)
+#'                    save.results = FALSE)}
 #' @family functional-annotation functions
 #' @seealso \url{https://maayanlab.cloud/Enrichr/} for additional information about enrichR.
 #' @importFrom enrichR listEnrichrDbs enrichr setEnrichrSite
