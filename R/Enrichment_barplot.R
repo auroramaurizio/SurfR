@@ -11,6 +11,7 @@
 #' @param plot Logical. If TRUE save plot as pdf.
 #' @return bar plot of significant pathways.
 #' @examples
+#' \dontrun{
 #' dbs <- c("GO_Biological_Process_2021")
 #' dfList <- list()
 #' dfList[["fdr_up"]]$GO_Biological_Process_2021 <- data.frame(
@@ -39,7 +40,8 @@
 #'   Genes = c("COL1A1;COL1A2", "COL1A1;COL1A2", "COL1A1;COL1A2")
 #' Enrichment_barplot(dfList, 
 #'                    enrich.databases = dbs
-#'                    p_adj = 0.01, num_term = 3, cond = "UP")        
+#'                    p_adj = 0.01, num_term = 3, cond = "UP")
+#'}      
 #' @family functional-annotation functions
 #' @family plot functions
 #' @import knitr

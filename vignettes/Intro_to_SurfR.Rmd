@@ -71,7 +71,7 @@ The basic idea behind **SurfR** has been to create a complete framework to detec
 The protein classification is based on a recently developed surfaceome predictor, called [**SURFY**](http://wlab.ethz.ch/surfaceome/) [@bausch-fluck_silico_2018], based on machine learning.
 
 
-```{r gene2protein }
+```{r gene2protein, eval=FALSE}
 library(SurfR)
 
 GeneNames <- c("CIITA", "EPCAM", "CD24", "CDCP1", "LYVE1")
