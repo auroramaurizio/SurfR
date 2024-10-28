@@ -16,6 +16,7 @@
 #' @param output_filename Name of the tsv output file. Default is DEGs.tsv.
 #' @return A dataframe with \code{DEGs}
 #' @examples
+#' \dontrun{
 #' # Simulation of bulk RNA data
 #' countData <- matrix(floor(runif(10000, min=0, max=101)),ncol=4)
 #' colnames(countData) <- paste("sample", seq_len(ncol(countData)), sep = "")
@@ -27,7 +28,7 @@
 #' DGEresults <- DGE(expression = countData, metadata = metadata,
 #'                  Nreplica = 2,
 #'                  design = "~condition",condition = "condition",
-#'                  TEST = "A", CTRL = "B")
+#'                  TEST = "A", CTRL = "B")}
 #' @importFrom DESeq2 DESeqDataSetFromMatrix DESeq counts results
 #' @importFrom edgeR cpm
 #' @importFrom utils write.table

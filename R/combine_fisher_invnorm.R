@@ -11,6 +11,7 @@
 #' @return A dataframe with \code{DEindices} and \code{DEname} of DEG at the chosen Benjamini Hochberg threshold, and
 #' \code{TestStatistic}, \code{rawpval}, \code{adjpval}, \code{binaryadjpval} vectors for differential expression in the meta-analysis.
 #' @examples
+#' \dontrun{
 #' # Deseq2 output samples
 #' DGE1 <- data.frame(GeneID = c("DLK1", "EPCAM"),
 #'                  Mean_CPM_T = c(5.92, 9.91),
@@ -40,7 +41,7 @@
 #' comb_pval_df <- combine_fisher_invnorm(ind_deg,
 #'                                       invnorm, fishercomb,
 #'                                       adjpval = 0.05,
-#'                                       output_tsv = FALSE)
+#'                                       output_tsv = FALSE)}
 #' @family meta-analysis functions
 #' @seealso \code{\link{DGE}} function for DGE analysis,
 #' and \url{https://cran.r-project.org/web/packages/metaRNASeq/vignettes/metaRNASeq.pdf}

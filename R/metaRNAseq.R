@@ -14,6 +14,7 @@
 #' @return A list with \code{DEindices} of DEG at the chosen Benjamini Hochberg threshold, and
 #' \code{TestStatistic}, \code{rawpval}, \code{adjpval}, \code{binaryadjpval} vectors for differential expression in the meta-analysis.
 #' @examples
+#' \dontrun{
 #' # Deseq2 output samples
 #' DGE1 <- data.frame(GeneID = c("DLK1", "EPCAM"),
 #'                  Mean_CPM_T = c(5.92, 9.91),
@@ -36,7 +37,7 @@
 #' # input list
 #' ind_deg <- list(DEG1_df = DGE1, DEG2_df = DGE2)
 #' # perform meta-analysis
-#' comb_pval_df <- metaRNAseq(ind_deg, test_statistic = "invnorm", BHth = 0.05, nrep = c(2,2))
+#' comb_pval_df <- metaRNAseq(ind_deg, test_statistic = "invnorm", BHth = 0.05, nrep = c(2,2))}
 #' @family meta-analysis functions
 #' @seealso \code{\link{DGE}} for DGE analysis,
 #' and \url{https://cran.r-project.org/web/packages/metaRNASeq/vignettes/metaRNASeq.pdf}

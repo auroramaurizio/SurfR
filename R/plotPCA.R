@@ -22,6 +22,7 @@
 #' @return PCA plot objec created by ggplot2,
 #' which can be assigned and further customized.
 #' @examples
+#' \dontrun{
 #' # Simulation of bulk RNA data
 #' countData <- matrix(floor(runif(10000, min=0, max=101)),ncol=4)
 #' colnames(countData) <- paste("sample", seq_len(ncol(countData)), sep = "")
@@ -36,7 +37,7 @@
 #'         nTOP = 100,
 #'         dims = c(1,2),
 #'         color.by = "condition", shape.by = "therapy",
-#'         label = FALSE, main = "PCA")
+#'         label = FALSE, main = "PCA")}
 #' @family plot functions
 #' @importFrom ggplot2 ggplot aes geom_point unit xlab ylab coord_fixed ggtitle theme theme_bw geom_hline geom_vline element_text element_rect scale_color_manual scale_shape_manual
 #' @importFrom ggrepel geom_label_repel

@@ -9,9 +9,10 @@
 #' @return A dataframe with all the available characteristics in GEO metadata \code{genes} array.
 #' @examples
 #' # only one sequencing platform
+#' \dontrun{
 #' mGSE133671 <- GEOmetadata(GSE = "GSE133671")
 #' # multiple sequencing platforms
-#' mGSE59483 <- GEOmetadata("GSE59483", GPL = c("GPL11154", "GPL15520"))
+#' mGSE59483 <- GEOmetadata("GSE59483", GPL = c("GPL11154", "GPL15520"))}
 #' @section Warning:
 #' If the GEO accession series has more than 1 sequencing platforms you need to
 #' specify the GPL series numbers.

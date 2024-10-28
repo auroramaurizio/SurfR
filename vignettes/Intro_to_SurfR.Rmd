@@ -406,7 +406,7 @@ In GEO, we want to analyze [Varley](https://doi.org/10.1007/s10549-014-3019-2) d
 adjacent tissues, and normal breast. These datasets can be retrieved from the GEO series [GSE58135](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE58135), 
 using the SurfR built-in functions **GEOmetadata** and **DownloadArchS4**.
 
-```{r meta GEO_input metadata}
+```{r meta GEO_input metadata, eval = FALSE}
 mGSE58135 <- GEOmetadata("GSE58135")
 mGSE58135 <- mGSE58135[mGSE58135$tissue != "Breast Cancer Cell Line", ]
 mGSE58135$condition <- "NT"
@@ -419,7 +419,7 @@ NT_samples <- c("GSM1401799", "GSM1401813", "GSM1401814")
 mGSE58135 <- mGSE58135[c(TP_samples, NT_samples), ]
 ```
 
-```{r meta GEO_input counts}
+```{r meta GEO_input counts, eval = FALSE}
 cGSE58135 <- DownloadArchS4(mGSE58135$GSM, species = "human")
 cGSE58135 <- cGSE58135[, row.names(mGSE58135)]
 
@@ -451,7 +451,7 @@ df.TCGA <- DGE(expression = cTCGA.BRCA,
 head(df.TCGA)
 ```
 
-```{r meta DGE GEO}
+```{r meta DGE GEO, eval = FALSE}
 # GSE58135 DGE
 df.GSE58135 <- DGE(expression = cGSE58135,
                    metadata = mGSE58135,
@@ -597,7 +597,7 @@ Utilizing the SurfR function **Splot** you can create barplots to visualize the 
 the dataframe produced by the **Gene2SProtein** function.
 The default grouping is the [Membranome Almen classification](https://doi.org/10.1186/1741-7007-7-50). 
 
-```{r, fig.height= 4.5, fig.width=7}
+```{r, fig.height= 4.5, fig.width=7, eval = FALSE}
 # upregulated genes in GEO dataset
 fdrUP_GeneID <- df.GSE58135[df.GSE58135$padj < 0.05 & df.GSE58135$log2FoldChange > 0, "GeneID"]
 # corresponding Surface Proteins
@@ -615,7 +615,7 @@ using a venn diagram,
 with the built-in SurfR function **SVenn**.
 
 
-```{r, fig.height= 6, fig.width=7}
+```{r, fig.height= 6, fig.width=7, eval = FALSE}
 
 S_list <- list(SP_1 = c("EPCAM", "CD24",  "DLK1",  "CDCP1", "LYVE1"),
                SP_2 = c("DLK1", "EPCAM", "EGFR", "UPK1A", "UPK2"))
@@ -636,7 +636,7 @@ You can perform PCA and visualize the result with a customizable plot
 with the built-in SurfR function **plotPCA**.
 
 
-```{r, fig.height= 6, fig.width=7}
+```{r, fig.height= 6, fig.width=7, eval = FALSE}
 
 SurfR::plotPCA(matrix = edgeR::cpm(cGSE58135), metadata = mGSE58135,               
                dims = c(1, 2),

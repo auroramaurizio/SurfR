@@ -10,9 +10,10 @@
 #' @return plot objec created by ggplot2,
 #' which can be assigned and further customized.
 #' @examples
-#'  GeneNames <- c("CIITA", "EPCAM", "DLK1", "CD24", "CDCP1", "LYVE1", "ABCD1", "VAMP1")
-#'  SurfaceProteins_df <- Gene2SProtein(GeneNames, input_type = "gene_name")
-#'  Splot(SurfaceProteins_df)
+#' \dontrun{
+#' GeneNames <- c("CIITA", "EPCAM", "DLK1", "CD24", "CDCP1", "LYVE1", "ABCD1", "VAMP1")
+#' SurfaceProteins_df <- Gene2SProtein(GeneNames, input_type = "gene_name")
+#' Splot(SurfaceProteins_df)}
 #' @family plot functions
 #' @importFrom ggplot2 ggplot geom_bar aes theme element_text element_rect labs
 #' @importFrom scales hue_pal

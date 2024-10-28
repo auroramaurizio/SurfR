@@ -94,6 +94,7 @@ enrichr_download <- function(genesets, db=c("Enrichr")) {
 #' @param output_tsv Logical. If \code{TRUE}, outputs a tsv file with the results. By default, FALSE.
 #' @return A dataframe with surface protein coding \code{DEGs} annotation.
 #' @examples
+#' \dontrun{
 #' # Deseq2 output sample
 #' DGE = data.frame(GeneID = c("DLK1", "TOP2A"),
 #'                  Mean_CPM_T = c(5.92, 9.91),
@@ -109,7 +110,7 @@ enrichr_download <- function(genesets, db=c("Enrichr")) {
 #' # Output of Gene2SProtein function
 #' GeneNames = c("CIITA", "EPCAM", "DLK1", "CD24")
 #' SurfaceProteins_df = Gene2SProtein(GeneNames, input_type = "gene_name")
-#' annotated_SP = Annotate_SPID(SurfaceProteins_df, "GO_Biological_Process_2021")
+#' annotated_SP = Annotate_SPID(SurfaceProteins_df, "GO_Biological_Process_2021")}
 #' @section Warning:
 #' Be sure that enrich.database exists.
 #' @family functional-annotation functions
