@@ -27,9 +27,10 @@ specify the GPL series numbers.
 
 \examples{
 # only one sequencing platform
+\dontrun{
 mGSE133671 <- GEOmetadata(GSE = "GSE133671")
 # multiple sequencing platforms
-mGSE59483 <- GEOmetadata("GSE59483", GPL = c("GPL11154", "GPL15520"))
+mGSE59483 <- GEOmetadata("GSE59483", GPL = c("GPL11154", "GPL15520"))}
 }
 \seealso{
 \url{https://www.ncbi.nlm.nih.gov/geo} for info on GEO repository

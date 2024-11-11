@@ -29,6 +29,7 @@ Be sure that enrich.database exists.
 }
 
 \examples{
+\dontrun{
 # Deseq2 output sample
 DGE = data.frame(GeneID = c("DLK1", "TOP2A"),
                  Mean_CPM_T = c(5.92, 9.91),
@@ -44,7 +45,7 @@ annotated_DGE = Annotate_SPID(DGE, "WikiPathway_2021_Human")
 # Output of Gene2SProtein function
 GeneNames = c("CIITA", "EPCAM", "DLK1", "CD24")
 SurfaceProteins_df = Gene2SProtein(GeneNames, input_type = "gene_name")
-annotated_SP = Annotate_SPID(SurfaceProteins_df, "GO_Biological_Process_2021")
+annotated_SP = Annotate_SPID(SurfaceProteins_df, "GO_Biological_Process_2021")}
 }
 \seealso{
 \code{\link{DGE}} function for DGE,

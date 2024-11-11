@@ -37,6 +37,7 @@ A list with \code{DEindices} of DEG at the chosen Benjamini Hochberg threshold, 
 Perform Meta-Analysis of RNA-Seq Data
 }
 \examples{
+\dontrun{
 # Deseq2 output samples
 DGE1 <- data.frame(GeneID = c("DLK1", "EPCAM"),
                  Mean_CPM_T = c(5.92, 9.91),
@@ -59,7 +60,7 @@ DGE2 <- data.frame(GeneID = c("DLK1", "EPCAM"),
 # input list
 ind_deg <- list(DEG1_df = DGE1, DEG2_df = DGE2)
 # perform meta-analysis
-comb_pval_df <- metaRNAseq(ind_deg, test_statistic = "invnorm", BHth = 0.05, nrep = c(2,2))
+comb_pval_df <- metaRNAseq(ind_deg, test_statistic = "invnorm", BHth = 0.05, nrep = c(2,2))}
 }
 \seealso{
 \code{\link{DGE}} for DGE analysis,

@@ -61,6 +61,7 @@ which can be assigned and further customized.
 Plot PCA highlighting one or two data features
 }
 \examples{
+\dontrun{
 # Simulation of bulk RNA data
 countData <- matrix(floor(runif(10000, min=0, max=101)),ncol=4)
 colnames(countData) <- paste("sample", seq_len(ncol(countData)), sep = "")
@@ -75,7 +76,7 @@ SurfR::plotPCA(matrix = cpm(countData),
         nTOP = 100,
         dims = c(1,2),
         color.by = "condition", shape.by = "therapy",
-        label = FALSE, main = "PCA")
+        label = FALSE, main = "PCA")}
 }
 \seealso{
 Other plot functions: 

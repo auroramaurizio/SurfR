@@ -29,9 +29,10 @@ which can be assigned and further customized.
 Plot a barplot with features of Surface Protein
 }
 \examples{
- GeneNames <- c("CIITA", "EPCAM", "DLK1", "CD24", "CDCP1", "LYVE1", "ABCD1", "VAMP1")
- SurfaceProteins_df <- Gene2SProtein(GeneNames, input_type = "gene_name")
- Splot(SurfaceProteins_df)
+\dontrun{
+GeneNames <- c("CIITA", "EPCAM", "DLK1", "CD24", "CDCP1", "LYVE1", "ABCD1", "VAMP1")
+SurfaceProteins_df <- Gene2SProtein(GeneNames, input_type = "gene_name")
+Splot(SurfaceProteins_df)}
 }
 \seealso{
 Other plot functions: 

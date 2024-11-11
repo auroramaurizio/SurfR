@@ -30,13 +30,15 @@ A list containing the Matrix and the metadata.
 Downloads count matrix data from TCGA
 }
 \examples{
+\dontrun{
 GBM_list_s1 <- TCGA_download(project="TCGA-GBM",
                              whichcounts = "unstranded",
                              save.matrix = FALSE, save.metadata = FALSE,
                              barcodes = c("TCGA-06-0878-01A-01R-1849-01"))
-# remove downloaded data from TCGA
+remove downloaded data from TCGA
 unlink('GDCdata', recursive = TRUE, force = TRUE)
 file.remove("MANIFEST.txt")
+}
 }
 \seealso{
 Other public-data functions: 

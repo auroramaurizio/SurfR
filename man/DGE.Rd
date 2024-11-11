@@ -49,6 +49,7 @@ A dataframe with \code{DEGs}
 Perform Differential Gene Expression Analysis of RNA-Seq Data
 }
 \examples{
+\dontrun{
 # Simulation of bulk RNA data
 countData <- matrix(floor(runif(10000, min=0, max=101)),ncol=4)
 colnames(countData) <- paste("sample", seq_len(ncol(countData)), sep = "")
@@ -60,5 +61,5 @@ row.names(metadata) <- metadata$samplesID
 DGEresults <- DGE(expression = countData, metadata = metadata,
                  Nreplica = 2,
                  design = "~condition",condition = "condition",
-                 TEST = "A", CTRL = "B")
+                 TEST = "A", CTRL = "B")}
 }

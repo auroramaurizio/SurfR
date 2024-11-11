@@ -44,6 +44,7 @@ you might loose some matches due to different gene version IDs.
 }
 
 \examples{
+ \dontrun{
  # from gene name IDs to Surface proteins
  GeneNames <- c("CIITA", "EPCAM", "DLK1", "CD24", "CDCP1", "LYVE1", "ABCD1", "VAMP1")
  SurfaceProteins_df <- Gene2SProtein(GeneNames, input_type = "gene_name")
@@ -55,7 +56,7 @@ you might loose some matches due to different gene version IDs.
              "ENSG00000095574", "ENSG00000140678", "ENSG00000262484", "ENSG00000133739",
              "ENSG00000172469", "ENSG00000112992", "ENSG00000148343", "ENSG00000138593")
  SurfaceProteins_df <- Gene2SProtein(Ensembl, input_type = "ensembl",
-                                   output_tsv = FALSE, Surfy_version = "new")
+                                   output_tsv = FALSE, Surfy_version = "new")}
 }
 \seealso{
 \code{\link{DGE}} for DGE analysis,

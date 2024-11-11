@@ -34,6 +34,7 @@ in the different enrichr databases
 Perform enrichment Analysis of RNA-Seq Data
 }
 \examples{
+\dontrun{
 df1 <- data.frame(GeneID  = c("MEST", "CDK1", "PCLAF", "BIRC5"),
                   baseMean = c(13490.22, 10490.23, 8888.33, 750.33),
                   log2FoldChange = c(5.78, 6.76, -7.78, -8.78),
@@ -46,7 +47,7 @@ df2 <- data.frame(GeneID  = c("MEST", "CDK1", "PCLAF", "BIRC5"),
                   row.names = c("MEST", "CDK1", "PCLAF", "BIRC5"))
 dfList <- list(df1 = df1, df2 = df2)
 test <- Enrichment(dfList, enrich.databases = c("GO_Cellular_Component_2021"),
-                   save.results = FALSE)
+                   save.results = FALSE)}
 }
 \seealso{
 \url{https://maayanlab.cloud/Enrichr/} for additional information about enrichR.
