@@ -19,29 +19,29 @@
 #'            "apoptotic chromosome condensation (GO:0030263)",
 #'            "negative regulation of CD4-positive, alpha-beta T cell differentiation (GO:0043371)"),
 #'   Overlap = c("1/5", "1/5", "1/5"),
-#'   P.value = c(0.0007498315, 0.0007498315, 0.0007498315),         
-#'   Adjusted.P.value = c(0.00893491, 0.00893491, 0.00893491),         
-#'   Old.P.value = c(0, 0, 0),         
-#'   Old.Adjusted.P.value = c(0, 0, 0),         
-#'   Odds.Ratio = c(2499.125, 2499.125, 2499.125),         
-#'   Combined.Score = c(17982.86, 17982.86, 17982.86),         
-#'   Genes = c("RUNX1", "TOP2A", "RUNX1")         
+#'   P.value = c(0.0007498315, 0.0007498315, 0.0007498315),
+#'   Adjusted.P.value = c(0.00893491, 0.00893491, 0.00893491),
+#'   Old.P.value = c(0, 0, 0),
+#'   Old.Adjusted.P.value = c(0, 0, 0),
+#'   Odds.Ratio = c(2499.125, 2499.125, 2499.125),
+#'   Combined.Score = c(17982.86, 17982.86, 17982.86),
+#'   Genes = c("RUNX1", "TOP2A", "RUNX1"))
 #' dfList[["fdr_down"]]$GO_Biological_Process_2021 <- data.frame(
-#'   Term = c("skin morphogenesis (GO:0043589)",            
+#'   Term = c("skin morphogenesis (GO:0043589)",
 #'            "skin development (GO:0043588)",
-#'            "collagen fibril organization (GO:0030199)"),          
-#'   Overlap = c("2/7", "2/80", "2/89"),                   
-#'   P.value = c(3.149296e-07, 4.727687e-05, 5.856991e-05),                                       
-#'   Adjusted.P.value = c(1.291211e-05, 8.004554e-04, 8.004554e-04),                                                 
-#'   Old.P.value = c(0, 0, 0),                                                           
-#'   Old.Adjusted.P.value = c(0, 0, 0),                                                                     
+#'            "collagen fibril organization (GO:0030199)"),
+#'   Overlap = c("2/7", "2/80", "2/89"),
+#'   P.value = c(3.149296e-07, 4.727687e-05, 5.856991e-05),
+#'   Adjusted.P.value = c(1.291211e-05, 8.004554e-04, 8.004554e-04),
+#'   Old.P.value = c(0, 0, 0),
+#'   Old.Adjusted.P.value = c(0, 0, 0),
 #'   Odds.Ratio = c(7996.8000, 510.7436, 457.7011),
-#'   Combined.Score = c(119719.427, 5086.745, 4460.430),                                                                                         
-#'   Genes = c("COL1A1;COL1A2", "COL1A1;COL1A2", "COL1A1;COL1A2")
-#' Enrichment_barplot(dfList, 
-#'                    enrich.databases = dbs
+#'   Combined.Score = c(119719.427, 5086.745, 4460.430),
+#'   Genes = c("COL1A1;COL1A2", "COL1A1;COL1A2", "COL1A1;COL1A2"))
+#' Enrichment_barplot(dfList,
+#'                    enrich.databases = dbs,
 #'                    p_adj = 0.01, num_term = 3, cond = "UP")
-#'}      
+#'}
 #' @family functional-annotation functions
 #' @family plot functions
 #' @import knitr
