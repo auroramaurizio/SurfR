@@ -539,7 +539,6 @@ If it happens, please, retry to run the function after a few minutes.
 
 
 ```{r enrich, eval=FALSE}
-library(enrichR)
 
 dfList <- list(GEO = df.GSE58135,
                TCGA = df.TCGA)
