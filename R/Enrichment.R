@@ -1,3 +1,80 @@
+##' Gene enrichment using Enrichr
+##'
+##' Gene enrichment using Enrichr, slighthly modified by Aurora Maurizio.
+##' @title Gene enrichment using Enrichr
+##' @param genes (Required). Character vector of Entrez gene symbols as input. A data.frame
+##' of gene symbols in first column is also acceptable, optionally a score denoting the
+##' degree of membership between 0 and 1 in the second column.
+##' @param databases (Required). Character vector of databases to search.
+##' See https://maayanlab.cloud/Enrichr/ for available databases.
+##' @param background (Optional). Character vector of Entrez gene symbols to be used as
+##' background. A data.frame of gene symbols in first column is also acceptable.
+##' Default is \code{"NULL"}. Enrichment analysis with background genes is only available
+##' on the main site (Enrichr). Also, it is using a different API service (Speedrichr),
+##' hence it is a little slower to complete and return the results.
+##' @param include_overlap (Optional). Download database in GMT format to include 'Overlap'
+##' in the resulting data.frame when analysing with a background. Default is \code{"FALSE"}.
+##' @return Returns a list of data.frame of enrichment terms, p-values, ...
+##' @author Wajid Jawaid \email{wj241@alumni.cam.ac.uk}
+##' @importFrom httr POST
+##' @importFrom httr use_proxy
+##' @importFrom rjson fromJSON
+##' @importFrom utils read.table
+##' @export
+##' @examples
+##' data(input) # Load example input genes
+##' data(background) # Load example background genes
+##' dbs <- c("GO_Molecular_Function_2023", "GO_Cellular_Component_2023",
+##'          "GO_Biological_Process_2023")
+##' if (getOption("enrichR.live")) {
+##'   enriched1 <- enrichr(input, dbs)
+##'   print(head(enriched1[[1]]))
+##' }
+
+enrichr <- function(genes, databases) {
+  if (length(genes) < 1) {
+    stop("No genes have been given")
+  }
+
+  base.address <- getOption("enrichR.base.address")
+  getEnrichr(url = base.address)
+
+  if (!getOption("enrichR.live")) {
+    stop("Enrichr website is unreachable")
+  }
+
+  if (is.null(databases)) {
+    stop("No databases have been provided")
+  }
+
+  if (is.vector(genes) & !all(genes == "") & length(genes) != 0) {
+    temp <- POST(url=paste0(getOption("enrichR.base.address"), "enrich"),
+                 body=list(list=paste(genes, collapse="\n")))
+  } else if (is.data.frame(genes)) {
+    temp <- POST(url=paste0(getOption("enrichR.base.address"), "enrich"),
+                 body=list(list=paste(paste(genes[,1], genes[,2], sep=","),
+                                      collapse="\n")))
+  } else {
+    warning("genes must be a non-empty vector of gene names or a data.frame with genes and score.")
+  }
+
+  dbs <- as.list(databases)
+  result <- lapply(dbs, function(x) {
+    r <- getEnrichr(url = paste0(base.address, "export"), query = list(file = "API", backgroundType = x))
+    if (!getOption("enrichR.live")) stop("Enrichr website is unreachable")
+    r <- gsub("&#39;", "'", intToUtf8(r$content))
+    tc <- textConnection(r)
+    r <- read.table(tc, sep = "\t", header = TRUE, quote = "", comment.char = "")
+    close(tc)
+    return(r)
+  })
+
+  names(result) <- databases
+  return(result)
+}
+
+
+
 #' Enrichment function
 #'
 #' Perform enrichment Analysis of RNA-Seq Data
@@ -26,7 +103,6 @@
 #'                    save.results = FALSE)}
 #' @family functional-annotation functions
 #' @seealso \url{https://maayanlab.cloud/Enrichr/} for additional information about enrichR.
-#' @importFrom enrichR listEnrichrDbs enrichr setEnrichrSite
 #' @importFrom openxlsx write.xlsx
 #' @importFrom utils write.table
 #' @export

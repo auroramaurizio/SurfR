@@ -104,7 +104,6 @@ enrichr_download <- function(genesets, db=c("Enrichr")) {
 #'                  stat = c(12.68, 17.69),
 #'                  pvalue = c(7.30135e-37, 4.37011e-70),
 #'                  padj = c(1.49936e-35, 1.12976e-67))
-#' library(enrichR)
 #' annotated_DGE = Annotate_SPID(DGE, "WikiPathway_2021_Human")
 #'
 #' # Output of Gene2SProtein function
@@ -116,7 +115,6 @@ enrichr_download <- function(genesets, db=c("Enrichr")) {
 #' @family functional-annotation functions
 #' @seealso \code{\link{DGE}} function for DGE,
 #' and \code{\link{Gene2SProtein}} function for Gene2SProtein analysis
-#' @importFrom enrichR listEnrichrDbs enrichr setEnrichrSite
 #' @importFrom assertr col_concat
 #' @importFrom tidyr separate_rows
 #' @importFrom magrittr %>%
