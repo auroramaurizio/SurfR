@@ -115,7 +115,6 @@ enrichr_download <- function(genesets, db=c("Enrichr")) {
 #' @family functional-annotation functions
 #' @seealso \code{\link{DGE}} function for DGE,
 #' and \code{\link{Gene2SProtein}} function for Gene2SProtein analysis
-#' @importFrom enrichR listEnrichrDbs enrichr setEnrichrSite
 #' @importFrom assertr col_concat
 #' @importFrom tidyr separate_rows
 #' @importFrom magrittr %>%
@@ -132,7 +131,7 @@ Annotate_SPID <- function(DGE,
   websiteLive <- getOption("enrichR.live", default = FALSE)
 
   if (websiteLive) {
-    setEnrichrSite("Enrichr") # Human genes
+    #setEnrichrSite("Enrichr") # Human genes
     db <- listEnrichrDbs()
   } else {
     stop("enrichR website can not be reached at the moment. Please,
@@ -158,7 +157,6 @@ Annotate_SPID <- function(DGE,
   # number of columns, we  know it. It is expected.
   suppressWarnings({
   annotation_table <- as.data.frame(do.call(rbind, annotation_table))})
-
   annotation_table["test"] <- col_concat(annotation_table, sep = " ")
   annotation_table["GeneID"] <- trimws(annotation_table$test, which = c("both"))
   annotation_table$term <- row.names(annotation_table)
