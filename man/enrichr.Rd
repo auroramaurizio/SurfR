@@ -33,14 +33,21 @@ Gene enrichment using Enrichr
 Gene enrichment using Enrichr, slighthly modified by Aurora Maurizio.
 }
 \examples{
-data(input) # Load example input genes
-data(background) # Load example background genes
+df1 <- data.frame(GeneID  = c("MEST", "CDK1", "PCLAF", "BIRC5"),
+                  baseMean = c(13490.22, 10490.23, 8888.33, 750.33),
+                  log2FoldChange = c(5.78, 6.76, -7.78, -8.78),
+                  padj = c(2.28e-143, 2.18e-115, 2.18e-45, 0.006),
+                  row.names = c("MEST", "CDK1", "PCLAF", "BIRC5"))
+df2 <- data.frame(GeneID  = c("MEST", "CDK1", "PCLAF", "BIRC5"),
+                  baseMean = c(13490.22, 10490.23, 8888.33, 750.33),
+                  log2FoldChange = c(5.78, 6.76, -7.78, -8.78),
+                  padj = c(2.28e-143, 2.18e-115, 2.18e-45, 0.006),
+                  row.names = c("MEST", "CDK1", "PCLAF", "BIRC5"))
+dfList <- list(df1 = df1, df2 = df2)
 dbs <- c("GO_Molecular_Function_2023", "GO_Cellular_Component_2023",
          "GO_Biological_Process_2023")
-if (getOption("enrichR.live")) {
-  enriched1 <- enrichr(input, dbs)
-  print(head(enriched1[[1]]))
-}
+enriched1 <- enrichr(input, dbs)
+print(head(enriched1[[1]]))
 }
 \author{
 Wajid Jawaid \email{wj241@alumni.cam.ac.uk}
