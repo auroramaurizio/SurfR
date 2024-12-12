@@ -95,6 +95,9 @@ Examples and use-cases are covered for each function.
 Instructions to run the main functions can be found consulting the vignette
  or by entering ?FunctionName (e.g. ?Splot) in the console after loading the package.
 
+## Citation
+
+Maurizio, A., Tascini, A.S., Morelli, M. SurfR: Riding the wave of RNA-Seq data with a comprehensive Bioconductor package to identify Surface Protein Coding Genes. Bioinformatics Advances, 2024 (DOI: 10.1093/bioadv/vbae201)
 
 ## Authors
 
