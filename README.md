@@ -102,6 +102,9 @@ Aurora Maurizio (auroramaurizio1@gmail.com),
 Anna Sofia Tascini (volpesofi@gmail.com), 
 Marco Morelli (morelli.marco@hsr.it)
 
+## Citation
+
+Maurizio, A., Tascini, A.S., Morelli, M. SurfR: Riding the wave of RNA-Seq data with a comprehensive Bioconductor package to identify Surface Protein Coding Genes. Bioinformatics Advances, 2024 (DOI: 10.1093/bioadv/vbae201)
 
 ## Help, Suggestions, and Contributions
 
