@@ -25,7 +25,6 @@ setEnrichrSite <- function(site) {
     options(enrichR.base.address = paste0(enrichR.base.address,site,"/"))
     message("Connection changed to ",paste0(enrichR.base.address,site,"/"))
     getEnrichr(url = paste0(enrichR.base.address,"datasetStatistics"))
-    if (getOption("enrichR.live")) message(msg)
   }
 }
 
@@ -89,11 +88,12 @@ getEnrichr <- function(url, ...) {
 ##' @importFrom utils read.table
 ##' @export
 ##' @examples
+##' \dontrun{
 ##' GeneID  = c("MEST", "CDK1", "PCLAF", "BIRC5")
 ##' dbs <- c("GO_Molecular_Function_2023", "GO_Cellular_Component_2023",
 ##'          "GO_Biological_Process_2023")
 ##' enriched1 <- enrichr(GeneID, dbs)
-##' print(head(enriched1[[1]]))
+##' print(head(enriched1[[1]]))}
 
 
 enrichr <- function(genes, databases) {
@@ -114,10 +114,10 @@ enrichr <- function(genes, databases) {
   }
 
   if (is.vector(genes) & !all(genes == "") & length(genes) != 0) {
-    temp <- POST(url=paste0(getOption("enrichR.base.address"), "enrich"),
+    temp <- POST(url=paste0(enrichR.base.address, "enrich"),
                  body=list(list=paste(genes, collapse="\n")))
   } else if (is.data.frame(genes)) {
-    temp <- POST(url=paste0(getOption("enrichR.base.address"), "enrich"),
+    temp <- POST(url=paste0(enrichR.base.address, "enrich"),
                  body=list(list=paste(paste(genes[,1], genes[,2], sep=","),
                                       collapse="\n")))
   } else {
@@ -166,7 +166,6 @@ setEnrichrSite <- function(site) {
     options(enrichR.base.address = paste0("https://maayanlab.cloud/Enrichr/",site,"/"))
     message("Connection changed to ",paste0("https://maayanlab.cloud/Enrichr/",site,"/"))
     getEnrichr(url = paste0(getOption("enrichR.base.address"),"datasetStatistics"))
-    if (getOption("enrichR.live")) message(msg)
   }
 }
 
