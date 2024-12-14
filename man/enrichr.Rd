@@ -33,11 +33,12 @@ Gene enrichment using Enrichr
 Gene enrichment using Enrichr, slighthly modified by Aurora Maurizio.
 }
 \examples{
+\dontrun{
 GeneID  = c("MEST", "CDK1", "PCLAF", "BIRC5")
 dbs <- c("GO_Molecular_Function_2023", "GO_Cellular_Component_2023",
          "GO_Biological_Process_2023")
 enriched1 <- enrichr(GeneID, dbs)
-print(head(enriched1[[1]]))
+print(head(enriched1[[1]]))}
 }
 \author{
 Wajid Jawaid \email{wj241@alumni.cam.ac.uk}
