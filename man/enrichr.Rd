@@ -13,15 +13,6 @@ degree of membership between 0 and 1 in the second column.}
 
 \item{databases}{(Required). Character vector of databases to search.
 See https://maayanlab.cloud/Enrichr/ for available databases.}
-
-\item{background}{(Optional). Character vector of Entrez gene symbols to be used as
-background. A data.frame of gene symbols in first column is also acceptable.
-Default is \code{"NULL"}. Enrichment analysis with background genes is only available
-on the main site (Enrichr). Also, it is using a different API service (Speedrichr),
-hence it is a little slower to complete and return the results.}
-
-\item{include_overlap}{(Optional). Download database in GMT format to include 'Overlap'
-in the resulting data.frame when analysing with a background. Default is \code{"FALSE"}.}
 }
 \value{
 Returns a list of data.frame of enrichment terms, p-values, ...
