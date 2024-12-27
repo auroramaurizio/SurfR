@@ -39,3 +39,6 @@ Changes in version 0.99.54 (2024-01-14)
 
 Changes in version v1.1.1 (2024-10-24)
 + updated vignette, updated Svenn function
+
+Changes in version v1.2.6 (2024-12-23)
++ removed enrichR from dependencies
