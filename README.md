@@ -88,7 +88,7 @@ automatically installed when installing the **SurfR** pacakge.
 
 A comprehensive vignette provides an introduction to the **SurfR** package. 
 Examples and use-cases are covered for each function.
-
+Additional RMD notebooks containing the use cases code described in the manuscript are available on GitHub: https://github.com/auroramaurizio/SurfR_UseCases.
 
 ## Documentation
 
