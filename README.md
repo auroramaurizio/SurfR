@@ -58,7 +58,7 @@ identifying surface protein coding genes from expression data using computationa
 
 ## Installation
 
-To install this package, start R (version "4.3") and enter:.
+To install this package, start R (version "4.4") and enter:
 
 ```{r install, eval = FALSE}
 
@@ -80,7 +80,7 @@ devtools::install_github("auroramaurizio/SurfR")
 
 ## Dependencies
 This package is supported for macOS, and Linux (Windows not tested). 
-**SurfR** works with R v4.1 or greater (tested also on 4.2 and 4.3).
+**SurfR** works with R v4.4 or greater.
 Dependencies are indicated in the DESCRIPTION file, and can be 
 automatically installed when installing the **SurfR** pacakge. 
 
