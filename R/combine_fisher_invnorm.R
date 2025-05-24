@@ -94,8 +94,8 @@ combine_fisher_invnorm <- function(ind_deg,
 
   comb <- cbind(FC, DE)
 
-  comb$DE_fishercomb <- invnorm$binaryadjpval
-  comb$DE_invnorm <- fishercomb$binaryadjpval
+  comb$DE_fishercomb <- fishercomb$binaryadjpval
+  comb$DE_invnorm <- invnorm$binaryadjpval
   comb$GeneID <- common_genes
 
   comb <- comb %>% relocate(GeneID)
