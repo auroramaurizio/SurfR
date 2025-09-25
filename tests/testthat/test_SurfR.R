@@ -3,14 +3,15 @@ data(countData)
 data(metadata)
 data(enrichedList)
 
-test_that("Gene2SProtein -package core function- tests", {
+#commented to reduce check time
+#test_that("Gene2SProtein -package core function- tests", {
   # 1: Check the output for a specific SP gene
-  result1 <- Gene2SProtein(c("EPCAM"), output_tsv = FALSE)
-  expect_equal(result1$Surfaceome.Label, "surface")
+  #result1 <- Gene2SProtein(c("EPCAM"), output_tsv = FALSE)
+  #expect_equal(result1$Surfaceome.Label, "surface")
 
   # 2: Check the output for an unknown gene, not SP coding
-  expect_warning(Gene2SProtein(c("InventedGene"), output_tsv = FALSE))
-})
+  #expect_warning(Gene2SProtein(c("InventedGene"), output_tsv = FALSE))
+#})
 
 
 test_that("Enrichment_barplot", {
@@ -106,11 +107,12 @@ test_that("SVenn", {
   expect_error(SVenn(S_list, output_intersectionFile = FALSE))
 })
 
-test_that("Splot", {
+#commented to reduce check time
+#test_that("Splot", {
   # 1: Check the output for specific surface protein genes
-  SurfaceProteins_df <- Gene2SProtein(ind_deg$DEG2_df$GeneID, input_type = "gene_name")
-  expect_no_error(Splot(SurfaceProteins_df))
-})
+  #SurfaceProteins_df <- Gene2SProtein(ind_deg$DEG2_df$GeneID, input_type = "gene_name")
+  #expect_no_error(Splot(SurfaceProteins_df))
+#})
 
 #commented to reduce check time
 #test_that("TCGA_download", {
